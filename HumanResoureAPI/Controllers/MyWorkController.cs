@@ -1,0 +1,942 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.WebSockets;
+using System.Threading.Tasks;
+using HumanResource.Application.Helper;
+using HumanResource.Application.Paremeters.Works;
+using HumanResource.Data.DTO;
+using HumanResource.Data.EF;
+using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common.Systems;
+using HumanResoureAPI.Common.WorksCommon;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
+
+namespace HumanResoureAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MyWorkController : ControllerBase
+    {
+        private readonly humanDbContext _context;
+        public MyWorkController(humanDbContext context)
+        {
+            _context = context;
+        }
+        #region Thêm công việc Mywork
+        //Post: api/MyWork/r2AddDataMywork
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("r2AddDataMywork")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r2AddDataMywork()
+        {
+            try
+            {
+
+                var myWork = JsonConvert.DeserializeObject<Dtos_MyWork>(Request.Form["model"]);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                var defaultWork = _context.CV_DM_DefaultTask.FirstOrDefault(x => x.Name == myWork.CV_QT_MyWork.TaskName);
+                if (defaultWork != null)
+                {
+                    myWork.CV_QT_MyWork.TaskId = defaultWork.Id;
+                    myWork.CV_QT_MyWork.TaskCode = defaultWork.Code;
+                    if (myWork.CV_QT_MyWork.PointTask == 0) // nếu không chọn thay đổi mức độ công việc thì lấy giá trị mặc định trong danh mục công việc mặc định
+                    {
+                        myWork.CV_QT_MyWork.PointTask = defaultWork.PointTask;
+                    }
+                    if (myWork.CV_QT_MyWork.PointTime == 0)// nếu không chọn thay đổi độ vội công việc thì lấy giá trị mặc định trong danh mục công việc mặc định
+                    {
+                        myWork.CV_QT_MyWork.PointTime = defaultWork.PointTime;
+                    }
+                } else
+                {
+                    myWork.CV_QT_MyWork.TaskCode = "";
+                }
+                myWork.CV_QT_MyWork.Id = Helper.GenKey();
+                myWork.CV_QT_MyWork.StartPause = null;
+                myWork.CV_QT_MyWork.StartDate = null;
+                myWork.CV_QT_MyWork.EndPause = null;
+                myWork.CV_QT_MyWork.CycleWork = 0;
+                myWork.CV_QT_MyWork.TypeComplete = 0;
+                myWork.CV_QT_MyWork.PauseTime = 0.0;
+                myWork.CV_QT_MyWork.WorkTime = 0.0;
+                myWork.CV_QT_MyWork.CreatedDate = DateTime.Now;
+                myWork.CV_QT_MyWork.Id = Helper.GenKey();
+                _context.CV_QT_MyWork.Add(myWork.CV_QT_MyWork);
+                // lưu quy trình luân chuyển công việc
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.CV_QT_MyWork.Id, userId, userId, 0, "CV_MYWORK", null, myWork.CV_QT_MyWork.Note, "", 1);
+                wflow.ReadDate = DateTime.Now;
+                wflow.Readed = true;
+                _context.CV_QT_WorkFlow.Add(wflow);
+                // lưu quy trình luân chuyển công việc
+                foreach (var item in myWork.CV_QT_MySupportWorks)
+                {
+                    item.MyWorkId = myWork.CV_QT_MyWork.Id;
+                    _context.CV_QT_MySupportWork.Add(item);
+                }
+                CV_QT_MyScheduleWork myScheduleWork = new CV_QT_MyScheduleWork()
+                {
+
+                    TaskName = myWork.CV_QT_MyWork.TaskName,
+                    FullName = user.FullName,
+                    UserCreateId = userId,
+                    UserDeliverId = userId,
+                    StartDate = myWork.CV_QT_MyWork.ExpectedDate,
+                    EndDate = myWork.CV_QT_MyWork.EndDate,
+                    MyWorkId = myWork.CV_QT_MyWork.Id,
+                    Predecessor = 0,
+                    WorkTime = 0,
+                    StatusWork = 0
+                };
+                _context.CV_QT_MyScheduleWork.Add(myScheduleWork);
+                if (Request.Form.Files.Count != 0)
+                {
+                    foreach (var item in Request.Form.Files)
+                    {
+                        CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
+                        var file = item;
+                        var folderName = Path.Combine("Resources", "WorkFlows", "Myworks");
+                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        if (myWork != null)
+                        {
+                            if (file.Length > 0)
+                            {
+                                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                var fullPath = Path.Combine(pathToSave, fileName);
+                                var dbPath = Path.Combine(folderName, fileName);
+                                obj.Extension = Path.GetExtension(fileName);
+                                obj.Path = dbPath;
+                                using (var stream = new FileStream(fullPath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                }
+                            }
+                        }
+                        obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        obj.WorkFlowId = wflow.Id;
+                        obj.Size = Convert.ToDouble(file.Length / 1048576);
+
+                        _context.CV_QT_WorkFlowFile.Add(obj);
+                    }
+
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddDataMywork", e.Message, "Thêm mới công việc");
+                return new ObjectResult(new { error = 1, ms="Lỗi khi thêm mới công việc!" });
+            }
+        }
+        #endregion
+        #region Thêm kế hoạch tự lập
+        //Post: api/MyWork/r2AddScheduleMyWork
+        [HttpPost]
+        [Route("r2AddScheduleMyWork")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r2AddScheduleMyWork(CV_QT_MyScheduleWork model)
+        {
+            try
+            {
+                int userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var userDeliver =await _context.Sys_Dm_User.FindAsync(model.UserDeliverId);
+                model.UserCreateId = userId;
+                model.WorkTime = (model.EndDate.Value - model.StartDate.Value).TotalHours;
+                model.FullName = userDeliver.FullName;
+                _context.CV_QT_MyScheduleWork.Add(model);
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, data = model.MyWorkId });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddScheduleMyWork", e.Message, "Thêm kế hoạch tự lập");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Xóa kế hoạch tự lập
+        //Post: api/MyWork/r4RemoveScheduleMyWork
+        [HttpPost]
+        [Route("r4RemoveScheduleMyWork")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyScheduleWork>>> r4RemoveScheduleMyWork(CV_QT_MyScheduleWork model)
+        {
+            try
+            {
+                var schedule =await _context.CV_QT_MyScheduleWork.FindAsync(model.Id);
+                if (schedule == null)
+                {
+                    bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddScheduleMyWork", "NotContent()", "Thêm kế hoạch tự lập");
+                    return new ObjectResult(new { error = 1, ms="Lỗi khi xóa kế hoạch công việc!" });
+                }
+                _context.CV_QT_MyScheduleWork.Remove(schedule);
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms="Xóa thành công kế hoạch công việc!" });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddScheduleMyWork", e.Message, "Thêm kế hoạch tự lập");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách công việc MyWork
+        //Post: api/MyWork/r1GetListMyWorks
+        [HttpGet]
+        [Route("r1GetListMyWorks")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetListMyWorks()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                // tam thoi su dung 2 danh sách để thực hiện where trong html sau này sẽ chỉnh lại trong backend
+                // Danh sách typeflow lấy ra tạm thời trong khi tìm cách xử lý trong backend
+                // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
+                var TypeFlows = (from n in _context.CV_QT_WorkFlow
+                                 join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
+                                 where v.UserTaskId == userId && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 group n by new { n.TypeFlow, n.MyWorkId } into g
+                                 select new
+                                 {
+                                     g.Key.TypeFlow,
+                                     g.Key.MyWorkId,
+                                 }).ToList();
+                var myWorks = (from a in _context.CV_QT_MyWork
+                               join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
+                               where a.UserTaskId == userId && b.UserSendId == b.UserDeliverId && b.TypeFlow == 0
+                               orderby b.CreateDate descending
+                               select new
+                               {
+                                   MyWorkId = a.Id,
+                                   b.Id,
+                                   a.Note,
+                                   a.Code,
+                                   TaskName = a.TaskCode == null ?  a.TaskName : "(" + a.TaskCode + ") " + a.TaskName,
+                                   a.TaskId,
+                                   a.Predecessor,
+                                   a.StartDate,
+                                   a.EndDate,
+                                   Status = WorksCommon.getTrangThaiKetThucCv(a.TypeComplete ?? 0, a.EndDate ?? DateTime.Now, a.CompleteDate ?? DateTime.Now),
+                                   a.CycleWork,
+                                   a.DeliverType,
+                                   a.DepartmentId,
+                                   a.PauseTime,
+                                   a.WorkTime,
+                                   a.UserTaskName,
+                                   a.TypeComplete,
+                                   a.CompleteDate,
+                                   a.ExpectedDate
+                               });
+                var qrs = await WorksCommon.Paginate(myWorks, 0, 1000).ToListAsync();
+
+                return new ObjectResult(new { error = 0, data = qrs, TypeFlows, total = myWorks.Count() });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Danh sách công việc myworks");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách công việc MyWork tôi phối hợp
+        //Post: api/MyWork/r1GetListMyWorksMySupport
+        [HttpGet]
+        [Route("r1GetListMyWorksMySupport")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetListMyWorksMySupport()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWorkIdMySuport =await _context.CV_QT_MySupportWork.Where(x => x.UserId == userId).Select(a => a.MyWorkId).ToListAsync();
+                // tam thoi su dung 2 danh sách để thực hiện where trong html sau này sẽ chỉnh lại trong backend
+                // Danh sách typeflow lấy ra tạm thời trong khi tìm cách xử lý trong backend
+                // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
+                var TypeFlows = (from n in _context.CV_QT_WorkFlow
+                                 join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
+                                 where v.UserTaskId == userId && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 group n by new { n.TypeFlow, n.MyWorkId } into g
+                                 select new
+                                 {
+                                     g.Key.TypeFlow,
+                                     g.Key.MyWorkId,
+                                 }).ToList();
+                var myWorks = (from a in _context.CV_QT_MyWork
+                               join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
+                               where myWorkIdMySuport.Contains(a.Id)
+                               orderby b.CreateDate descending
+                               select new
+                               {
+                                   MyWorkId = a.Id,
+                                   b.Id,
+                                   a.Note,
+                                   a.Code,
+                                   TaskName = a.TaskCode == null ? a.TaskName : "(" + a.TaskCode + ") " + a.TaskName,
+                                   a.TaskId,
+                                   a.Predecessor,
+                                   a.StartDate,
+                                   a.EndDate,
+                                   Status = WorksCommon.getTrangThaiKetThucCv(a.TypeComplete ?? 0, a.EndDate ?? DateTime.Now, a.CompleteDate ?? DateTime.Now),
+                                   a.CycleWork,
+                                   a.DeliverType,
+                                   a.DepartmentId,
+                                   a.PauseTime,
+                                   a.WorkTime,
+                                   a.UserTaskName,
+                                   a.TypeComplete,
+                                   a.CompleteDate,
+                                   a.ExpectedDate
+                               });
+                var qrs = await WorksCommon.Paginate(myWorks, 0, 1000).ToListAsync();
+
+                return new ObjectResult(new { error = 0, data = qrs, TypeFlows, total = myWorks.Count() });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Danh sách công việc myworks");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Lấy 1 công việc theo MyworkId và FlowWorkId
+        //Post: api/MyWork/r1GetMyWorkById
+        [HttpPost]
+        [Route("r1GetMyWorkById")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetMyWorkById(WorkFlow workFlow)
+        {
+            try
+            {
+
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+               
+                var query = from a in _context.CV_QT_MySupportWork.ToList()
+                            where a.MyWorkId == workFlow.MyWorkId
+                            group a by a.MyWorkId into g
+                            select new
+                            {
+                                EmployeeId = g.Key,
+                                SpecialtyCode = string.Join(", ", g.Select(x =>
+                                x.FullName))
+                            };
+                var historyIq =  (from a in _context.CV_QT_StartPauseHistory
+                                     join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
+                                     where a.MyWorkId == workFlow.MyWorkId
+                                     select new
+                                     {
+                                         b.TaskCode,
+                                         b.TaskName,
+                                         a.CreateDate,
+                                         a.CycleWork,
+                                         a.Id,
+                                     }).AsQueryable();
+                var history =await historyIq.OrderByDescending(x => x.CreateDate).ToListAsync();
+                DateTime timeWorkStart = DateTime.Now;
+                if (historyIq.FirstOrDefault(x => x.CycleWork == 1) != null)
+                {
+                     timeWorkStart = historyIq.FirstOrDefault(x => x.CycleWork == 1).CreateDate; // lay ra thoi gian bat dau thuc hien cong viec
+                }
+                var myWork = await (from a in _context.CV_QT_MyWork
+                                    where a.Id == workFlow.MyWorkId
+                                    select new
+                                    {
+                                        a.Code,
+                                        a.TaskCode,
+                                        a.TaskName,
+                                        WorkTime = WorksCommon.setTimeWorkStep(timeWorkStart, a.CycleWork, a.WorkTime ?? 0.0, a.EndPause),
+                                        a.CycleWork,
+                                        a.PauseTime,
+                                        a.EndDate,
+                                        a.StartDate,
+                                        a.UserTaskName,
+                                        a.Note,
+                                        Suporter = query.FirstOrDefault() != null ? query.FirstOrDefault().SpecialtyCode : null,
+                                        a.PreWorkDeadline,
+                                        PreWorkType = a.PreWorkType == true ? "Hoàn thành cv tiên quyết" : "Không",
+                                        TotalPoint = _context.CV_QT_CounterError.Count(x => x.MyWorkId == workFlow.MyWorkId),
+                                        a.Predecessor,
+                                        a.ExpectedDate,
+                                        a.CompleteDate
+                                    }).FirstOrDefaultAsync();
+                var errors = await (from a in _context.CV_QT_CounterError
+                                    join b in _context.CV_DM_Error on a.ErrorId equals b.Id
+                                    join c in _context.Sys_Dm_User on a.NguoiPhatId equals c.Id
+                                    join d in _context.Sys_Dm_User on a.NguoiBiPhatId equals d.Id
+                                    where a.MyWorkId == workFlow.MyWorkId
+                                    select new
+                                    {
+                                        a.Point,
+                                        NguoiPhat = c.FullName,
+                                        b.ErrorName,
+                                        a.CreateDate,
+                                        NguoiBiPhat = d.FullName
+                                    }).ToListAsync();
+                var workFlows = await (from a in _context.CV_QT_WorkFlow
+                                       join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
+                                       where a.MyWorkId == workFlow.MyWorkId
+                                       orderby a.SendDate descending
+                                       select new
+                                       {
+                                           a.Id,
+                                           a.DeliverName,
+                                           a.SendName,
+                                           a.SendDate,
+                                           a.PositionSend,
+                                           a.DepartDeli,
+                                           a.PositionDeli,
+                                           a.Note,
+                                           a.Require,
+                                           Files = _context.CV_QT_WorkFlowFile.Where(x => x.WorkFlowId == a.Id).Select(v => new
+                                           {
+                                               v.Path,
+                                               v.Name,
+                                               v.Size
+                                           }).ToList(),
+                                           a.Repossibility,
+                                           a.ReadDate,
+                                           a.HandleDate,
+                                           a.TypeFlow,
+                                           a.ParentId
+                                       }).ToListAsync();
+                // lấy ra dữ liệu workflow công việc tiên quyết
+                var workFlowPres = await (from a in _context.CV_QT_WorkFlow
+                                       join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
+                                       where b.Code == myWork.Predecessor
+                                       orderby a.SendDate descending
+                                       select new
+                                       {
+                                           a.Id,
+                                           a.DeliverName,
+                                           a.SendName,
+                                           a.SendDate,
+                                           a.PositionSend,
+                                           a.DepartDeli,
+                                           a.PositionDeli,
+                                           a.Note,
+                                           a.Require,
+                                           Files = _context.CV_QT_WorkFlowFile.Where(x => x.WorkFlowId == a.Id).Select(v => new
+                                           {
+                                               v.Path,
+                                               v.Name,
+                                               v.Size
+                                           }).ToList(),
+                                           a.Repossibility,
+                                           a.ReadDate,
+                                           a.HandleDate,
+                                           a.TypeFlow,
+                                           a.ParentId
+                                       }).ToListAsync();
+                var supports = await (from a in _context.CV_QT_MySupportWork
+                                     where a.MyWorkId == workFlow.MyWorkId
+                                     select new
+                                     {
+                                        a.UserId,
+                                        a.FullName,
+                                         a.Id,
+                                     }).ToListAsync();
+                var files = await _context.CV_QT_WorkFlowFile.Where(x => x.WorkFlowId == workFlow.Id).ToListAsync();
+                var cV_QT_WorkFlows = _context.CV_QT_WorkFlow.Where(x=>x.UserDeliverId == userId && x.MyWorkId == workFlow.MyWorkId);
+                foreach (var item in cV_QT_WorkFlows)
+                {
+                    var cV_QT_WorkFlow =await _context.CV_QT_WorkFlow.FindAsync(item.Id);
+                    if (cV_QT_WorkFlow.Readed != true)
+                    {
+                        cV_QT_WorkFlow.ReadDate = DateTime.Now;
+                        cV_QT_WorkFlow.Readed = true;
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, data = myWork, files, history, workFlows, errors, supports, workFlowPres });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetMyWorkById", e.Message, "Lấy 1 công việc theo MyworkId và FlowWorkId");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Trình phê duyệt thời gian
+        //Post: api/MyWork/r2AddFLowDeadline
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("r2AddFLowDeadline")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r2AddFLowDeadline()
+        {
+            try
+            {
+                var myWork = JsonConvert.DeserializeObject<CV_QT_WorkFlow>(Request.Form["model"]);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                // lưu quy trình luân chuyển công việc
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.MyWorkId, userId, myWork.UserDeliverId, 1, "CV_MYWORK", myWork.ParentId, myWork.Note, myWork.Require, 1);
+                _context.CV_QT_WorkFlow.Add(wflow);
+                if (Request.Form.Files.Count != 0)
+                {
+                    foreach (var item in Request.Form.Files)
+                    {
+                        CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
+                        var file = item;
+                        var folderName = Path.Combine("Resources", "WorkFlows", "Deadlines");
+                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        if (myWork != null)
+                        {
+                            if (file.Length > 0)
+                            {
+                                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                var fullPath = Path.Combine(pathToSave, fileName);
+                                var dbPath = Path.Combine(folderName, fileName);
+                                obj.Extension = Path.GetExtension(fileName);
+                                obj.Path = dbPath;
+                                using (var stream = new FileStream(fullPath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                }
+                            }
+                        }
+                        obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        obj.WorkFlowId = wflow.Id;
+                        obj.Size = file.Length / 1048576;
+
+                        _context.CV_QT_WorkFlowFile.Add(obj);
+                    }
+
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Trình phê duyệt thời hạn");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Trình phê duyệt hoàn thành
+        //Post: api/MyWork/r2AddFLowCheckSuccess
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("r2AddFLowCheckSuccessful")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r2AddFLowCheckSuccessful()
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                // lưu quy trình luân chuyển công việc
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, userId, model.CV_QT_WorkFlow.UserDeliverId, 4, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                _context.CV_QT_WorkFlow.Add(wflow);
+                List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
+                if (Request.Form.Files.Count != 0)
+                {
+                    foreach (var item in Request.Form.Files)
+                    {
+                        CV_QT_WorkFlowFile obj1 = new CV_QT_WorkFlowFile();
+                        var file = item;
+                        var folderName = Path.Combine("Resources", "WorkFlows", "successful");
+                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        if (model != null)
+                        {
+                            if (file.Length > 0)
+                            {
+                                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                var fullPath = Path.Combine(pathToSave, fileName);
+                                var dbPath = Path.Combine(folderName, fileName);
+                                obj1.Extension = Path.GetExtension(fileName);
+                                obj1.Path = dbPath;
+                                using (var stream = new FileStream(fullPath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                }
+                            }
+                        }
+                        obj1.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        obj1.WorkFlowId = wflow.Id;
+                        obj1.Size = file.Length / 1048576;
+                        _WorkFlowFiles.Add(obj1);
+                        _context.CV_QT_WorkFlowFile.Add(obj1);
+                    }
+
+                }
+                // lưu quy trình người xác nhận hoàn thành người nhận công việc tiếp theo
+                if (model.CV_QT_NextPlan.UserId != 0)
+                {
+                    CV_QT_WorkFlow wnext = new CV_QT_WorkFlow();
+                    wnext = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, userId, model.CV_QT_NextPlan.UserId, 4, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 2);
+                    _context.CV_QT_WorkFlow.Add(wnext);
+                    if (_WorkFlowFiles.Count != 0)
+                    {
+                        foreach (var item in _WorkFlowFiles)
+                        {
+                            CV_QT_WorkFlowFile obj2 = new CV_QT_WorkFlowFile();
+                            obj2.Extension = item.Extension;
+                            obj2.Path = item.Path;
+                            obj2.Name = item.Name;
+                            obj2.WorkFlowId = wnext.Id;
+                            obj2.Size = item.Size;
+
+                            _context.CV_QT_WorkFlowFile.Add(obj2);
+                        }
+
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddFLowCheckSuccess", e.Message, "Trình phê duyệt hoàn thành");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Trình phê duyệt xin thêm thời hạn
+        //Post: api/MyWork/r2AddXinThemThoiHan
+        [HttpPost]
+        [Route("r2AddXinThemThoiHan")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r2AddXinThemThoiHan()
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<Dtos_FlowWorkPheDuyetTH>(Request.Form["model"]);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                // lưu quy trình luân chuyển công việc
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, userId, model.CV_QT_WorkFlow.UserDeliverId, 7, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                _context.CV_QT_WorkFlow.Add(wflow);
+
+                if (Request.Form.Files.Count != 0)
+                {
+                    foreach (var item in Request.Form.Files)
+                    {
+                        CV_QT_WorkFlowFile obj1 = new CV_QT_WorkFlowFile();
+                        var file = item;
+                        var folderName = Path.Combine("Resources", "WorkFlows", "Deadlines");
+                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                        if (!Directory.Exists(pathToSave))
+                        {
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        if (model != null)
+                        {
+                            if (file.Length > 0)
+                            {
+                                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                var fullPath = Path.Combine(pathToSave, fileName);
+                                var dbPath = Path.Combine(folderName, fileName);
+                                obj1.Extension = Path.GetExtension(fileName);
+                                obj1.Path = dbPath;
+                                using (var stream = new FileStream(fullPath, FileMode.Create))
+                                {
+                                    file.CopyTo(stream);
+                                }
+                            }
+                        }
+                        obj1.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        obj1.WorkFlowId = wflow.Id;
+                        obj1.Size = file.Length / 1048576;
+                        _context.CV_QT_WorkFlowFile.Add(obj1);
+                    }
+
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddXinThemThoiHan", e.Message, "Trình phê duyệt xin thêm thời hạn");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Bắt đầu thực hiện công việc
+        //Post: api/MyWork/r2StartMyWork
+        [HttpPost]
+        [Route("r2StartMyWork")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetStartMyWork(CV_QT_MyWork model)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
+                var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && (x.CycleWork == 1 || x.CycleWork == 3));
+                if (myWork == null)
+                {
+                    return NotFound();
+                }
+                if (myWorkCount > 0)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Không thể bắt đầu vì có công việc khác đang diễn ra!" });
+                }
+                if (myWork.CycleWork == 0)
+                {
+                    myWork.StartDate = DateTime.Now;
+                    myWork.CycleWork = 1;
+                    CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                    his.MyWorkId = model.Id;
+                    his.CreateDate = DateTime.Now;
+                    his.CycleWork = 1;
+                    his.UserCreateId = userId;
+                    _context.CV_QT_StartPauseHistory.Add(his);
+                    CV_QT_WorkNote note = new CV_QT_WorkNote(); // lưu vào bảng nhật ký công việc
+                    note.MyWorkId = model.Id;
+                    note.DateStart = his.CreateDate;
+                    note.WorkTime = 0.0;
+                    note.CreatedBy = userId;
+                    _context.CV_QT_WorkNote.Add(note);
+                    await _context.SaveChangesAsync();
+                }
+                return new ObjectResult(new { error = 0, ms = "Bắt đầu công việc thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2StartMyWork", e.Message, "Bắt đầu thực hiện công việc");
+                return new ObjectResult(new { error = 1, ms = "Bắt đầu công việc không thành công!" });
+            }
+        }
+        #endregion
+        #region Dừng thực hiện công việc
+        //Post: api/MyWork/r2PauseMyWork
+        [HttpPost]
+        [Route("r2PauseMyWork")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2PauseMyWork(CV_QT_MyWork model)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
+                if (myWork == null)
+                {
+                    return NotFound();
+                }
+                myWork.StartPause = DateTime.Now;
+                if (myWork.CycleWork == 1)
+                {
+                    myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
+                    myWork.CycleWork = 2;
+                    CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                    his.MyWorkId = model.Id;
+                    his.CreateDate = DateTime.Now;
+                    his.CycleWork = 2;
+                    his.UserCreateId = userId;
+                    _context.CV_QT_StartPauseHistory.Add(his);
+                    var note = await _context.CV_QT_WorkNote.FirstOrDefaultAsync(x => x.DateEnd == null && x.MyWorkId == model.Id);
+                    if (note != null)
+                    {
+                        note.DateEnd = his.CreateDate;
+                        note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                    }
+                    
+                }
+                else if (myWork.CycleWork == 3)
+                {
+                    myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
+                    myWork.CycleWork = 2;
+                    CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                    his.MyWorkId = model.Id;
+                    his.CreateDate = DateTime.Now;
+                    his.CycleWork = 2;
+                    his.UserCreateId = userId;
+                    _context.CV_QT_StartPauseHistory.Add(his);
+                    var note = await _context.CV_QT_WorkNote.FirstOrDefaultAsync(x => x.DateEnd == null && x.MyWorkId == model.Id);
+                    if (note != null)
+                    {
+                        note.DateEnd = his.CreateDate;
+                        note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms = "Tạm dừng công việc thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Dừng thực hiện công việc");
+                return new ObjectResult(new { error = 1, ms = "Tạm dừng công việc thành công!" });
+            }
+        }
+        #endregion
+        #region Tiếp tục thực hiện công việc
+        //Post: api/MyWork/r2ContineuMyWork
+        [HttpPost]
+        [Route("r2ContineuMyWork")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2ContineuMyWork(CV_QT_MyWork model)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
+                var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && x.CycleWork == 1 || x.CycleWork == 3);
+                if (myWork == null)
+                {
+                    return NotFound();
+                }
+                if (myWorkCount > 0)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Không thể tiếp tục vì có công việc khác đang diễn ra!" });
+                }
+                if (myWork.CycleWork == 2)
+                {
+                    myWork.EndPause = DateTime.Now;
+                    myWork.PauseTime = myWork.PauseTime + (DateTime.Now - myWork.StartPause.Value).TotalHours;
+                    myWork.CycleWork = 3;
+                    CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                    his.MyWorkId = model.Id;
+                    his.CreateDate = DateTime.Now;
+                    his.CycleWork = 3;
+                    his.UserCreateId = userId;
+                    _context.CV_QT_StartPauseHistory.Add(his);
+                    CV_QT_WorkNote note = new CV_QT_WorkNote(); // lưu vào bảng nhật ký công việc
+                    note.MyWorkId = model.Id;
+                    note.DateStart = his.CreateDate;
+                    note.WorkTime = 0.0;
+                    note.CreatedBy = userId;
+                    _context.CV_QT_WorkNote.Add(note);
+                    await _context.SaveChangesAsync();
+                }
+                return new ObjectResult(new { error = 0, ms = "Tiếp tục công việc thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Tiếp tục thực hiện công việc");
+                return new ObjectResult(new { error = 1, ms = "Tiếp tục công việc không thành công!" });
+            }
+        }
+        #endregion     
+        #region Danh sách kế hoạch công việc
+        // Post: api/MyWork/r1PostMyScheduleWork
+        [HttpPost]
+        [Route("r1PostMyScheduleWork")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyScheduleWork>>> r1PostMyScheduleWork(WorkFlow workFlow)
+        {
+            try
+            {
+
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var deQuys =await (from a in _context.CV_QT_MyScheduleWork
+                              where a.MyWorkId == workFlow.MyWorkId
+                              select new ScheduleMyWork
+                              {
+                                  Id = a.Id,
+                                  FullName = a.FullName,
+                                  Predecessor = a.Predecessor,
+                                  TaskName = a.TaskName,
+                                  UserDeliverId = a.UserDeliverId,
+                                  StartDate = a.StartDate.Value,
+                                  EndDate = a.EndDate,
+                                  MyWorkId = a.MyWorkId,
+                                  StatusWork = a.StatusWork,
+                                  DateComplete = a.DateComplete
+                              }).ToListAsync();
+                var listRecursives =await (from a in _context.CV_QT_MyScheduleWork
+                                      where a.MyWorkId == workFlow.MyWorkId && a.Predecessor == 0
+                                      select new ScheduleMyWork()
+                                      {
+                                          Id = a.Id,
+                                          FullName = a.FullName,
+                                          Predecessor = a.Predecessor,
+                                          TaskName = a.TaskName,
+                                          UserDeliverId = a.UserDeliverId,
+                                          StartDate = a.StartDate.Value,
+                                          EndDate = a.EndDate,
+                                          MyWorkId = a.MyWorkId,
+                                          StatusWork = a.StatusWork,
+                                          DateComplete = a.DateComplete,
+                                          children = GetChildren(deQuys, a.Id)
+                                      }).ToListAsync();
+                return new ObjectResult(new { error = 0, listRecursives });
+
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Cập nhật trạng thái công việc
+        //Post: api/MyWork/r2TrangThaiScheduleMyWork
+        [HttpPost]
+        [Route("r2TrangThaiScheduleMyWork")]
+        public async Task<IActionResult> r2TrangThaiScheduleMyWork(CV_QT_MyScheduleWork model)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var khcv = await _context.CV_QT_MyScheduleWork.FindAsync(model.Id);
+                khcv.StatusWork = model.StatusWork;
+                if (model.StatusWork == 3)
+                {
+                    khcv.DateComplete = DateTime.Now;
+                }
+                else
+                {
+                    khcv.DateComplete = null;
+                }
+                khcv.UserUpdateId = userId;
+                khcv.UpdateDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms = "" }); ;
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Cập nhật trạng thái công việc");
+                var result = new OkObjectResult(new { error = 1, ms = "Lỗi khi cập nhật trạng thái công việc!, vui lòng kiểm tra lại!" });
+                return result;
+            }
+        }
+        #endregion
+        #region Đệ quy kế hoạch công việc
+        public static List<ScheduleMyWork> GetChildren(List<ScheduleMyWork> comments, int Predecessor)
+        {
+            return comments
+                    .Where(c => c.Predecessor == Predecessor)
+                    .Select(c => new ScheduleMyWork
+                    {
+                        Id = c.Id,
+                        FullName = c.FullName,
+                        TaskName = c.TaskName,
+                        UserDeliverId = c.UserDeliverId,
+                        StartDate = c.StartDate,
+                        EndDate = c.EndDate,
+                        Predecessor = c.Predecessor,
+                        MyWorkId = c.MyWorkId,
+                        StatusWork = c.StatusWork,
+                        DateComplete = c.DateComplete,
+                        children = GetChildren(comments, c.Id)
+                    }).ToList();
+        }
+        #endregion
+    }
+}
+public class ScheduleMyWork
+{
+    public int Id { get; set; }
+    public string FullName { get; set; }
+    public string TaskName { get; set; }
+    public int UserDeliverId { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public int? Predecessor { get; set; }
+    public string MyWorkId { get; set; }
+    public int StatusWork { get; set; }
+    public int LevelCv { get; set; }
+    public Nullable<DateTime> DateComplete { get; set; }
+    public List<ScheduleMyWork> children { get; set; }
+}

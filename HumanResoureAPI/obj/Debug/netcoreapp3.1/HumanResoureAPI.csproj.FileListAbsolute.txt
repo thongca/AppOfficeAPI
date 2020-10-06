@@ -1,0 +1,947 @@
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+F:\API\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\Angular v9\AppOffice v.1\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+F:\Angular v9\template\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+H:\Web\VPDT_21082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\appsettings.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.exe
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.deps.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.runtimeconfig.dev.json
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\MailKit.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.HashCode.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Sqlite.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Binder.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.Identity.Client.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\dotnet-aspnet-codegenerator-design.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\MimeKit.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.Runtime.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-armel\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-musl-x64\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x64\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\linux-x86\native\libe_sqlite3.so
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libe_sqlite3.dylib
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm\native\e_sqlite3.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csprojAssemblyReference.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CoreCompileInputs.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.MvcApplicationPartsAssemblyInfo.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfoInputs.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.AssemblyInfo.cs
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.RazorTargetAssemblyInfo.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.csproj.CopyComplete
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.Manifest.cache
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\staticwebassets\HumanResoureAPI.StaticWebAssets.xml
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.dll
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.pdb
+J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResoureAPI\obj\Debug\netcoreapp3.1\HumanResoureAPI.genruntimeconfig.cache
