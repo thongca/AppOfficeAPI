@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,29 @@ namespace HumanResoureAPI.Controllers
 
             }
             catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Bao cao tinh tong thoi gian lam viec co luy ke
+        // Post: api/MyWorkReport/r1EvalueReportTotalTime
+        [HttpPost]
+        [Route("r1EvalueReportTotalTime")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1EvalueReportTotalTime(Report_TotalTimePara report)
+        {
+            try
+            {
+                var dates = new SqlParameter("@dates", report.dates);
+                var datee = new SqlParameter("@dates", report.datee);
+                var datef = new SqlParameter("@datef", new DateTime(DateTime.Now.Year, 01, 01));
+                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}", report.dates, report.datee, new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+
+                return new ObjectResult(new { error = 0, data = reports });
+
+
+            }
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1 });
             }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HumanResource.Data.Entities.Works.Reponses
 {
    public class Report_TotalTimeWork
     {
+        [Key]
         public string TaskCode { get; set; }
         public string TaskName { get; set; }
         public double? TongLk { get; set; }

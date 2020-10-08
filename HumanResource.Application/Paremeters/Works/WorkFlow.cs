@@ -39,6 +39,12 @@ namespace HumanResource.Application.Paremeters.Works
         public int Id { get; set; }
         public string Name { get; set; }
     }
+    public class Report_TotalTimePara
+    {
+        public DateTime dates { get; set; }
+        public DateTime datee { get; set; }
+
+    }
     public class Error
     {
         public int Id { get; set; }
