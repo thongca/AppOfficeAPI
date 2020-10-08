@@ -110,6 +110,7 @@ namespace HumanResource.Data.EF
         // reponses bao cao kpi thang
 
         public DbSet<RePort_KpiForUseraMonth> RePort_KpiForUseraMonth { get; set; }
+        public DbSet<Report_TotalTimeWork> Report_TotalTimeWork { get; set; }
 
     }
 }

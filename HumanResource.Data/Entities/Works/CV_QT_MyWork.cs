@@ -33,5 +33,6 @@ namespace HumanResource.Data.Entities.Works
         public Nullable<double> PointTime { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ExpectedDate { get; set; }
+        public int? Repossibility { get; set; }
     }
 }

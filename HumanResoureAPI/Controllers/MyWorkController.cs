@@ -142,6 +142,39 @@ namespace HumanResoureAPI.Controllers
             }
         }
         #endregion
+        #region Xóa MyWorks
+        //Post: api/MyWork/r4RemoveMyWork
+        [HttpPost]
+        [Route("r4RemoveMyWork")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r4RemoveMyWork(WorkFlow workFlow)
+        {
+            try
+            {
+                var myWork = await _context.CV_QT_MyWork.FindAsync(workFlow.MyWorkId);
+                if (myWork == null)
+                {
+                    bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveMyWork", "NotContent()", "Xóa mywork");
+                    return new ObjectResult(new { error = 1, ms = "Lỗi khi xóa công việc của tôi!" });
+                }
+                if (myWork.CycleWork == 4)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Công việc đã được hoàn thành, không thể xóa!" });
+                }
+
+                _context.CV_QT_MyWork.Remove(myWork);
+                var workFlows = _context.CV_QT_WorkFlow.Where(x=>x.MyWorkId == workFlow.MyWorkId);
+                _context.CV_QT_WorkFlow.RemoveRange(workFlows);
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms = "Xóa thành công công việc của tôi!" });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveMyWork", e.Message, "Thêm kế hoạch tự lập");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
         #region Thêm kế hoạch tự lập
         //Post: api/MyWork/r2AddScheduleMyWork
         [HttpPost]
@@ -178,7 +211,7 @@ namespace HumanResoureAPI.Controllers
                 var schedule =await _context.CV_QT_MyScheduleWork.FindAsync(model.Id);
                 if (schedule == null)
                 {
-                    bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddScheduleMyWork", "NotContent()", "Thêm kế hoạch tự lập");
+                    bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveScheduleMyWork", "NotContent()", "Thêm kế hoạch tự lập");
                     return new ObjectResult(new { error = 1, ms="Lỗi khi xóa kế hoạch công việc!" });
                 }
                 _context.CV_QT_MyScheduleWork.Remove(schedule);
@@ -188,7 +221,7 @@ namespace HumanResoureAPI.Controllers
             }
             catch (Exception e)
             {
-                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2AddScheduleMyWork", e.Message, "Thêm kế hoạch tự lập");
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveScheduleMyWork", e.Message, "Thêm kế hoạch tự lập");
                 return new ObjectResult(new { error = 1 });
             }
         }
