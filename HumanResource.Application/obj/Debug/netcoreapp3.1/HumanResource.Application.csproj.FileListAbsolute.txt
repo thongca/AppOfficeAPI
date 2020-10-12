@@ -46,4 +46,3 @@ J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcor
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.AssemblyInfo.cs
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.dll
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.pdb
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.csprojAssemblyReference.cache

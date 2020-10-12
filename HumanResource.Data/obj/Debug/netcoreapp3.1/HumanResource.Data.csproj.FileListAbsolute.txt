@@ -59,4 +59,3 @@ J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.dll
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.pdb
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.genruntimeconfig.cache
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.csprojAssemblyReference.cache

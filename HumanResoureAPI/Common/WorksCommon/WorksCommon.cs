@@ -186,21 +186,21 @@ namespace HumanResoureAPI.Common.WorksCommon
         {
             if (TypeComplete == 0)
             {
-                if (Convert.ToInt16((DateTime.Now.Date - endDate.Date).TotalDays) > 0)
+                if ((DateTime.Now - endDate).TotalHours > 0)
                 {
                     return 1; // quá hạn
                 }
-                else if (Convert.ToInt16((DateTime.Now.Date - endDate.Date).TotalDays) < 0)
+                else if ((DateTime.Now - endDate).TotalHours < -8.0) // truoc 5 h thi bao chua den han
                 {
                     return 2; // chưa đến hạn
                 }
-                else if (Convert.ToInt16((DateTime.Now.Date - endDate.Date).TotalDays) == 0)
+                else if ((DateTime.Now - endDate).TotalHours >= -8.0) 
                 {
                     return 3; // gần đến hạn
                 }
             } else if(TypeComplete == 1)
             {
-                if (Convert.ToInt16((completeDate.Date - endDate.Date).TotalDays) > 0)
+                if ((completeDate - endDate).TotalHours > 0)
                 {
                     return 4; // tạm hoàn thành nhưng quá hạn
                 }
@@ -212,7 +212,7 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             else if (TypeComplete == 2)
             {
-                if (Convert.ToInt16((completeDate.Date - endDate.Date).TotalDays) > 0)
+                if ((completeDate - endDate).TotalHours > 0)
                 {
                     return 6; // Quá hạn
                 }
@@ -224,7 +224,7 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             else if (TypeComplete == 3)
             {
-                if (Convert.ToInt16((completeDate.Date - endDate.Date).TotalDays) > 0)
+                if ((completeDate - endDate).TotalHours > 0)
                 {
                     return 8; // hoàn thành nhưng quá hạn
                 }

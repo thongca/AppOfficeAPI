@@ -40,7 +40,7 @@ namespace HumanResoureAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
-            services.AddDbContext<humanDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HumanResource")));
+            services.AddDbContext<humanDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HumanConnect")));
             // Read json settings
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
 
@@ -92,7 +92,7 @@ namespace HumanResoureAPI
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:4200", "http://it05.app.com")
+                builder.WithOrigins("http://localhost:4567", "http://172.16.10.2:4567", "http://localhost:4200")
                 .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
             });
             app.UseRouting();
