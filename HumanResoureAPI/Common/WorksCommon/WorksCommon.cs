@@ -95,6 +95,46 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             return DepId;
         }
+        // tính điểm tự động khi đã trình hoàn thành
+        public static double countPointAuto(DateTime timeend, DateTime timecomplete, double timeTask)
+        {
+            int totalTime = 0;
+            if (DateTime.Now > timeend)
+            {
+                totalTime = Convert.ToInt32((timecomplete - timeend).TotalHours);
+            }
+            switch (timeTask)
+            {
+                case 1.0:
+                    return totalTime * 0.1;
+                case 1.1:
+                    return totalTime * 0.2;
+                case 1.2:
+                    return totalTime * 0.3;
+                default:
+                 return 0.0;
+            }
+        }
+        // tính điểm tự động khi nhắc nhở và gia hạn
+        public static double countPointAutoNNGh(DateTime timeend, double timeTask)
+        {
+            int totalTime = 0;
+            if (DateTime.Now > timeend)
+            {
+              totalTime = Convert.ToInt32((DateTime.Now - timeend).TotalHours);
+            }
+            switch (timeTask)
+            {
+                case 1.0:
+                    return totalTime * 0.1;
+                case 1.1:
+                    return totalTime * 0.2;
+                case 1.2:
+                    return totalTime * 0.3;
+                default:
+                    return 0.0;
+            }
+        }
         public static string covertLevelTaskToString(int levelTask)
         {
             switch (levelTask)

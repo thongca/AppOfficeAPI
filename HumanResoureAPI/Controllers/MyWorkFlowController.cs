@@ -301,7 +301,7 @@ namespace HumanResoureAPI.Controllers
                         var error = await _context.CV_DM_Error.FindAsync(1);
                         CV_QT_CounterError cterror = new CV_QT_CounterError();
                         cterror.ErrorId = error.Id;
-                        cterror.Point = error.Point;
+                        cterror.Point = WorksCommon.countPointAuto(cV_QT_MyWork.EndDate??DateTime.Now, cV_QT_MyWork.CompleteDate ?? DateTime.Now, cV_QT_MyWork.PointTime??0.0);// tinh diem tu dong
                         cterror.NguoiBiPhatId = userId;
                         cterror.NguoiPhatId = 2028; // Hệ thống
                         cterror.MyWorkId = modelFlow.MyWorkId;
@@ -809,6 +809,142 @@ namespace HumanResoureAPI.Controllers
             catch (Exception)
             {
                 return new ObjectResult(new { error = 1, ms = "Yêu cầu chỉnh sửa công việc không thành công!" });
+            }
+        }
+        #endregion
+        #region Nhắc nhở và gia hạn
+        //Post: api/MyWorkFlow/r2AddWorkFlowNhacNhoGiaHan
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("r2AddWorkFlowNhacNhoGiaHan")]
+        public async Task<ActionResult<IEnumerable<CV_QT_WorkFlow>>> r2AddWorkFlowNhacNhoGiaHan()
+        {
+            try
+            {
+                var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0); // lọc thông tin công việc đnag được trình duyệt hoàn thành
+                if (cV_QT_WorkFlow.Handled != true)
+                {
+                    cV_QT_WorkFlow.Handled = true;
+                    cV_QT_WorkFlow.HandleDate = DateTime.Now;
+                }
+
+                var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); // update trạng thái và thời gian tạm tính hoàn thành công việc
+                if (cV_QT_MyWork != null)
+                {
+                   
+
+                    string note = "Hệ thống tự động đánh giá chất lượng công việc bị nhắc nhở gia hạn";
+                    var error = await _context.CV_DM_Error.FindAsync(1);
+                    CV_QT_CounterError cterror = new CV_QT_CounterError();
+                    cterror.ErrorId = error.Id;
+                    cterror.Point = WorksCommon.countPointAutoNNGh(cV_QT_MyWork.CompleteDate ?? DateTime.Now, cV_QT_MyWork.PointTime ?? 0.0);// tinh diem tu dong
+                    cterror.NguoiBiPhatId = cV_QT_MyWork.UserTaskId;
+                    cterror.NguoiPhatId = 2028; // Hệ thống
+                    cterror.MyWorkId = modelFlow.MyWorkId;
+                    cterror.FlowWorkId = cV_QT_WorkFlow.Id;
+                    cterror.CreateDate = DateTime.Now;
+                    cterror.DepartmentId = user.DepartmentId ?? 0;
+                    _context.CV_QT_CounterError.Add(cterror);
+                    CV_QT_WorkFlow wflowerror = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, 2028, cV_QT_MyWork.UserTaskId, 10, "CV_DANHGIACL", cV_QT_WorkFlow.Id, note, modelFlow.Require, 1);
+                    _context.CV_QT_WorkFlow.Add(wflowerror);
+
+                    if (modelFlow.DateChange != null)
+                    {
+                        cV_QT_MyWork.EndDate = modelFlow.DateChange;
+                        await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, modelFlow.DateChange ?? DateTime.Now, userId);
+                    }
+                    // luu lai thay doi ve thoi gian ket thuc cong viec
+                    CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 9, "CV_NHACNHOGIAHAN", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc
+                    _context.CV_QT_WorkFlow.Add(wflow2);
+                    if (Request.Form.Files.Count != 0)
+                    {
+                        foreach (var item in Request.Form.Files)
+                        {
+                            CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
+                            var file = item;
+                            var folderName = Path.Combine("Resources", "WorkFlows", "Results");
+                            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                            if (!Directory.Exists(pathToSave))
+                            {
+                                Directory.CreateDirectory(pathToSave);
+                            }
+                            if (modelFlow != null)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                    var fullPath = Path.Combine(pathToSave, fileName);
+                                    var dbPath = Path.Combine(folderName, fileName);
+                                    obj.Extension = Path.GetExtension(fileName);
+                                    obj.Path = dbPath;
+                                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                                    {
+                                        file.CopyTo(stream);
+                                    }
+                                }
+                            }
+                            obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                            obj.WorkFlowId = wflow2.Id;
+                            obj.Size = Convert.ToDouble(file.Length / 1048576.0);
+
+                            _context.CV_QT_WorkFlowFile.Add(obj);
+                        }
+                    }
+                }
+                // luu quy trình cho người chủ trì
+
+                // lưu quy trình luân chuyển công việc cho người theo dõi
+                foreach (var ktem in modelFlow.UserDelivers)
+                {
+                    CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, ktem.UserId, 12, "CV_THEODOI", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 3);
+                    // lưu quy trình luân chuyển công việc
+                    _context.CV_QT_WorkFlow.Add(wflow);
+                    if (Request.Form.Files.Count != 0)
+                    {
+                        foreach (var item in Request.Form.Files)
+                        {
+                            CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
+                            var file = item;
+                            var folderName = Path.Combine("Resources", "WorkFlows", "Results");
+                            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                            if (!Directory.Exists(pathToSave))
+                            {
+                                Directory.CreateDirectory(pathToSave);
+                            }
+                            if (modelFlow != null)
+                            {
+                                if (file.Length > 0)
+                                {
+                                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                    var fullPath = Path.Combine(pathToSave, fileName);
+                                    var dbPath = Path.Combine(folderName, fileName);
+                                    obj.Extension = Path.GetExtension(fileName);
+                                    obj.Path = dbPath;
+                                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                                    {
+                                        file.CopyTo(stream);
+                                    }
+                                }
+                            }
+                            obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                            obj.WorkFlowId = wflow.Id;
+                            obj.Size = Convert.ToDouble(file.Length / 1048576.0);
+
+                            _context.CV_QT_WorkFlowFile.Add(obj);
+                        }
+
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms = "Nhắc nhở và gia hạn công việc thành công!" });
+
+            }
+            catch (Exception e)
+            {
+                return new ObjectResult(new { error = 1, ms = "Nhắc nhở và gia hạn công việc không thành công!" });
             }
         }
         #endregion

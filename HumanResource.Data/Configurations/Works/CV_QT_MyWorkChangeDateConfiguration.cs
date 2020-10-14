@@ -12,7 +12,7 @@ namespace HumanResource.Data.Configurations.Works
         public void Configure(EntityTypeBuilder<CV_QT_MyWorkChangeDate> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasColumnName("varchar(50)");
+            builder.Property(x => x.MyWorkId).HasColumnType("varchar(50)");
         }
     }
 }
