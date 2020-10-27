@@ -167,42 +167,62 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             return "Bình thường";
         }
-        public static List<int> getUserFromTypeUserDeli(humanDbContext dbContext, int Type, string MyworkId)
+        public static async Task<List<UserAndStatusDeliver>> getUserFromTypeUserDeli(humanDbContext dbContext, int Type, string MyworkId)
         {
-            List<int> list = new List<int>();
-            if (Type == 1)
+            List<UserAndStatusDeliver> list = new List<UserAndStatusDeliver>();
+            var cV_QT_MyWork =await dbContext.CV_QT_MyWork.FindAsync(MyworkId);
+            if (Type == 1) // người chủ trì
             {
-                var cV_QT_MyWork = dbContext.CV_QT_MyWork.Find(MyworkId);
                 if (cV_QT_MyWork != null)
                 {
-                    list.Add(cV_QT_MyWork.UserTaskId);
+                    UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
+                    {
+                        UserId = cV_QT_MyWork.UserTaskId,
+                        Type = Type
+                    };
+                    list.Add(userAndStatus);
                     return list;
                 }
                 
-            } else if(Type == 2)
+            } else if(Type == 2) // người phối hợp
             {
                 var cV_QT_MySupportWork = dbContext.CV_QT_MySupportWork.Where(x=> x.MyWorkId == MyworkId);
                 if (cV_QT_MySupportWork.Count() > 0)
                 {
                     foreach (var item in cV_QT_MySupportWork)
                     {
-                        list.Add(item.UserId);
+                        UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
+                        {
+                            UserId = item.UserId,
+                            Type = Type
+                        };
+                        list.Add(userAndStatus);
                     }
                     return list;
                 }
-            } else if(Type == 2)
+            } else if(Type == 3) // người làm trước
             {
-                var cV_QT_MyWork = dbContext.CV_QT_MyWork.Find(MyworkId);
                 if (cV_QT_MyWork != null)
                 {
                     if (cV_QT_MyWork.Predecessor != null)
                     {
                         var cV_TQ = dbContext.CV_QT_MyWork.FirstOrDefault(x=>x.Code == cV_QT_MyWork.Predecessor);
-                        list.Add(cV_TQ.UserTaskId);
+                        UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
+                        {
+                            UserId = cV_TQ.UserTaskId,
+                            Type = Type
+                        };
+                        list.Add(userAndStatus);
+                        return list;
                     }
+                    else
+                    {
+                        return new List<UserAndStatusDeliver>();
+                    }
+                  
                 }
             }
-            return new List<int>();
+            return new List<UserAndStatusDeliver>();
         }
         public static double setTimeWorkStep(DateTime timeBegin,int cycleWork, double timeWork, DateTime? timePause)
         {

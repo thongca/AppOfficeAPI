@@ -394,9 +394,29 @@ namespace HumanResoureAPI.Controllers
                                         a.StartDate,
                                         a.UserTaskName,
                                         a.Note,
-                                        Suporter = query.FirstOrDefault() != null ? query.FirstOrDefault().SpecialtyCode : null,
                                         a.PreWorkDeadline,
+                                        Suporter = query.FirstOrDefault() != null ? query.FirstOrDefault().SpecialtyCode : null,
+                                        TotalPoint = _context.CV_QT_CounterError.Count(x => x.MyWorkId == workFlow.MyWorkId),
                                         PreWorkType = a.PreWorkType == true ? "Hoàn thành cv tiên quyết" : "Không",
+                                        a.Predecessor,
+                                        a.ExpectedDate,
+                                        a.CompleteDate
+                                    }).FirstOrDefaultAsync();
+                var predecWork = await (from a in _context.CV_QT_MyWork
+                                    where a.Code == myWork.Predecessor
+                                        select new
+                                    {
+                                        a.Code,
+                                        a.TaskCode,
+                                        a.TaskName,
+                                        WorkTime = WorksCommon.setTimeWorkStep(timeWorkStart, a.CycleWork, a.WorkTime ?? 0.0, a.EndPause),
+                                        a.CycleWork,
+                                        a.PauseTime,
+                                        a.EndDate,
+                                        a.StartDate,
+                                        a.UserTaskName,
+                                        a.Note,
+                                        Suporter = query.FirstOrDefault() != null ? query.FirstOrDefault().SpecialtyCode : null,
                                         TotalPoint = _context.CV_QT_CounterError.Count(x => x.MyWorkId == workFlow.MyWorkId),
                                         a.Predecessor,
                                         a.ExpectedDate,
@@ -490,7 +510,7 @@ namespace HumanResoureAPI.Controllers
                     }
                 }
                 await _context.SaveChangesAsync();
-                return new ObjectResult(new { error = 0, data = myWork, files, history, workFlows, errors, supports, workFlowPres });
+                return new ObjectResult(new { error = 0, data = myWork, predecWork, files, history, workFlows, errors, supports, workFlowPres });
             }
             catch (Exception e)
             {
@@ -710,6 +730,7 @@ namespace HumanResoureAPI.Controllers
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
                 var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && (x.CycleWork == 1 || x.CycleWork == 3));
+                var myWorkPredecCount = _context.CV_QT_MyWork.Count(x => x.Code == model.Predecessor && x.TypeComplete != 3); // count coong viec tien quyet hoan thanh
                 if (myWork == null)
                 {
                     return NotFound();
@@ -717,6 +738,10 @@ namespace HumanResoureAPI.Controllers
                 if (myWorkCount > 0)
                 {
                     return new ObjectResult(new { error = 1, ms = "Không thể bắt đầu vì có công việc khác đang diễn ra!" });
+                }
+                if (myWorkPredecCount > 0)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Không thể bắt đầu vì công việc tiên quyết chưa được hoàn thành !" });
                 }
                 if (myWork.CycleWork == 0)
                 {
@@ -802,6 +827,66 @@ namespace HumanResoureAPI.Controllers
             catch (Exception e)
             {
                 bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Dừng thực hiện công việc");
+                return new ObjectResult(new { error = 1, ms = "Tạm dừng công việc thành công!" });
+            }
+        }
+        #endregion
+        #region Dừng thực hiện tất cả công việc
+        //Post: api/MyWork/r2PauseMyWorkAutoPause
+        // được gọi từ service worker
+        [HttpGet]
+        [Route("r2PauseMyWorkAutoPause")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2PauseMyWorkAllauto()
+        {
+            try
+            {
+
+                var myWorks =await _context.CV_QT_MyWork.Where(x => x.CycleWork == 1 || x.CycleWork == 3).ToListAsync();
+                foreach (var myWork in myWorks)
+                {
+                    myWork.StartPause = DateTime.Now;
+                    if (myWork.CycleWork == 1)
+                    {
+                        myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
+                        myWork.CycleWork = 2;
+                        CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                        his.MyWorkId = myWork.Id;
+                        his.CreateDate = DateTime.Now;
+                        his.CycleWork = 2;
+                        his.UserCreateId = 2028;
+                        _context.CV_QT_StartPauseHistory.Add(his);
+                        var note = await _context.CV_QT_WorkNote.FirstOrDefaultAsync(x => x.DateEnd == null && x.MyWorkId == myWork.Id);
+                        if (note != null)
+                        {
+                            note.DateEnd = his.CreateDate;
+                            note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                        }
+
+                    }
+                    else if (myWork.CycleWork == 3)
+                    {
+                        myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
+                        myWork.CycleWork = 2;
+                        CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                        his.MyWorkId = myWork.Id;
+                        his.CreateDate = DateTime.Now;
+                        his.CycleWork = 2;
+                        his.UserCreateId = 2028;
+                        _context.CV_QT_StartPauseHistory.Add(his);
+                        var note = await _context.CV_QT_WorkNote.FirstOrDefaultAsync(x => x.DateEnd == null && x.MyWorkId == myWork.Id);
+                        if (note != null)
+                        {
+                            note.DateEnd = his.CreateDate;
+                            note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                        }
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Dừng thực hiện công việc service");
                 return new ObjectResult(new { error = 1, ms = "Tạm dừng công việc thành công!" });
             }
         }
