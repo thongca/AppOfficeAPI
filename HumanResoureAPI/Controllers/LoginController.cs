@@ -19,11 +19,13 @@ namespace HumanResoureAPI.Controllers
     public class LoginController : ControllerBase
     {
         private readonly humanDbContext _context;
+        private readonly onlineDbContext _onlinecontext;
         private readonly IAuthentication _authentication;
-        public LoginController(humanDbContext context, IAuthentication authentication)
+        public LoginController(humanDbContext context, IAuthentication authentication, onlineDbContext onlinecontext )
         {
             _context = context;
             _authentication = authentication;
+            _onlinecontext = onlinecontext;
         }
         // GET: api/Login
         [HttpPost]
@@ -33,9 +35,15 @@ namespace HumanResoureAPI.Controllers
 
             try
             {
+                
                 string PasswordEn = Helper.Encrypt(checklogin.UserName, checklogin.Password);
+                var useronline = _onlinecontext.Sys_Dm_Lisesion.Count(x => x.Login == true && x.HanDung >= DateTime.Now); // online check
                 var user = _context.Sys_Dm_User.FirstOrDefault(x => x.Username == checklogin.UserName && x.Password == PasswordEn);
                 if (user == null)
+                {
+                    return new JsonResult(new { error = 1, ms = "Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại!" });
+                }
+                if (useronline == 0)
                 {
                     return new JsonResult(new { error = 1, ms = "Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại!" });
                 }

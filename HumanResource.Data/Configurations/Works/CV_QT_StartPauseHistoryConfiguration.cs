@@ -12,6 +12,7 @@ namespace HumanResource.Data.Configurations.Works
         public void Configure(EntityTypeBuilder<CV_QT_StartPauseHistory> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
         }
     }
 }

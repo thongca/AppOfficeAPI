@@ -149,6 +149,7 @@ namespace HumanResoureAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> r3UpdateDataModel(int id, UserGroupRole userGroupRole)
         {
+            string PasswordEn = Helper.Encrypt(userGroupRole.sys_Dm_User.Username, userGroupRole.sys_Dm_User.Password);
             var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
             if (id != userGroupRole.sys_Dm_User.Id)
             {
@@ -156,8 +157,12 @@ namespace HumanResoureAPI.Controllers
             }
             userGroupRole.sys_Dm_User.UserCreateId = userId;
             userGroupRole.sys_Dm_User.CreateDate = DateTime.Now;
-            _context.Entry(userGroupRole.sys_Dm_User).State = EntityState.Modified;
+            // update user
             var user =await _context.Sys_Dm_User.FindAsync(userGroupRole.sys_Dm_User.Id);
+            user.Password = PasswordEn;
+            user.FullName = userGroupRole.sys_Dm_User.FullName;
+            user.Code = userGroupRole.sys_Dm_User.Code;
+            // update quyền
             var userGroup = _context.Sys_Cog_UsersGroup.Where(x=>x.UserId == userGroupRole.sys_Dm_User.Id);
             _context.Sys_Cog_UsersGroup.RemoveRange(userGroup);
             foreach (var item in userGroupRole.GroupRoles)

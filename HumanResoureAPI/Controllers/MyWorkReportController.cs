@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using Spire.Xls;
 
@@ -31,15 +33,22 @@ namespace HumanResoureAPI.Controllers
         }
         #region Báo cáo tính KPI tháng của nhân viên
         // Post: api/MyWorkReport/r1EvalueKPIOneUser
-        [HttpGet]
+        [HttpPost]
         [Route("r1EvalueKPIOneUser")]
-        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1EvalueKPIOneUser()
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1EvalueKPIOneUser(OptionRePort optionRePort)
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var userID = new SqlParameter("@userID", userId);
-                var reports = _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth @userID", userID).ToList();
+                var userId = 0;
+                if (optionRePort.UserId == 0)
+                {
+                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                } else
+                {
+                    userId = optionRePort.UserId;
+                }
+                 var userID = new SqlParameter("@userID", userId);
+                var reports =await _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth @userID", userID).ToListAsync();
 
                 return new ObjectResult(new { error = 0, data = reports });
                 
@@ -76,13 +85,21 @@ namespace HumanResoureAPI.Controllers
         #endregion
         #region Báo cáo nhật ký công việc
         // Post: api/MyWorkReport/r1ReportNoteWorks
-        [HttpGet]
+        [HttpPost]
         [Route("r1ReportNoteWorks")]
-        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1ReportNoteWorks()
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1ReportNoteWorks(OptionRePort model)
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var userId = 0;
+                if (model.UserId == 0)
+                {
+                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                }
+                else
+                {
+                    userId = model.UserId;
+                }
                 var reports = from a in _context.CV_QT_WorkNote
                               join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
                               where a.CreatedBy == userId
@@ -115,7 +132,16 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var model = JsonConvert.DeserializeObject<OptionRePort>(Request.Form["model"]);
+                var userId = 0;
+                if (model.UserId == 0)
+                {
+                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                }
+                else
+                {
+                    userId = model.UserId;
+                }
                 var user =await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
@@ -182,7 +208,7 @@ namespace HumanResoureAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                return NoContent();
             }
         }
         #endregion
@@ -193,7 +219,16 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var model = JsonConvert.DeserializeObject<OptionRePort>(Request.Form["model"]);
+                var userId = 0;
+                if (model.UserId == 0) // nếu user truyền vào = 0 thì gán cho user mặc định
+                {
+                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                }
+                else
+                {
+                    userId = model.UserId;
+                }
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
@@ -259,7 +294,7 @@ namespace HumanResoureAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                return NoContent();
             }
         }
         #endregion

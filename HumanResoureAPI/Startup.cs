@@ -41,6 +41,7 @@ namespace HumanResoureAPI
         {
             services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddDbContext<humanDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HumanConnect")));
+            services.AddDbContext<onlineDbContext>(options => options.UseSqlServer("server=112.78.2.74;database=nhi99444_AppOffice;User ID=nhi99444_sa;Password=Thong1996@"));
             // Read json settings
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
 
@@ -92,7 +93,7 @@ namespace HumanResoureAPI
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:4567", "http://172.16.10.2:4567", "http://localhost:4200")
+                builder.WithOrigins("http://localhost:4567", "http://172.16.10.2:4567/", "http://172.16.10.2:4567", "http://localhost:4200")
                 .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
             });
             app.UseRouting();

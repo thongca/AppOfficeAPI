@@ -9,6 +9,7 @@ using HumanResource.Application.Notifi;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
@@ -478,12 +479,28 @@ namespace HumanResoureAPI.Controllers
 
 
                 int TypeFlow = 2;
-                if (modelFlow.DateChange != null)
+                if (modelFlow.DEnd != null)
                 {
                     var mywork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
                     if (mywork != null)
                     {
-                        mywork.EndDate = modelFlow.DateChange.Value.Date.AddHours(23).AddMinutes(59);
+                        if (TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0) != null)
+                        {
+                            mywork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
+                        }
+                       
+                        TypeFlow = 2;
+                    }
+                }
+                if (modelFlow.DStart != null)
+                {
+                    var mywork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
+                    if (mywork != null)
+                    {
+                        if (TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0) != null)
+                        {
+                            mywork.ExpectedDate = TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0);
+                        }
                         TypeFlow = 2;
                     }
                 }
@@ -697,10 +714,10 @@ namespace HumanResoureAPI.Controllers
                 if (cV_QT_MyWork != null)
                 {
                     cV_QT_MyWork.TypeComplete = 0;
-                    if (modelFlow.DateChange != null)
+                    if (modelFlow.DEnd != null)
                     {
-                        cV_QT_MyWork.EndDate = modelFlow.DateChange;
-                        await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, modelFlow.DateChange ?? DateTime.Now, userId);
+                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd??0);
+                        await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, cV_QT_MyWork.EndDate ?? DateTime.Now, userId);
                     }
 
                     cV_QT_MyWork.CycleWork = 2;
@@ -852,10 +869,10 @@ namespace HumanResoureAPI.Controllers
                     CV_QT_WorkFlow wflowerror = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, 2028, cV_QT_MyWork.UserTaskId, 10, "CV_DANHGIACL", cV_QT_WorkFlow.Id, note, modelFlow.Require, 1);
                     _context.CV_QT_WorkFlow.Add(wflowerror);
 
-                    if (modelFlow.DateChange != null)
+                    if (modelFlow.DEnd != null)
                     {
-                        cV_QT_MyWork.EndDate = modelFlow.DateChange;
-                        await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, modelFlow.DateChange ?? DateTime.Now, userId);
+                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd??0);
+                        await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, cV_QT_MyWork.EndDate ?? DateTime.Now, userId);
                     }
                     // luu lai thay doi ve thoi gian ket thuc cong viec
                     CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 9, "CV_NHACNHOGIAHAN", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc

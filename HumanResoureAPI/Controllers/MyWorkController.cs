@@ -11,6 +11,7 @@ using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.DTO;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +39,11 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-
+                // trang thái sử dụng
+                if (CheckPermission.LockWork() == 0)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Lỗi khi thêm mới công việc!" });
+                }
                 var myWork = JsonConvert.DeserializeObject<Dtos_MyWork>(Request.Form["model"]);
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
@@ -343,6 +348,61 @@ namespace HumanResoureAPI.Controllers
             }
         }
         #endregion
+        #region Danh sách công việc có thời gian làm ngoài giờ
+        //Post: api/MyWork/r1GetListMyWorkOverTimes
+        [HttpGet]
+        [Route("r1GetListMyWorkOverTimes")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetListMyWorkOverTimes()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var TypeFlows = (from n in _context.CV_QT_WorkFlow
+                                 join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
+                                 where v.UserTaskId == userId && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 group n by new { n.TypeFlow, n.MyWorkId } into g
+                                 select new
+                                 {
+                                     g.Key.TypeFlow,
+                                     g.Key.MyWorkId,
+                                 }).ToList();
+                var myWorks = (from a in _context.CV_QT_MyWork
+                               join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
+                               where _context.CV_QT_WorkNote.Count(x=>x.MyWorkId == a.Id && x.OverTime == true && x.Handle != true) > 0
+                               orderby b.CreateDate descending
+                               select new
+                               {
+                                   MyWorkId = a.Id,
+                                   b.Id,
+                                   a.Note,
+                                   a.Code,
+                                   TaskName = a.TaskCode == null ? a.TaskName : "(" + a.TaskCode + ") " + a.TaskName,
+                                   a.TaskId,
+                                   a.Predecessor,
+                                   a.StartDate,
+                                   a.EndDate,
+                                   Status = WorksCommon.getTrangThaiKetThucCv(a.TypeComplete ?? 0, a.EndDate ?? DateTime.Now, a.CompleteDate ?? DateTime.Now),
+                                   a.CycleWork,
+                                   a.DeliverType,
+                                   a.DepartmentId,
+                                   a.PauseTime,
+                                   a.WorkTime,
+                                   a.UserTaskName,
+                                   a.TypeComplete,
+                                   a.CompleteDate,
+                                   a.ExpectedDate
+                               });
+                var qrs = await WorksCommon.Paginate(myWorks, 0, 1000).ToListAsync();
+
+                return new ObjectResult(new { error = 0, data = qrs, TypeFlows, total = myWorks.Count() });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Danh sách công việc myworks");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
         #region Lấy 1 công việc theo MyworkId và FlowWorkId
         //Post: api/MyWork/r1GetMyWorkById
         [HttpPost]
@@ -515,6 +575,33 @@ namespace HumanResoureAPI.Controllers
             catch (Exception e)
             {
                 bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetMyWorkById", e.Message, "Lấy 1 công việc theo MyworkId và FlowWorkId");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách công việc overtime
+        // Post: api/MyWork/r1PostMyWorkOverTime
+        [HttpPost]
+        [Route("r1PostMyWorkOverTime")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyScheduleWork>>> r1PostMyWorkOverTime(WorkFlow workFlow)
+        {
+            try
+            {
+
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                //var myWorkOverTimes = _context.CV_QT_WorkNote
+                //    .Where(x => x.Handle != true && x.OverTime == true && x.MyWorkId == workFlow.MyWorkId && x.DateEnd != null)
+                //    .GroupBy(x => x.MyWorkId)
+                //    .Select(a => new
+                //    {
+                //        a.FirstOrDefault().Date,
+                //        a.Sum(x=>x.)
+                //    });
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception)
+            {
                 return new ObjectResult(new { error = 1 });
             }
         }
@@ -749,15 +836,23 @@ namespace HumanResoureAPI.Controllers
                     myWork.CycleWork = 1;
                     CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                     his.MyWorkId = model.Id;
-                    his.CreateDate = DateTime.Now;
+                    his.CreateDate = myWork.StartDate.Value;
                     his.CycleWork = 1;
                     his.UserCreateId = userId;
                     _context.CV_QT_StartPauseHistory.Add(his);
                     CV_QT_WorkNote note = new CV_QT_WorkNote(); // lưu vào bảng nhật ký công việc
                     note.MyWorkId = model.Id;
-                    note.DateStart = his.CreateDate;
+                    note.DateStart = myWork.StartDate;
                     note.WorkTime = 0.0;
                     note.CreatedBy = userId;
+                    if (DateTime.Now.Hour >= 17) // neu bat dau sau 17 h thi tinh la overtime
+                    {
+                        note.OverTime = true;
+                    } else
+                    {
+                        note.OverTime = false;
+                    }
+                    
                     _context.CV_QT_WorkNote.Add(note);
                     await _context.SaveChangesAsync();
                 }
@@ -787,7 +882,11 @@ namespace HumanResoureAPI.Controllers
                 myWork.StartPause = DateTime.Now;
                 if (myWork.CycleWork == 1)
                 {
-                    myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
+                    if (myWork.StartDate.Value.Hour < 17)
+                    {
+                        myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
+                    }
+
                     myWork.CycleWork = 2;
                     CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                     his.MyWorkId = model.Id;
@@ -801,11 +900,14 @@ namespace HumanResoureAPI.Controllers
                         note.DateEnd = his.CreateDate;
                         note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
                     }
-                    
+
                 }
                 else if (myWork.CycleWork == 3)
                 {
-                    myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
+                    if (myWork.StartDate.Value.Hour < 17)
+                    {
+                        myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
+                    } 
                     myWork.CycleWork = 2;
                     CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                     his.MyWorkId = model.Id;
@@ -899,9 +1001,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+               
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
-                var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && x.CycleWork == 1 || x.CycleWork == 3);
+                var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && (x.CycleWork == 1 || x.CycleWork == 3));
                 if (myWork == null)
                 {
                     return NotFound();
@@ -926,8 +1029,71 @@ namespace HumanResoureAPI.Controllers
                     note.DateStart = his.CreateDate;
                     note.WorkTime = 0.0;
                     note.CreatedBy = userId;
+                    if (DateTime.Now.Hour >= 17)
+                    {
+                        note.OverTime = true;
+                    } else
+                    {
+                        note.OverTime = false;
+                    }
+                    
                     _context.CV_QT_WorkNote.Add(note);
                     await _context.SaveChangesAsync();
+                }
+                return new ObjectResult(new { error = 0, ms = "Tiếp tục công việc thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2PauseMyWork", e.Message, "Tiếp tục thực hiện công việc");
+                return new ObjectResult(new { error = 1, ms = "Tiếp tục công việc không thành công!" });
+            }
+        }
+        #endregion
+        #region Tiếp tục thực hiện công việc làm ngoài giờ
+        //Post: api/MyWork/r2ContineuMyWorkOverTime
+        [HttpPost]
+        [Route("r2MyWorkOverTime")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2MyWorkOverTime(CV_QT_MyWork model)
+        {
+            try
+            {
+                if (DateTime.Now.Hour < 17)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Nút này chỉ được sử dụng sau 17h." });
+                }
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWork = await _context.CV_QT_MyWork.FindAsync(model.Id);
+                var myWorkCount = _context.CV_QT_MyWork.Count(x => x.UserTaskId == userId && (x.CycleWork == 1 || x.CycleWork == 3));
+                if (myWork == null)
+                {
+                    return NotFound();
+                }
+                if (myWorkCount > 0)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Không thể tiếp tục vì có công việc khác đang diễn ra! Vui lòng làm mới trang." });
+                }
+                switch (myWork.CycleWork)
+                {
+                    case 0:
+                            myWork.StartDate = DateTime.Now;
+                            myWork.CycleWork = 1;
+                            CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
+                            his.MyWorkId = model.Id;
+                            his.CreateDate = DateTime.Now;
+                            his.CycleWork = 1;
+                            his.UserCreateId = userId;
+                            _context.CV_QT_StartPauseHistory.Add(his);
+                            CV_QT_WorkNote note = new CV_QT_WorkNote(); // lưu vào bảng nhật ký công việc
+                            note.MyWorkId = model.Id;
+                            note.DateStart = his.CreateDate;
+                            note.WorkTime = 0.0;
+                            note.CreatedBy = userId;
+                            note.OverTime = false;
+                            _context.CV_QT_WorkNote.Add(note);
+                            await _context.SaveChangesAsync();
+                            break;
+                    default:
+                        break;
                 }
                 return new ObjectResult(new { error = 0, ms = "Tiếp tục công việc thành công!" });
             }

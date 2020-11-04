@@ -44,4 +44,8 @@ namespace HumanResource.Application.Paremeters
     {
         public int Id { get; set; }
     }
+    public class OptionRePort
+    {
+        public int UserId { get; set; }
+    }
 }

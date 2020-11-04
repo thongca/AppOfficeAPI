@@ -12,5 +12,7 @@ namespace HumanResource.Data.Entities.Works
         public DateTime? DateEnd { get; set; }
         public double WorkTime { get; set; }
         public int CreatedBy { get; set; }
+        public bool? OverTime { get; set; }
+        public bool? Handle { get; set; }
     }
 }
