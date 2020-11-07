@@ -14,5 +14,8 @@ namespace HumanResource.Data.Entities.Works
         public int CreatedBy { get; set; }
         public bool? OverTime { get; set; }
         public bool? Handle { get; set; }
+        public DateTime? HandleDate { get; set; }
+        public int? HandleUserId { get; set; }
+        public int? State { get; set; }
     }
 }

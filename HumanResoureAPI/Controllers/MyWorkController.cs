@@ -357,6 +357,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                var users = _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(c => c.Id);
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
                                  where v.UserTaskId == userId && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
@@ -369,6 +371,7 @@ namespace HumanResoureAPI.Controllers
                 var myWorks = (from a in _context.CV_QT_MyWork
                                join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
                                where _context.CV_QT_WorkNote.Count(x=>x.MyWorkId == a.Id && x.OverTime == true && x.Handle != true) > 0
+                               && users.Contains(a.UserTaskId)
                                orderby b.CreateDate descending
                                select new
                                {
@@ -398,7 +401,7 @@ namespace HumanResoureAPI.Controllers
             }
             catch (Exception e)
             {
-                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Danh sách công việc myworks");
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorkOverTimes", e.Message, "Danh sách công việc myworks overtime");
                 return new ObjectResult(new { error = 1 });
             }
         }
@@ -413,7 +416,7 @@ namespace HumanResoureAPI.Controllers
             {
 
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-               
+
                 var query = from a in _context.CV_QT_MySupportWork.ToList()
                             where a.MyWorkId == workFlow.MyWorkId
                             group a by a.MyWorkId into g
@@ -423,22 +426,22 @@ namespace HumanResoureAPI.Controllers
                                 SpecialtyCode = string.Join(", ", g.Select(x =>
                                 x.FullName))
                             };
-                var historyIq =  (from a in _context.CV_QT_StartPauseHistory
-                                     join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
-                                     where a.MyWorkId == workFlow.MyWorkId
-                                     select new
-                                     {
-                                         b.TaskCode,
-                                         b.TaskName,
-                                         a.CreateDate,
-                                         a.CycleWork,
-                                         a.Id,
-                                     }).AsQueryable();
-                var history =await historyIq.OrderByDescending(x => x.CreateDate).ToListAsync();
+                var historyIq = (from a in _context.CV_QT_StartPauseHistory
+                                 join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
+                                 where a.MyWorkId == workFlow.MyWorkId
+                                 select new
+                                 {
+                                     b.TaskCode,
+                                     b.TaskName,
+                                     a.CreateDate,
+                                     a.CycleWork,
+                                     a.Id,
+                                 }).AsQueryable();
+                var history = await historyIq.OrderByDescending(x => x.CreateDate).ToListAsync();
                 DateTime timeWorkStart = DateTime.Now;
                 if (historyIq.FirstOrDefault(x => x.CycleWork == 1) != null)
                 {
-                     timeWorkStart = historyIq.FirstOrDefault(x => x.CycleWork == 1).CreateDate; // lay ra thoi gian bat dau thuc hien cong viec
+                    timeWorkStart = historyIq.FirstOrDefault(x => x.CycleWork == 1).CreateDate; // lay ra thoi gian bat dau thuc hien cong viec
                 }
                 var myWork = await (from a in _context.CV_QT_MyWork
                                     where a.Id == workFlow.MyWorkId
@@ -462,6 +465,23 @@ namespace HumanResoureAPI.Controllers
                                         a.ExpectedDate,
                                         a.CompleteDate
                                     }).FirstOrDefaultAsync();
+                // danh sach tong hop thoi gian lam ngoai h cua 1 cong viec
+                var workOvertime = await _context.CV_QT_WorkNote.Where(x => x.MyWorkId == workFlow.MyWorkId && x.DateEnd != null && x.OverTime == true).GroupBy(x => new
+                {
+                    x.DateEnd.Value.Date,
+                    x.MyWorkId,
+                    x.Handle,
+                    x.State
+                }, x => x.WorkTime).Select(a => new
+                {
+                    a.Key.Handle,
+                    a.Key.MyWorkId,
+                    a.Key.State,
+                    DateOverTime = TransforDate.FromDateToDouble(a.Key.Date),
+                    WorkTime = a.Sum()
+                }).ToListAsync();
+
+                // cong viec truoc
                 var predecWork = await (from a in _context.CV_QT_MyWork
                                     where a.Code == myWork.Predecessor
                                         select new
@@ -570,7 +590,7 @@ namespace HumanResoureAPI.Controllers
                     }
                 }
                 await _context.SaveChangesAsync();
-                return new ObjectResult(new { error = 0, data = myWork, predecWork, files, history, workFlows, errors, supports, workFlowPres });
+                return new ObjectResult(new { error = 0, data = myWork, predecWork, files, history, workFlows, errors, supports, workFlowPres, workOvertime });
             }
             catch (Exception e)
             {
@@ -845,6 +865,7 @@ namespace HumanResoureAPI.Controllers
                     note.DateStart = myWork.StartDate;
                     note.WorkTime = 0.0;
                     note.CreatedBy = userId;
+                    note.State = 0;
                     if (DateTime.Now.Hour >= 17) // neu bat dau sau 17 h thi tinh la overtime
                     {
                         note.OverTime = true;
@@ -879,14 +900,14 @@ namespace HumanResoureAPI.Controllers
                 {
                     return NotFound();
                 }
-                myWork.StartPause = DateTime.Now;
+              
                 if (myWork.CycleWork == 1)
                 {
                     if (myWork.StartDate.Value.Hour < 17)
                     {
                         myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
                     }
-
+                    myWork.StartPause = DateTime.Now;
                     myWork.CycleWork = 2;
                     CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                     his.MyWorkId = model.Id;
@@ -904,10 +925,11 @@ namespace HumanResoureAPI.Controllers
                 }
                 else if (myWork.CycleWork == 3)
                 {
-                    if (myWork.StartDate.Value.Hour < 17)
+                    if (myWork.EndPause.Value.Hour < 17)
                     {
                         myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
-                    } 
+                    }
+                    myWork.StartPause = DateTime.Now;
                     myWork.CycleWork = 2;
                     CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                     his.MyWorkId = model.Id;
@@ -920,7 +942,11 @@ namespace HumanResoureAPI.Controllers
                     {
                         note.DateEnd = his.CreateDate;
                         note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                        _context.Update(note);
                     }
+                } else if (myWork.CycleWork == 2)
+                {
+                    return new ObjectResult(new { error = 2, ms = "Công việc này đã được tạm dừng trước đó!" });
                 }
 
                 await _context.SaveChangesAsync();
@@ -1029,6 +1055,7 @@ namespace HumanResoureAPI.Controllers
                     note.DateStart = his.CreateDate;
                     note.WorkTime = 0.0;
                     note.CreatedBy = userId;
+                    note.State = 0;
                     if (DateTime.Now.Hour >= 17)
                     {
                         note.OverTime = true;
@@ -1151,6 +1178,77 @@ namespace HumanResoureAPI.Controllers
             catch (Exception)
             {
                 return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Duyệt thời hạn làm thêm giờ
+        //Post: api/MyWork/r2duyetOverTime
+        [HttpPost]
+        [Route("r2duyetOverTime")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2duyetOverTime(WorkFlowOverTime model)
+        {
+            try
+            {
+
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWork = await _context.CV_QT_MyWork.FindAsync(model.MyWorkId);
+                myWork.WorkTime += model.WorkTime;
+                var notes = _context.CV_QT_WorkNote.Where(x => x.DateEnd != null 
+                && x.State == 0 && x.MyWorkId == model.MyWorkId 
+                && x.Handle != true
+                && x.DateEnd.Value.Date == TransforDate.FromDoubleToDate(model.DateOverTime));
+                foreach (var note in notes)
+                {
+                    if (note != null)
+                    {
+                        note.Handle = true;
+                        note.HandleDate = DateTime.Now;
+                        note.HandleUserId = userId;
+                        note.State = 1;
+                         _context.Update(note);
+                    }
+                }
+                await _context.SaveChangesAsync();
+               
+                return new ObjectResult(new { error = 0, ms = "Duyệt thời gian làm ngoài giờ thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2duyetOverTime", e.Message, "Duyệt thời gian làm ngoài giờ");
+                return new ObjectResult(new { error = 1, ms = "Tiếp tục công việc không thành công!" });
+            }
+        }
+        #endregion
+        #region Không duyệt thời hạn làm thêm giờ
+        //Post: api/MyWork/r2KhongduyetOverTime
+        [HttpPost]
+        [Route("r2KhongduyetOverTime")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r2KhongduyetOverTime(WorkFlowOverTime model)
+        {
+            try
+            {
+
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var note = await _context.CV_QT_WorkNote.FirstOrDefaultAsync(x => x.DateEnd != null 
+                && x.State == 0 && x.OverTime == true 
+                && x.Handle != true
+                && x.MyWorkId == model.MyWorkId 
+                && x.DateEnd.Value.Date == TransforDate.FromDoubleToDate(model.DateOverTime));
+                if (note != null)
+                {
+                    note.Handle = true;
+                    note.HandleDate = DateTime.Now;
+                    note.HandleUserId = userId;
+                    note.State = 2;
+                    _context.Update(note);
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0, ms = "Không duyệt thời gian làm ngoài giờ thành công!" });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r2KhongduyetOverTime", e.Message, "Không duyệt công việc");
+                return new ObjectResult(new { error = 1, ms = "Duyệt không thành công!" });
             }
         }
         #endregion

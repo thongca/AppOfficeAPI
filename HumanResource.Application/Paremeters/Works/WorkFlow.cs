@@ -9,6 +9,13 @@ namespace HumanResource.Application.Paremeters.Works
         public string Id { get; set; }
         public string MyWorkId { get; set; }
     }
+    public class WorkFlowOverTime
+    {
+        public string Id { get; set; }
+        public double WorkTime { get; set; }
+        public string MyWorkId { get; set; }
+        public double DateOverTime { get; set; }
+    }
     public class OptionsCv
     {
         public string Id { get; set; }
