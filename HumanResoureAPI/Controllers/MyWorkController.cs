@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.WebSockets;
-using System.Threading.Tasks;
-using HumanResource.Application.Helper;
+﻿using HumanResource.Application.Helper;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.DTO;
 using HumanResource.Data.EF;
@@ -14,11 +6,16 @@ using HumanResource.Data.Entities.Works;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using HumanResoureAPI.Common.WorksCommon;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace HumanResoureAPI.Controllers
 {
@@ -161,13 +158,17 @@ namespace HumanResoureAPI.Controllers
                     bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveMyWork", "NotContent()", "Xóa mywork");
                     return new ObjectResult(new { error = 1, ms = "Lỗi khi xóa công việc của tôi!" });
                 }
-                if (myWork.CycleWork == 4)
+                if (myWork.CycleWork != 0)
                 {
-                    return new ObjectResult(new { error = 1, ms = "Công việc đã được hoàn thành, không thể xóa!" });
+                    return new ObjectResult(new { error = 1, ms = "Công việc đã được thực hiện, không thể xóa!" });
                 }
-
+                var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == workFlow.MyWorkId);
+                if (workFlows.Count() >= 2)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Công việc đã được thực hiện nhiều quy trình, không thể xóa!" });
+                }
                 _context.CV_QT_MyWork.Remove(myWork);
-                var workFlows = _context.CV_QT_WorkFlow.Where(x=>x.MyWorkId == workFlow.MyWorkId);
+                
                 _context.CV_QT_WorkFlow.RemoveRange(workFlows);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Xóa thành công công việc của tôi!" });

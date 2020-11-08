@@ -12,6 +12,7 @@ using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Spire.Pdf.Exporting.XPS.Schema;
 
 namespace HumanResoureAPI.Controllers
 {
@@ -255,10 +256,15 @@ namespace HumanResoureAPI.Controllers
                         list.Add("CV_TRINHHOANTHANH");
                     }
                 }
-
+                if (!workFlows.Contains(1))
+                {
+                    list.Add("CV_TRINHHOANTHANH");
+                    list.Add("CV_TRINHCHINHSUA");
+                }
                 if (workFlows.Contains(1))
                 {
                     list.Add("CV_TRINHTHOIHAN");
+                    list.Add("CV_TRINHCHINHSUA");
                 }
                 if (workFlows.Contains(2) || workFlows.Contains(3))
                 {
@@ -274,7 +280,6 @@ namespace HumanResoureAPI.Controllers
                 {
                     list.Add("CV_TRINHHOANTHANH");
                     list.Add("CV_DUYETHOANTHANH");
-                    list.Add("CV_TRINHCHINHSUA");
                 }
 
 

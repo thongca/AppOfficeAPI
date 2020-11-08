@@ -9,6 +9,7 @@ using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,10 +69,12 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var dates = new SqlParameter("@dates", report.dates);
-                var datee = new SqlParameter("@dates", report.datee);
-                var datef = new SqlParameter("@datef", new DateTime(DateTime.Now.Year, 01, 01));
-                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}", report.dates, report.datee, new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}",
+                    TransforDate.FromDoubleToDate(report.dates?? datesDefault), 
+                    TransforDate.FromDoubleToDate(report.datee?? dateeDefault), 
+                    new DateTime(DateTime.Now.Year, 01, 01)).ToList();
 
                 return new ObjectResult(new { error = 0, data = reports });
 
@@ -289,6 +292,72 @@ namespace HumanResoureAPI.Controllers
 
 
                 }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                return NoContent();
+            }
+        }
+        #endregion
+        #region Xuất Excel tổng hợp thời gian
+        [HttpPost]
+        [Route("ExportSumTimeExcel")]
+        public async Task<IActionResult> ExportTotalSumTimeExcel(Report_TotalTimePara report)
+        {
+            try
+            {
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}",
+                    TransforDate.FromDoubleToDate(report.dates ?? datesDefault),
+                    TransforDate.FromDoubleToDate(report.datee ?? dateeDefault),
+                    new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+                var userId = 0;
+                 userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
+                var ExPath = Path.Combine(Directory.GetCurrentDirectory(), folderExport);
+                string fullPathEx = "";
+                Workbook wbex = new Workbook(); // export
+                #region Xuất báo cáo tổng hợp thời gian
+                fullPathEx = ExPath + "Sumtime.xlsx";
+
+                StringBuilder sb = new StringBuilder();
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                FileInfo tempEx = new FileInfo(fullPathEx);
+                    using (ExcelPackage pckex = new ExcelPackage(tempEx))
+                    {
+                        ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
+                        for (int r = 0; r < reports.Count(); r++)
+                        {
+
+                        ws.Cells[r + 7, 1].Value = (r + 1).ToString();
+                        ws.Cells[r + 7, 2].Value = reports[r].TaskName;
+                        ws.Cells[r + 7, 3].Value = reports[r].TaskCode;
+                        ws.Cells[r + 7, 4].Value = Math.Round(Convert.ToDouble(reports[r].Tong / report.TotalHour??1), 2);
+                        ws.Cells[r + 7, 5].Value = Math.Round(Convert.ToDouble(reports[r].WorkNgay), 2);
+                        ws.Cells[r + 7, 6].Value = Math.Round(Convert.ToDouble(reports[r].Tong * 100) / report.TotalHour ?? 1, 2);       
+                        ws.Cells[r + 7, 7].Value = Math.Round(Convert.ToDouble(reports[r].ChuTri), 2);
+                        ws.Cells[r + 7, 8].Value = Math.Round(Convert.ToDouble(reports[r].PhoiHop), 2);
+                        ws.Cells[r + 7, 9].Value = Math.Round(Convert.ToDouble((reports[r].TongLk * 100) / report.TotalHourLk ?? 1), 2);
+                        ws.Cells[r + 7, 10].Value = Math.Round(Convert.ToDouble(reports[r].TongLk / report.TotalHourLk ?? 1), 2);
+                        ws.Cells[r + 7, 11].Value = Math.Round(Convert.ToDouble(reports[r].NgayLk), 2);
+                        ws.Cells[r + 7, 12].Value = Math.Round(Convert.ToDouble(reports[r].ChuTriLk), 2);
+                        ws.Cells[r + 7, 13].Value = Math.Round(Convert.ToDouble(reports[r].PhoiHopLk), 2);
+                    }
+
+                        byte[] fileContents;
+                        string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        //Dispose the Excel engine
+                        fileContents = pckex.GetAsByteArray();
+                        return File(
+                                    fileContents: fileContents,
+                                    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                    fileDownloadName: "test.xlsx"
+                                    );
+                    }
 
                 #endregion
             }

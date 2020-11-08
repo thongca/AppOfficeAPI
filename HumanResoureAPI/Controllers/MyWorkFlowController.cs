@@ -187,6 +187,7 @@ namespace HumanResoureAPI.Controllers
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0);
+                var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_WorkFlow.Readed != true)
                 {
                     cV_QT_WorkFlow.ReadDate = DateTime.Now;
@@ -199,7 +200,7 @@ namespace HumanResoureAPI.Controllers
                 {
                     CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, ktem.UserId, 1, "CV_THOIHAN", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1);
                     // lưu thông báo
-                    await _notifi.SaveNotifiAsync(2, "CV_THOIHAN", wflow.SendName, wflow.Note, ktem.UserId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophethoihan");
+                    await _notifi.SaveNotifiAsync(2, "CV_THOIHAN", wflow.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow.Note, ktem.UserId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophethoihan");
                     // lưu quy trình luân chuyển công việc
                     _context.CV_QT_WorkFlow.Add(wflow);
                     if (Request.Form.Files.Count != 0)
@@ -324,7 +325,7 @@ namespace HumanResoureAPI.Controllers
 
                     _context.CV_QT_WorkFlow.Add(wflowNext);
                     // lưu thông báo cho người nhận
-                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflowNext.SendName, wflowNext.Note, modelFlow.UserNextId ?? 0, wflowNext.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
+                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflowNext.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflowNext.Note, modelFlow.UserNextId ?? 0, wflowNext.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
                     // lưu thông báo cho người nhận
                     if (Request.Form.Files.Count != 0)
                     {
@@ -367,7 +368,7 @@ namespace HumanResoureAPI.Controllers
                 {
                     CV_QT_WorkFlow wflowMana = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, modelFlow.UserManagerId ?? 0, 4, "CV_KETQUA", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1);
                     _context.CV_QT_WorkFlow.Add(wflowMana);
-                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflowMana.SendName, wflowMana.Note, modelFlow.UserManagerId ?? 0, wflowMana.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
+                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflowMana.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflowMana.Note, modelFlow.UserManagerId ?? 0, wflowMana.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
 
                     if (Request.Form.Files.Count != 0)
                     {
@@ -409,7 +410,7 @@ namespace HumanResoureAPI.Controllers
                 foreach (var ktem in modelFlow.UserDelivers)
                 {
                     CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, ktem.UserId, 12, "CV_THEODOI", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 3);
-                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflow.SendName, wflow.Note, ktem.UserId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
+                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflow.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow.Note, ktem.UserId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congviecchophehoanthanh");
 
                     // lưu quy trình luân chuyển công việc
                     _context.CV_QT_WorkFlow.Add(wflow);
@@ -471,6 +472,7 @@ namespace HumanResoureAPI.Controllers
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 1 && x.UserDeliverId == userId);
+                var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_WorkFlow.Handled != true)
                 {
                     cV_QT_WorkFlow.Handled = true;
@@ -515,7 +517,7 @@ namespace HumanResoureAPI.Controllers
                 // lưu quy trình luân chuyển công việc
                 _context.CV_QT_WorkFlow.Add(wflow);
                 // lưu thông báo cho người nhận
-                await _notifi.SaveNotifiAsync(2, "CV_THOIHAN", wflow.SendName, wflow.Note, cV_QT_WorkFlow.UserSendId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
+                await _notifi.SaveNotifiAsync(2, "CV_THOIHAN", wflow.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow.Note, cV_QT_WorkFlow.UserSendId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
                 // lưu thông báo cho người nhận
                 if (Request.Form.Files.Count != 0)
                 {
@@ -592,10 +594,10 @@ namespace HumanResoureAPI.Controllers
                     CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 6, "CV_KETQUA", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc
                     _context.CV_QT_WorkFlow.Add(wflow2);
                     // lưu thông báo cho người nhận
-                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflow2.SendName, wflow2.Note, cV_QT_MyWork.UserTaskId, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
+                    await _notifi.SaveNotifiAsync(2, "CV_KETQUA", wflow2.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow2.Note, cV_QT_MyWork.UserTaskId, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
                     // lưu thông báo cho người thực hiện công việc tiếp theo nếu có
 
-                    await _notifi.SaveNotifiNextAsync(cV_QT_MyWork.Code, 2, "CV_KETQUA", wflow2.DeliverName, wflow2.Note, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
+                    await _notifi.SaveNotifiNextAsync(cV_QT_MyWork.Code, 2, "CV_KETQUA", wflow2.DeliverName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow2.Note, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
                     // lưu thông báo cho người nhận
                     if (Request.Form.Files.Count != 0)
                     {
@@ -741,6 +743,7 @@ namespace HumanResoureAPI.Controllers
 
                     CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 5, "CV_YEUCAUCHINHSUA", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc
                     _context.CV_QT_WorkFlow.Add(wflow2);
+                    await _notifi.SaveNotifiAsync(2, "CV_YEUCAUCHINHSUA", wflow2.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow2.Note, wflow2.UserDeliverId, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
                     if (Request.Form.Files.Count != 0)
                     {
                         foreach (var item in Request.Form.Files)
@@ -849,7 +852,7 @@ namespace HumanResoureAPI.Controllers
                     cV_QT_WorkFlow.HandleDate = DateTime.Now;
                 }
 
-                var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); // update trạng thái và thời gian tạm tính hoàn thành công việc
+                var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); 
                 if (cV_QT_MyWork != null)
                 {
 
@@ -877,6 +880,7 @@ namespace HumanResoureAPI.Controllers
                     // luu lai thay doi ve thoi gian ket thuc cong viec
                     CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 9, "CV_NHACNHOGIAHAN", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc
                     _context.CV_QT_WorkFlow.Add(wflow2);
+                    await _notifi.SaveNotifiAsync(2, "CV_NHACNHOGIAHAN", wflow2.SendName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow2.Note, wflow2.UserDeliverId, wflow2.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
                     if (Request.Form.Files.Count != 0)
                     {
                         foreach (var item in Request.Form.Files)

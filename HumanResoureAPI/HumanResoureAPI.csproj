@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\ExportFile\HieuQuaCV\" />
     <Folder Include="Resources\ExportFile\ParaFile\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>

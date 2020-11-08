@@ -49,8 +49,10 @@ namespace HumanResource.Application.Paremeters.Works
     }
     public class Report_TotalTimePara
     {
-        public DateTime dates { get; set; }
-        public DateTime datee { get; set; }
+        public double? dates { get; set; }
+        public double? datee { get; set; }
+        public double? TotalHour { get; set; }
+        public double? TotalHourLk { get; set; }
 
     }
     public class Error
