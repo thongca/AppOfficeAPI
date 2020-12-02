@@ -59,7 +59,7 @@ namespace HumanResoureAPI.Controllers
         }
         #endregion
         #region Danh sách phòng ban
-        // Post: api/Common/r1GetListDataDepartment
+        // Post: api/Common/r1GetListDataCommonDep
         [HttpPost]
         [Route("r1GetListDataCommonDep")]
         public async Task<ActionResult<IEnumerable<Sys_Dm_Company>>> r1GetListDataDepartment(Options options)
@@ -71,6 +71,33 @@ namespace HumanResoureAPI.Controllers
                 {
                     Name = "(" + a.Code + ") " + a.Name,
                     a.Id,
+                    a.IsOrder
+                });
+                var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
+                return new ObjectResult(new { error = 0, data = qrs });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/Common/r1GetListDataDepartment", e.Message, "Danh sách phòng ban");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách phòng ban theo công ty của user login
+        // GET: api/Common/r1GetListDataDepforUser
+        [HttpGet]
+        [Route("r1GetListDataDepforUser")]
+        public async Task<ActionResult<IEnumerable<Sys_Dm_Company>>> r1GetListDataDepforUser()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == user.CompanyId).Select(a => new
+                {
+                    DepartmentName = "(" + a.Code + ") " + a.Name,
+                    DepartmentId = a.Id,
                     a.IsOrder
                 });
                 var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
@@ -251,7 +278,7 @@ namespace HumanResoureAPI.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
-               int hienNguoiNhan = CheckNguoiNhan.DuocHienThiNguoiNhan(_context, options.GroupRoleId, options.BuocLenhGroupId);
+                int hienNguoiNhan = CheckNguoiNhan.DuocHienThiNguoiNhan(_context, options.GroupRoleId, options.BuocLenhGroupId);
                 switch (hienNguoiNhan)
                 {
                     #region Toàn công ty
@@ -277,7 +304,8 @@ namespace HumanResoureAPI.Controllers
                             a.Name,
                             a.CompanyId,
                             Loai = 1,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -304,27 +332,28 @@ namespace HumanResoureAPI.Controllers
                             }).ToList()
                         });
                         var tables = (from a in _context.Sys_Dm_Company
-                                                          where a.ParentId == null
-                                                          select new
-                                                          {
-                                                              a.Id,
-                                                              a.Name,
-                                                              Loai = 0,
-                                                              a.IsOrder,
-                                                              children = s.ToList()
-                                                          }).ToList();
-                        return new ObjectResult(new { error = 0, data = tables.OrderBy(x=>x.IsOrder) });
+                                      where a.ParentId == null
+                                      select new
+                                      {
+                                          a.Id,
+                                          a.Name,
+                                          Loai = 0,
+                                          a.IsOrder,
+                                          children = s.ToList()
+                                      }).ToList();
+                        return new ObjectResult(new { error = 0, data = tables.OrderBy(x => x.IsOrder) });
                     #endregion
                     #region Công ty mẹ
                     case 1:
-                       
+
                         var _listDepartMentctm = _context.Sys_Dm_Department.Where(x => x.ParentId == null).Select(a => new
                         {
                             a.Id,
                             a.Name,
                             a.CompanyId,
                             Loai = 1,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -332,19 +361,20 @@ namespace HumanResoureAPI.Controllers
                         });
 
                         var tables2 = (from a in _context.Sys_Dm_Company
-                                                          where a.ParentId == null
-                                                          select new
-                                                          {
-                                                              a.Id,
-                                                              a.Name,
-                                                              Loai = 0,
-                                                              children = _listDepartMentctm.Where(x => x.CompanyId == a.Id).Select(c => new {
-                                                                  c.Id,
-                                                                  c.Name,
-                                                                  c.Loai,
-                                                                  c.children
-                                                              }).ToList()
-                                                          }).ToList();
+                                       where a.ParentId == null
+                                       select new
+                                       {
+                                           a.Id,
+                                           a.Name,
+                                           Loai = 0,
+                                           children = _listDepartMentctm.Where(x => x.CompanyId == a.Id).Select(c => new
+                                           {
+                                               c.Id,
+                                               c.Name,
+                                               c.Loai,
+                                               c.children
+                                           }).ToList()
+                                       }).ToList();
                         return new ObjectResult(new { error = 0, data = tables2 });
                     #endregion
                     #region Công ty hiện tại
@@ -356,7 +386,8 @@ namespace HumanResoureAPI.Controllers
                             a.Name,
                             a.CompanyId,
                             Loai = 1,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -364,31 +395,33 @@ namespace HumanResoureAPI.Controllers
                         });
 
                         var tables3 = (from a in _context.Sys_Dm_Company
-                                                          where a.Id == user.CompanyId
-                                                          select new
-                                                          {
-                                                              a.Id,
-                                                              a.Name,
-                                                              Loai = 0,
-                                                              children = _listDepartMentctc.Where(x => x.CompanyId == user.CompanyId).Select(c => new {
-                                                                  c.Id,
-                                                                  c.Name,
-                                                                  c.Loai,
-                                                                  c.children
-                                                              }).ToList()
-                                                          }).ToList();
+                                       where a.Id == user.CompanyId
+                                       select new
+                                       {
+                                           a.Id,
+                                           a.Name,
+                                           Loai = 0,
+                                           children = _listDepartMentctc.Where(x => x.CompanyId == user.CompanyId).Select(c => new
+                                           {
+                                               c.Id,
+                                               c.Name,
+                                               c.Loai,
+                                               c.children
+                                           }).ToList()
+                                       }).ToList();
                         return new ObjectResult(new { error = 0, data = tables3 });
                     #endregion
                     #region Phòng ban 
                     case 3:
                         int DepId = 0;
-                        var room =await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
+                        var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
                         if (room.ParentId == null)
                         {
                             DepId = room.Id;
-                        } else
+                        }
+                        else
                         {
-                            DepId = room.ParentId??0;
+                            DepId = room.ParentId ?? 0;
                         }
                         var _listDepartMents = _context.Sys_Dm_Department.Where(x => x.CompanyId == user.CompanyId && x.Id == DepId).Select(a => new
                         {
@@ -396,7 +429,8 @@ namespace HumanResoureAPI.Controllers
                             a.Name,
                             a.CompanyId,
                             Loai = 1,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -412,7 +446,8 @@ namespace HumanResoureAPI.Controllers
                             a.Name,
                             a.CompanyId,
                             Loai = 2,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -427,7 +462,8 @@ namespace HumanResoureAPI.Controllers
                             a.Name,
                             a.CompanyId,
                             Loai = 2,
-                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new {
+                            children = _context.Sys_Dm_Department.Where(x => x.ParentId == a.Id).Select(v => new
+                            {
                                 v.Id,
                                 v.Name,
                                 Loai = 2
@@ -452,9 +488,9 @@ namespace HumanResoureAPI.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
-               #region Phòng ban 
-             
-                        int DepId = 0;
+                #region Phòng ban 
+
+                int DepId = 0;
                 var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
                 if (room.ParentId == null)
                 {
@@ -498,12 +534,12 @@ namespace HumanResoureAPI.Controllers
                     var buocLenhGroup = _context.VB_QT_BuocLenhGroupRole.FirstOrDefault(x => x.GroupRoleId == options.GroupRoleId && x.BuocLenhTuongTacId == buocLenhTuongTac.Id);
                     hienNguoiNhan = CheckNguoiNhan.DuocHienThiNguoiNhan(_context, options.GroupRoleId, buocLenhGroup.Id);
                 }
-                 
+
                 switch (hienNguoiNhan)
                 {
                     #region Toàn công ty
                     case 0:
-                        var listNsAll =await _context.Sys_Dm_User.Select(a => new
+                        var listNsAll = await _context.Sys_Dm_User.Select(a => new
                         {
                             UserId = a.Id,
                             a.FullName
@@ -512,7 +548,7 @@ namespace HumanResoureAPI.Controllers
                     #endregion
                     #region Công ty mẹ
                     case 1:
-                        var listNsCTM = await _context.Sys_Dm_User.Where(x=>x.CompanyId == 1).Select(a => new
+                        var listNsCTM = await _context.Sys_Dm_User.Where(x => x.CompanyId == 1).Select(a => new
                         {
                             UserId = a.Id,
                             a.FullName
@@ -523,7 +559,7 @@ namespace HumanResoureAPI.Controllers
                     #region Công ty hiện tại
                     case 2:
 
-                        var listNsCurrent = await _context.Sys_Dm_User.Where(x=>x.CompanyId == user.CompanyId).Select(a => new
+                        var listNsCurrent = await _context.Sys_Dm_User.Where(x => x.CompanyId == user.CompanyId).Select(a => new
                         {
                             UserId = a.Id,
                             a.FullName
@@ -542,8 +578,8 @@ namespace HumanResoureAPI.Controllers
                         {
                             DepId = room.ParentId ?? 0;
                         }
-                        var listPb = _context.Sys_Dm_Department.Where(x => x.ParentId == DepId).Select(c=>c.Id);
-                        var listNsPB = await _context.Sys_Dm_User.Where(x => listPb.Contains(x.DepartmentId??0) || x.DepartmentId == DepId).Select(a => new
+                        var listPb = _context.Sys_Dm_Department.Where(x => x.ParentId == DepId).Select(c => c.Id);
+                        var listNsPB = await _context.Sys_Dm_User.Where(x => listPb.Contains(x.DepartmentId ?? 0) || x.DepartmentId == DepId).Select(a => new
                         {
                             UserId = a.Id,
                             a.FullName
@@ -559,17 +595,32 @@ namespace HumanResoureAPI.Controllers
                         }).ToListAsync();
                         return new ObjectResult(new { error = 0, data = listNsTo });
                     #endregion
+                    #region Chỉ trưởng phòng
+                    case 7:
+                        var listNsInPB = await _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(a => a.Id).ToListAsync();
+                        var tps = await (from b in _context.Sys_Cog_UsersGroup
+                                         join c in _context.Sys_Dm_GroupRole on b.GroupRoleId equals c.Id
+                                         join a in _context.Sys_Dm_User on b.UserId equals a.Id
+                                         where listNsInPB.Contains(b.UserId) && c.IsAdminDep == true
+                                         select new
+                                         {
+                                             b.UserId,
+                                             a.FullName
+                                         }).ToListAsync();
+
+                        return new ObjectResult(new { error = 0, data = tps });
+                    #endregion
                     default:
                         var listNsDef = await _context.Sys_Dm_User.Where(x => x.DepartmentId == user.DepartmentId).Select(a => new
                         {
-                           UserId = a.Id,
+                            UserId = a.Id,
                             a.FullName
                         }).ToListAsync();
                         return new ObjectResult(new { error = 0, data = listNsDef });
                 }
             }
             catch (Exception ex)
-           {
+            {
                 return new ObjectResult(new { error = 1 });
             }
         }
@@ -583,21 +634,22 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var tables = _context.Sys_Dm_User.Select(a => new {
+                var tables = _context.Sys_Dm_User.Select(a => new
+                {
                     a.FullName,
                     a.Id,
                     a.DepartmentId,
                     a.CompanyId
                 }).AsQueryable();
-                
+
                 if (options.companyId > 0)
                 {
                     tables = tables.Where(x => x.CompanyId == options.companyId);
                 }
                 if (options.departmentId > 0)
                 {
-                    var depart = _context.Sys_Dm_Department.Where(x=>x.ParentId == options.departmentId).Select(c=>c.Id);
-                    tables = tables.Where(x => x.DepartmentId == options.departmentId || depart.Contains(x.DepartmentId??0));
+                    var depart = _context.Sys_Dm_Department.Where(x => x.ParentId == options.departmentId).Select(c => c.Id);
+                    tables = tables.Where(x => x.DepartmentId == options.departmentId || depart.Contains(x.DepartmentId ?? 0));
                 }
                 if (options.nestId > 0)
                 {
@@ -627,20 +679,20 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var tables = _context.Sys_QT_ThongBao.Where(x=>x.NguoiNhanId == userId).Select(a => new
+                var tables = _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == userId).Select(a => new
                 {
-                   a.TenNguoiGui,
+                    a.TenNguoiGui,
                     a.NoiDung,
                     a.Id,
                     a.TrangThai,
                     a.TrangThaiXuLy,
                     a.NgayGui,
-                    DaXem = a.DaDoc == true ? "Đã xem": "",
+                    DaXem = a.DaDoc == true ? "Đã xem" : "",
                     a.DaDoc,
                     a.RouterLink
                 });
                 var qrs = await tables.OrderByDescending(x => x.NgayGui).ToListAsync();
-                return new ObjectResult(new { error = 0, data = qrs, total = tables.Count(x=>x.DaDoc != true) });
+                return new ObjectResult(new { error = 0, data = qrs, total = tables.Count(x => x.DaDoc != true) });
 
             }
             catch (Exception)
@@ -656,7 +708,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var tables =await _context.Sys_QT_ThongBao.FindAsync(thongbao.Id);
+                var tables = await _context.Sys_QT_ThongBao.FindAsync(thongbao.Id);
                 tables.DaDoc = true;
                 tables.NgayDoc = DateTime.Now;
                 await _context.SaveChangesAsync();
@@ -695,7 +747,8 @@ namespace HumanResoureAPI.Controllers
                     default:
                         return "Văn bản mới số hóa";
                 }
-            } else
+            }
+            else
             {
                 switch (ttxl)
                 {
@@ -727,7 +780,7 @@ namespace HumanResoureAPI.Controllers
                         return "Công việc mới";
                 }
             }
-           
+
         }
     }
 }

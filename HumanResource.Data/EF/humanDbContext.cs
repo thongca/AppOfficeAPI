@@ -62,6 +62,8 @@ namespace HumanResource.Data.EF
             modelBuilder.ApplyConfiguration(new CV_QT_CounterErrorConfiguration());
             modelBuilder.ApplyConfiguration(new CV_QT_WorkNoteConfiguration());
             modelBuilder.ApplyConfiguration(new CV_QT_MyWorkChangeDateConfiguration());
+            modelBuilder.ApplyConfiguration(new CV_QT_SpaceTimeOnDayConfiguration());
+            modelBuilder.ApplyConfiguration(new CV_QT_DepartmentSupporterConfiguration());
 
         }
         // hệ thống
@@ -106,6 +108,8 @@ namespace HumanResource.Data.EF
         public DbSet<CV_QT_CounterError> CV_QT_CounterError { get; set; }
         public DbSet<CV_QT_WorkNote> CV_QT_WorkNote { get; set; }
         public DbSet<CV_QT_MyWorkChangeDate> CV_QT_MyWorkChangeDate { get; set; }
+        public DbSet<CV_QT_SpaceTimeOnDay> CV_QT_SpaceTimeOnDay { get; set; }
+        public DbSet<CV_QT_DepartmentSupporter> CV_QT_DepartmentSupporter { get; set; }
 
         // reponses bao cao kpi thang
 

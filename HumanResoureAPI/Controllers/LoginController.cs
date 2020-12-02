@@ -463,5 +463,32 @@ namespace HumanResoureAPI.Controllers
            
 
         }
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<ActionResult<IEnumerable<Sys_Dm_User>>> ChangePassword(ChangePass change)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                string passwordOld = Helper.Encrypt(user.Username, change.PassOld);
+                string passwordNew = Helper.Encrypt(user.Username, change.PassNew);
+                if (passwordOld == user.Password)
+                {
+                    user.Password = passwordNew;
+                    
+                } else
+                {
+                    return new ObjectResult(new { error = 1 });
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+           
+        }
     }
 }

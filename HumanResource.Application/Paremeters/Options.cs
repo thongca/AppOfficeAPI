@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HumanResource.Application.Paremeters.Works;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -47,5 +48,6 @@ namespace HumanResource.Application.Paremeters
     public class OptionRePort
     {
         public int UserId { get; set; }
+        public Report_TotalTimePara ReportDate { get; set; }
     }
 }

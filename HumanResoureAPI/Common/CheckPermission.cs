@@ -44,14 +44,7 @@ namespace HumanResoureAPI.Common
             }
             return 6;
         }
-        public static int LockWork()
-        {
-            if (DateTime.Now > new DateTime(2020, 11, 30, 12, 00, 00))
-            {
-                return 0;
-            }
-            return 1;
-        }
+
         public static int getGroupRoleDefault(humanDbContext context, int UserId)
         {
             var userRole = from a in context.Sys_Cog_UsersGroup

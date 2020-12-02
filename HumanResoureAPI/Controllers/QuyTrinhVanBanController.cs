@@ -183,7 +183,8 @@ namespace HumanResoureAPI.Controllers
                                  IsAllComCon = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsAllComCon == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false,
                                  IsAllComCha = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsAllComCha == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false,
                                  IsNguoiLap = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsNguoiLap == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false,
-                                 IsNguoiGui = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsNguoiGui == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false
+                                 IsNguoiGui = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsNguoiGui == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false,
+                                 IsManagement = _context.VB_QT_BuocLenhGroupRole.Count(x => x.IsManagement == true && x.GroupRoleId == a.Id && x.BuocLenhTuongTacId == options.BuocLenhTuongTacId) > 0 ? true : false
                              };
                 var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs });
@@ -212,6 +213,7 @@ namespace HumanResoureAPI.Controllers
                     objup.IsAllComCon = options.IsAllComCon ?? false;
                     objup.IsNguoiGui = options.IsNguoiGui ?? false;
                     objup.IsNguoiLap = options.IsNguoiLap ?? false;
+                    objup.IsManagement = options.IsManagement ?? false;
                 } else
                 {
                     VB_QT_BuocLenhGroupRole obj = new VB_QT_BuocLenhGroupRole();
@@ -224,6 +226,7 @@ namespace HumanResoureAPI.Controllers
                     obj.IsAllComCon = options.IsAllComCon ?? false;
                     obj.IsNguoiGui = options.IsNguoiGui ?? false;
                     obj.IsNguoiLap = options.IsNguoiLap ?? false;
+                    obj.IsManagement = options.IsManagement ?? false;
                     _context.VB_QT_BuocLenhGroupRole.Add(obj);
                 }
                 await _context.SaveChangesAsync();

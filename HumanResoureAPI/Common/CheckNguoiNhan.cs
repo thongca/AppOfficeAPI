@@ -48,6 +48,11 @@ namespace HumanResoureAPI.Common
                 // chỉ hiện tổ
                 return 6;
             }
+            if (buoclenhGroup.IsManagement)
+            {
+                // chỉ hiện trưởng phòng
+                return 7;
+            }
             return 0;
         }
         public async static Task<List<MoHinhToChuc>> IsAllCom(humanDbContext _context)

@@ -16,5 +16,6 @@ namespace HumanResource.Data.Entities.VanBan
         public bool IsAllComCha { get; set; }
         public bool IsNguoiLap { get; set; }
         public bool IsNguoiGui { get; set; }
+        public bool IsManagement { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using HumanResoureAPI.Common;
+using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace HumanResoureAPI.Controllers
         // Post: api/MyWorkReport/r1EvalueKPIOneUser
         [HttpPost]
         [Route("r1EvalueKPIOneUser")]
-        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1EvalueKPIOneUser(OptionRePort optionRePort)
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1EvalueKPIOneUser(Report_TotalTimePara optionRePort)
         {
             try
             {
@@ -44,15 +45,20 @@ namespace HumanResoureAPI.Controllers
                 if (optionRePort.UserId == 0)
                 {
                     userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                } else
+                }
+                else
                 {
                     userId = optionRePort.UserId;
                 }
-                 var userID = new SqlParameter("@userID", userId);
-                var reports =await _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth @userID", userID).ToListAsync();
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var reports = await _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth {0}, {1}, {2}", userId,
+                    TransforDate.FromDoubleToDate(optionRePort.dates ?? datesDefault),
+                    TransforDate.FromDoubleToDate(optionRePort.datee ?? dateeDefault)
+                    ).ToListAsync();
 
                 return new ObjectResult(new { error = 0, data = reports });
-                
+
 
             }
             catch (Exception)
@@ -72,8 +78,8 @@ namespace HumanResoureAPI.Controllers
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}",
-                    TransforDate.FromDoubleToDate(report.dates?? datesDefault), 
-                    TransforDate.FromDoubleToDate(report.datee?? dateeDefault), 
+                    TransforDate.FromDoubleToDate(report.dates ?? datesDefault),
+                    TransforDate.FromDoubleToDate(report.datee ?? dateeDefault),
                     new DateTime(DateTime.Now.Year, 01, 01)).ToList();
 
                 return new ObjectResult(new { error = 0, data = reports });
@@ -90,7 +96,7 @@ namespace HumanResoureAPI.Controllers
         // Post: api/MyWorkReport/r1ReportNoteWorks
         [HttpPost]
         [Route("r1ReportNoteWorks")]
-        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1ReportNoteWorks(OptionRePort model)
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1ReportNoteWorks(Report_TotalTimePara model)
         {
             try
             {
@@ -103,9 +109,14 @@ namespace HumanResoureAPI.Controllers
                 {
                     userId = model.UserId;
                 }
+
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var reports = from a in _context.CV_QT_WorkNote
                               join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
                               where a.CreatedBy == userId
+                              && a.DateStart.Value.Date >= TransforDate.FromDoubleToDate(model.dates ?? datesDefault).Value.Date
+                              && a.DateStart.Value.Date <= TransforDate.FromDoubleToDate(model.datee ?? dateeDefault).Value.Date
                               select new
                               {
                                   a.Id,
@@ -117,8 +128,135 @@ namespace HumanResoureAPI.Controllers
                                   b.TaskCode,
                                   b.TaskName
                               };
-                var qrs =await reports.OrderBy(x => x.DateStart).ToListAsync();
+                var qrs = await reports.OrderBy(x => x.DateStart).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs });
+
+
+            }
+            catch (Exception e)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Biểu đồ thời gian làm việc của nhân việc trong 1 phòng
+        // Post: api/MyWorkReport/r1WorkTimeForDepartment
+        [HttpGet]
+        [Route("r1WorkTimeForDepartment")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1WorkTimeForDepartment()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user =await _context.Sys_Dm_User.FindAsync(userId);
+                var listUser =await _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(x => x.Id).ToListAsync();
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var reports = from a in _context.CV_QT_MyWork
+                              join b in _context.Sys_Dm_User on a.UserTaskId equals b.Id
+                              where a.EndDate.Value.Date >= TransforDate.FromDoubleToDate(datesDefault).Value.Date
+                              && a.EndDate.Value.Date <= TransforDate.FromDoubleToDate(dateeDefault).Value.Date
+                              && listUser.Contains(a.UserTaskId)
+                              group a by new {a.UserTaskId, b.FullName} into gr
+                              select new
+                              {
+                                  gr.Key.UserTaskId,
+                                  gr.Key.FullName,
+                                  PointCount = gr.Sum(x=>x.WorkTime)
+
+                              };
+                var qrs = await reports.OrderBy(x => x.FullName).ToListAsync();
+                return new ObjectResult(new { error = 0, data = qrs });
+
+
+            }
+            catch (Exception e)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Thời gian trống trong ngày
+        // Post: api/MyWorkReport/r1SpaceTimeOnDay
+        [HttpGet]
+        [Route("r1SpaceTimeOnDay")]
+        public async Task<ActionResult<IEnumerable<CV_QT_MyWork>>> r1SpaceTimeOnDay()
+        {
+            try
+            {
+                TimeSpan ts17 = new TimeSpan(17, 00, 0);
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var reports = (from a in _context.CV_QT_StartPauseHistory
+                               where a.UserCreateId == userId && a.Done != true
+                               orderby a.Id
+                               select new
+                               {
+                                   a.Id,
+                                   a.CreateDate,
+                                   a.CycleWork,
+                                   a.MyWorkId,
+                                   a.UserCreateId
+                               }).ToList();
+                if (reports.Count() < 2)
+                {
+                    return new ObjectResult(new { error = 0 });
+                }
+                List<CV_QT_SpaceTimeOnDay> listSpace = new List<CV_QT_SpaceTimeOnDay>();
+
+                for (int i = 0; i <= reports.Count() - 2; i++)
+                {
+                    // trong trường hợp nhật ký công việc ghi nhận bản ghi cuối cùng trong trạng thái tạm dừng thì lấy mốc 17h là mốc kết thúc
+                    if (i + 1 == reports.Count() - 1 && reports[i + 1].CycleWork == 2)
+                    {
+                        CV_QT_SpaceTimeOnDay obj = new CV_QT_SpaceTimeOnDay()
+                        {
+                            SpaceStart = TransforDate.FromDateToDouble(reports[i].CreateDate),
+                            SpaceEnd = TransforDate.FromDateToDouble(DateTime.Now),
+                            Time = SpaceTimeOnDay.CalSpaceTimeOnDay(reports[i].CreateDate, DateTime.Now),
+                            MyWorkId = reports[i].MyWorkId,
+                            UserId = reports[i].UserCreateId
+                        };
+                        if (obj.Time > 30)
+                        {
+                            listSpace.Add(obj);
+                        }
+                    }
+                    else if (reports[i + 1].CycleWork == 2)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        CV_QT_SpaceTimeOnDay obj = new CV_QT_SpaceTimeOnDay()
+                        {
+                            SpaceStart = TransforDate.FromDateToDouble(reports[i].CreateDate),
+                            SpaceEnd = TransforDate.FromDateToDouble(reports[i + 1].CreateDate),
+                            Time = SpaceTimeOnDay.CalSpaceTimeOnDay(reports[i].CreateDate, reports[i + 1].CreateDate),
+                            MyWorkId = reports[i].MyWorkId,
+                            UserId = reports[i].UserCreateId
+                        };
+                        if (obj.Time > 30)
+                        {
+                            listSpace.Add(obj);
+                        }
+                       
+                    }
+
+
+                }
+                var objup =  _context.CV_QT_StartPauseHistory.Where(x=>x.UserCreateId == userId && x.Done != true);
+                foreach (var item in objup)
+                {
+                    item.Done = true;
+
+                }
+                _context.CV_QT_StartPauseHistory.UpdateRange(objup);
+                await _context.AddRangeAsync(listSpace);
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
 
 
             }
@@ -145,7 +283,7 @@ namespace HumanResoureAPI.Controllers
                 {
                     userId = model.UserId;
                 }
-                var user =await _context.Sys_Dm_User.FindAsync(userId);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
                 var ImPath = Path.Combine(Directory.GetCurrentDirectory(), folderImport);
@@ -166,7 +304,7 @@ namespace HumanResoureAPI.Controllers
                         file.CopyTo(stream);
 
                     }
-                   
+
                 }
                 workbook.LoadFromFile(fullPath);
                 workbook.SaveToFile(fullPath, ExcelVersion.Version2013);
@@ -190,9 +328,9 @@ namespace HumanResoureAPI.Controllers
                             {
                                 ws.Cells[r + 6, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value.ToString() : "";
                             }
-                          
+
                         }
-                       
+
                         byte[] fileContents;
                         string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                         //Dispose the Excel engine
@@ -203,11 +341,11 @@ namespace HumanResoureAPI.Controllers
                                     fileDownloadName: "test.xlsx"
                                     );
                     }
-                     
+
 
                 }
-                
-                #endregion 
+
+                #endregion
             }
             catch (Exception ex)
             {
@@ -232,6 +370,11 @@ namespace HumanResoureAPI.Controllers
                 {
                     userId = model.UserId;
                 }
+
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var startDate = TransforDate.FromDoubleToDate(model.ReportDate.dates?? datesDefault)??DateTime.Now;
+                var endDate = TransforDate.FromDoubleToDate(model.ReportDate.datee?? dateeDefault) ?? DateTime.Now;
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
@@ -269,7 +412,7 @@ namespace HumanResoureAPI.Controllers
                     using (ExcelPackage pckex = new ExcelPackage(tempEx))
                     {
                         ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
-                        ws.Cells[3, 1].Value = "Họ và tên: " + user.FullName.ToUpper() + " - Từ ngày …../…/… đến ngày …./..../…...";
+                        ws.Cells[3, 1].Value = "Họ và tên: " + user.FullName.ToUpper() + " - Từ ngày "+ startDate.ToString("dd/MM/yy") + " đến ngày " + endDate.ToString("dd/MM/yy");
                         for (int r = 1; r <= wsIm.Dimension.End.Row; r++)
                         {
                             for (int c = 1; c <= wsIm.Dimension.End.Column; c++)
@@ -315,7 +458,7 @@ namespace HumanResoureAPI.Controllers
                     TransforDate.FromDoubleToDate(report.datee ?? dateeDefault),
                     new DateTime(DateTime.Now.Year, 01, 01)).ToList();
                 var userId = 0;
-                 userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
                 var ExPath = Path.Combine(Directory.GetCurrentDirectory(), folderExport);
@@ -327,18 +470,18 @@ namespace HumanResoureAPI.Controllers
                 StringBuilder sb = new StringBuilder();
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 FileInfo tempEx = new FileInfo(fullPathEx);
-                    using (ExcelPackage pckex = new ExcelPackage(tempEx))
+                using (ExcelPackage pckex = new ExcelPackage(tempEx))
+                {
+                    ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
+                    for (int r = 0; r < reports.Count(); r++)
                     {
-                        ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
-                        for (int r = 0; r < reports.Count(); r++)
-                        {
 
                         ws.Cells[r + 7, 1].Value = (r + 1).ToString();
                         ws.Cells[r + 7, 2].Value = reports[r].TaskName;
                         ws.Cells[r + 7, 3].Value = reports[r].TaskCode;
-                        ws.Cells[r + 7, 4].Value = Math.Round(Convert.ToDouble(reports[r].Tong / report.TotalHour??1), 2);
+                        ws.Cells[r + 7, 4].Value = Math.Round(Convert.ToDouble(reports[r].Tong / report.TotalHour ?? 1), 2);
                         ws.Cells[r + 7, 5].Value = Math.Round(Convert.ToDouble(reports[r].WorkNgay), 2);
-                        ws.Cells[r + 7, 6].Value = Math.Round(Convert.ToDouble(reports[r].Tong * 100) / report.TotalHour ?? 1, 2);       
+                        ws.Cells[r + 7, 6].Value = Math.Round(Convert.ToDouble(reports[r].Tong * 100) / report.TotalHour ?? 1, 2);
                         ws.Cells[r + 7, 7].Value = Math.Round(Convert.ToDouble(reports[r].ChuTri), 2);
                         ws.Cells[r + 7, 8].Value = Math.Round(Convert.ToDouble(reports[r].PhoiHop), 2);
                         ws.Cells[r + 7, 9].Value = Math.Round(Convert.ToDouble((reports[r].TongLk * 100) / report.TotalHourLk ?? 1), 2);
@@ -348,16 +491,16 @@ namespace HumanResoureAPI.Controllers
                         ws.Cells[r + 7, 13].Value = Math.Round(Convert.ToDouble(reports[r].PhoiHopLk), 2);
                     }
 
-                        byte[] fileContents;
-                        string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        //Dispose the Excel engine
-                        fileContents = pckex.GetAsByteArray();
-                        return File(
-                                    fileContents: fileContents,
-                                    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                    fileDownloadName: "test.xlsx"
-                                    );
-                    }
+                    byte[] fileContents;
+                    string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    //Dispose the Excel engine
+                    fileContents = pckex.GetAsByteArray();
+                    return File(
+                                fileContents: fileContents,
+                                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                fileDownloadName: "test.xlsx"
+                                );
+                }
 
                 #endregion
             }

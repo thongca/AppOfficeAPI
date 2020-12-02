@@ -27,5 +27,6 @@ namespace HumanResource.Application.Paremeters.Dtos
         public bool? IsAllComCha { get; set; }
         public bool? IsNguoiLap { get; set; }
         public bool? IsNguoiGui { get; set; }
+        public bool? IsManagement { get; set; }
     }
 }

@@ -228,7 +228,7 @@ namespace HumanResoureAPI.Controllers
                          where a.DepartmentId == DepId
                          select new
                          {
-                             ErrorName = a.ErrorName + " (" + (a.Point) + " điểm)",
+                             ErrorName = a.ErrorName,
                              a.Point,
                              a.Id,
                          };
@@ -256,7 +256,7 @@ namespace HumanResoureAPI.Controllers
                         list.Add("CV_TRINHHOANTHANH");
                     }
                 }
-                if (!workFlows.Contains(1))
+                if (!workFlows.Contains(1) && !workFlows.Contains(13))
                 {
                     list.Add("CV_TRINHHOANTHANH");
                     list.Add("CV_TRINHCHINHSUA");
@@ -281,7 +281,17 @@ namespace HumanResoureAPI.Controllers
                     list.Add("CV_TRINHHOANTHANH");
                     list.Add("CV_DUYETHOANTHANH");
                 }
-
+                if (workFlows.Contains(13))
+                {
+                    list.Add("CV_TRINHTHOIHAN");
+                    list.Add("CV_TRINHCHINHSUA");
+                }
+                
+                if(workFlows.Contains(14) && workFlows.Contains(16))
+                {
+                    list.Add("CV_KHOITAOSAU");
+                    list.Add("CV_DUYETKHOITAOSAU"); 
+                }
 
                 var tables = from a in _context.VB_QT_BuocLenhGroupRole
                              where a != null

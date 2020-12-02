@@ -296,6 +296,72 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             return 0;
         }
+        public static int getTrangThaiKetThucCv(int TypeComplete, DateTime endDate, DateTime completeDate, int workflow)
+        {
+            if (workflow == 13)
+            {
+                if (TypeComplete == 3)
+                {
+                    return 9; // hoan thanh
+                } else
+                {
+                    return 5; //tam hoan thanh
+                }
+                
+            }
+            if (TypeComplete == 0)
+            {
+                if ((DateTime.Now - endDate).TotalHours > 0)
+                {
+                    return 1; // quá hạn
+                }
+                else if ((DateTime.Now - endDate).TotalHours < -8.0) // truoc 5 h thi bao chua den han
+                {
+                    return 2; // chưa đến hạn
+                }
+                else if ((DateTime.Now - endDate).TotalHours >= -8.0)
+                {
+                    return 3; // gần đến hạn
+                }
+            }
+            else if (TypeComplete == 1)
+            {
+                if ((completeDate - endDate).TotalHours > 0)
+                {
+                    return 4; // tạm hoàn thành nhưng quá hạn
+                }
+                else
+                {
+                    return 5; // tạm hoàn thành
+                }
+
+            }
+            else if (TypeComplete == 2)
+            {
+                if ((completeDate - endDate).TotalHours > 0)
+                {
+                    return 6; // Quá hạn
+                }
+                else
+                {
+                    return 7; // Chưa đến hạn
+                }
+
+            }
+            else if (TypeComplete == 3)
+            {
+                if ((completeDate - endDate).TotalHours > 0)
+                {
+                    return 8; // hoàn thành nhưng quá hạn
+                }
+                else
+                {
+                    return 9; // hoàn thành
+                }
+
+            }
+            return 0;
+        }
         public static IQueryable<T> Paginate<T>(this IQueryable<T> query, int skip, int take)
         {
             return query.Skip(skip).Take(take);

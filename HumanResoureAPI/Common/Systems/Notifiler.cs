@@ -131,7 +131,7 @@ namespace HumanResoureAPI.Common.Systems
                     case 1:
                         return "Trình phê duyệt thời hạn";
                     case 2:
-                        return "Đã phê duyệt thời hạn";
+                        return "Đã phê duyệt thời hạn có chỉnh sửa";
                     case 3:
                         return "Đã phê duyệt thời hạn";
                     case 4:

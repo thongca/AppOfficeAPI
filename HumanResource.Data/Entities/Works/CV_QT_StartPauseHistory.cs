@@ -11,5 +11,6 @@ namespace HumanResource.Data.Entities.Works
         public DateTime CreateDate { get; set; }
         public int CycleWork { get; set; }
         public int UserCreateId { get; set; }
+        public bool? Done { get; set; }
     }
 }
