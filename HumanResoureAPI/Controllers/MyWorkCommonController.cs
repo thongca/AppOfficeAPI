@@ -206,7 +206,7 @@ namespace HumanResoureAPI.Controllers
 
         }
         #endregion
-        #region Danh sách lỗi đánh giá chất lượng
+        #region Danh sách lỗi trong form đánh giá chất lượng 
         // Get: api/MyWorkCommon/r1GetListErrorCTG
         [HttpGet]
         [Route("r1GetListErrorCTG")]
@@ -225,10 +225,40 @@ namespace HumanResoureAPI.Controllers
                 DepId = room.ParentId ?? 0;
             }
             var tables = from a in _context.CV_DM_Error
+                         where a.DepartmentId == DepId && a.Active != true
+                         select new
+                         {
+                             a.ErrorName,
+                             a.Point,
+                             a.Id,
+                         };
+            return new ObjectResult(new { error = 0, data = await tables.OrderBy(x => x.Id).ToListAsync(), total = tables.Count() });
+
+        }
+        #endregion
+        #region Danh sách lỗi trong form hiệu quả công việc
+        // Get: api/MyWorkCommon/r1GetListErrorhqcv
+        [HttpGet]
+        [Route("r1GetListErrorhqcv")]
+        public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorhqcv()
+        {
+            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+            var user = await _context.Sys_Dm_User.FindAsync(userId);
+            var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
+            int DepId = 0;
+            if (room.ParentId == null)
+            {
+                DepId = room.Id;
+            }
+            else
+            {
+                DepId = room.ParentId ?? 0;
+            }
+            var tables = from a in _context.CV_DM_Error
                          where a.DepartmentId == DepId
                          select new
                          {
-                             ErrorName = a.ErrorName,
+                             a.ErrorName,
                              a.Point,
                              a.Id,
                          };

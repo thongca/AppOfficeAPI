@@ -158,6 +158,10 @@ namespace HumanResoureAPI.Common.WorksCommon
                     time = ((datee.Date + tsch) - dates).TotalMinutes;
                 }
             }
+            else if (dates.Hour >= 17 && dates.Hour <= 23 && datee > dates)
+            {
+                  time = (datee - dates).TotalMinutes;
+            }
             return time;
         }
     }

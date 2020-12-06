@@ -19,11 +19,11 @@ namespace HumanResoureAPI.Common
             }
 
         }
-        public static Nullable<DateTime> FromDoubleToDate(double date)
+        public static DateTime FromDoubleToDate(double date)
         {
             if (date == 0)
             {
-                return null;
+                return DateTime.Now;
             }
             else
             {

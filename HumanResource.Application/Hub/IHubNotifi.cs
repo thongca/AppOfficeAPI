@@ -9,7 +9,8 @@ namespace HumanResource.Application.Hub
     {
         public Task PushNotifiHubAsync();
 
-        public Task SendData(string signal);
+        public string GetConnectionId(string userId);
+        public Task SendData(NotifyContent signal, string connectionId);
 
     }
 }

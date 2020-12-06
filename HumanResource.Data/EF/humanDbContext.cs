@@ -34,6 +34,7 @@ namespace HumanResource.Data.EF
             modelBuilder.ApplyConfiguration(new Sys_Cog_MenuDepConfiguration());
             modelBuilder.ApplyConfiguration(new Sys_Cog_MenuNestConfiguration());
             modelBuilder.ApplyConfiguration(new Sys_TK_SaveLogConfiguration());
+            modelBuilder.ApplyConfiguration(new Sys_Dm_ConnectionConfiguration());
 
 
             modelBuilder.ApplyConfiguration(new VB_QT_QuyTrinhConfiguration());
@@ -80,6 +81,7 @@ namespace HumanResource.Data.EF
         public DbSet<Sys_Cog_MenuDep> Sys_Cog_MenuDep { get; set; }
         public DbSet<Sys_Cog_MenuNest> Sys_Cog_MenuNest { get; set; }
         public DbSet<Sys_TK_SaveLog> Sys_TK_SaveLog { get; set; }
+        public DbSet<Sys_Dm_Connection> Sys_Dm_Connection { get; set; }
 
 
         public DbSet<VB_QT_QuyTrinh> VB_QT_QuyTrinh { get; set; }

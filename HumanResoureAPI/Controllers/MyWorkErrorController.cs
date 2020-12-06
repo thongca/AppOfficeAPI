@@ -52,7 +52,7 @@ namespace HumanResoureAPI.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
-                var datas = await _context.CV_DM_Error.Where(x => x.DepartmentId == user.DepartmentId).Select(a => new
+                var datas = await _context.CV_DM_Error.Where(x => x.DepartmentId == user.DepartmentId && x.Active != true).Select(a => new
                 {
                     a.ErrorName,
                     a.Id,

@@ -115,8 +115,8 @@ namespace HumanResoureAPI.Controllers
                 var reports = from a in _context.CV_QT_WorkNote
                               join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
                               where a.CreatedBy == userId
-                              && a.DateStart.Value.Date >= TransforDate.FromDoubleToDate(model.dates ?? datesDefault).Value.Date
-                              && a.DateStart.Value.Date <= TransforDate.FromDoubleToDate(model.datee ?? dateeDefault).Value.Date
+                              && a.DateStart.Value.Date >= TransforDate.FromDoubleToDate(model.dates ?? datesDefault).Date
+                              && a.DateStart.Value.Date <= TransforDate.FromDoubleToDate(model.datee ?? dateeDefault).Date
                               select new
                               {
                                   a.Id,
@@ -154,8 +154,8 @@ namespace HumanResoureAPI.Controllers
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var reports = from a in _context.CV_QT_MyWork
                               join b in _context.Sys_Dm_User on a.UserTaskId equals b.Id
-                              where a.EndDate.Value.Date >= TransforDate.FromDoubleToDate(datesDefault).Value.Date
-                              && a.EndDate.Value.Date <= TransforDate.FromDoubleToDate(dateeDefault).Value.Date
+                              where a.EndDate.Value.Date >= TransforDate.FromDoubleToDate(datesDefault).Date
+                              && a.EndDate.Value.Date <= TransforDate.FromDoubleToDate(dateeDefault).Date
                               && listUser.Contains(a.UserTaskId)
                               group a by new {a.UserTaskId, b.FullName} into gr
                               select new
@@ -326,7 +326,22 @@ namespace HumanResoureAPI.Controllers
                         {
                             for (int c = 1; c <= wsIm.Dimension.End.Column; c++)
                             {
-                                ws.Cells[r + 6, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value.ToString() : "";
+                                ws.Cells[r + 6, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value : "";
+                                if (c == 8 || c == 18)
+                                {
+                                    ws.Cells[r + 6, c].Value = wsIm.Cells[r, c].Value != null ? Convert.ToDouble(wsIm.Cells[r, c].Value) / 100 : 0;
+                                }
+                               
+                            }
+                            ws.InsertRow(r + 7, 1, 7);
+                            if (r == wsIm.Dimension.End.Row - 1)
+                            {
+                                ws.SelectedRange[r + 8, 7].Value = "=Sum(G7:G" + (wsIm.Dimension.End.Row + 5) + ")";
+                                ws.SelectedRange[r + 8, 7].Formula = "=Sum(G7:G" + (wsIm.Dimension.End.Row + 5) + ")";
+                                ws.SelectedRange[r + 8, 8].Value = "=Sum(H7:H" + (wsIm.Dimension.End.Row + 5) + ")";
+                                ws.SelectedRange[r + 8, 8].Formula = "=Sum(H7:H" + (wsIm.Dimension.End.Row + 5) + ")";
+                                ws.SelectedRange[r + 8, 17].Value = "=Sum(R7:R" + (wsIm.Dimension.End.Row + 5) + ")";
+                                ws.SelectedRange[r + 8, 17].Formula = "=Sum(Q7:Q" + (wsIm.Dimension.End.Row + 5) + ")";
                             }
 
                         }
@@ -373,8 +388,8 @@ namespace HumanResoureAPI.Controllers
 
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
-                var startDate = TransforDate.FromDoubleToDate(model.ReportDate.dates?? datesDefault)??DateTime.Now;
-                var endDate = TransforDate.FromDoubleToDate(model.ReportDate.datee?? dateeDefault) ?? DateTime.Now;
+                var startDate = TransforDate.FromDoubleToDate(model.ReportDate.dates?? datesDefault);
+                var endDate = TransforDate.FromDoubleToDate(model.ReportDate.datee?? dateeDefault);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
@@ -415,13 +430,21 @@ namespace HumanResoureAPI.Controllers
                         ws.Cells[3, 1].Value = "Họ và tên: " + user.FullName.ToUpper() + " - Từ ngày "+ startDate.ToString("dd/MM/yy") + " đến ngày " + endDate.ToString("dd/MM/yy");
                         for (int r = 1; r <= wsIm.Dimension.End.Row; r++)
                         {
+                            
                             for (int c = 1; c <= wsIm.Dimension.End.Column; c++)
                             {
-                                ws.Cells[r + 5, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value.ToString() : "";
+                               
+                                ws.Cells[r + 5, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value : "";
+                            }
+                            ws.InsertRow(r + 6, 1, 6);
+                            if (r  == wsIm.Dimension.End.Row)
+                            {
+                                ws.SelectedRange[r + 7, 8].Value = "=Sum(H6:H"+ (wsIm.Dimension.End.Row + 5)+")";
+                                ws.SelectedRange[r + 7, 8].Formula = "=Sum(H6:H"+ (wsIm.Dimension.End.Row + 5)+")";
                             }
 
                         }
-
+                       
                         byte[] fileContents;
                         string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                         //Dispose the Excel engine
@@ -438,7 +461,101 @@ namespace HumanResoureAPI.Controllers
 
                 #endregion
             }
-            catch (Exception ex)
+            catch (Exception)
+            {
+                return NoContent();
+            }
+        }
+        #endregion
+        #region Xuất Excel tổng hợp công việc
+        [HttpPost]
+        [Route("ExportTotalWorkExcel")]
+        public async Task<IActionResult> ExportTotalWorkExcel()
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<Report_TotalTimePara>(Request.Form["model"]);
+                var userId = 0;
+                if (model.UserId == 0) // nếu user truyền vào = 0 thì gán cho user mặc định
+                {
+                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                }
+                else
+                {
+                    userId = model.UserId;
+                }
+
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var startDate = TransforDate.FromDoubleToDate(model.dates ?? datesDefault);
+                var endDate = TransforDate.FromDoubleToDate(model.datee ?? dateeDefault);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                string folderImport = "Resources\\ExportFile\\ParaFile\\";
+                string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
+                var ImPath = Path.Combine(Directory.GetCurrentDirectory(), folderImport);
+                var ExPath = Path.Combine(Directory.GetCurrentDirectory(), folderExport);
+                string fullPath = "";
+                string fullPathEx = "";
+                Workbook workbook = new Workbook(); // import
+                Workbook wbex = new Workbook(); // export
+                if (Request.Form.Files.Count > 0)
+                {
+                    var file = Request.Form.Files[0];
+                    string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).Name.Trim('"');
+                    string Pathl = ImPath + fileName;
+                    fullPath = ImPath + fileName;
+                    using (var stream = new FileStream(Pathl, FileMode.Create))
+                    {
+
+                        file.CopyTo(stream);
+
+                    }
+
+                }
+                workbook.LoadFromFile(fullPath);
+                #region Xuất báo cáo tổng hợp công việc
+                fullPathEx = ExPath + "Sumtime.xlsx";
+
+                StringBuilder sb = new StringBuilder();
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                FileInfo temp = new FileInfo(fullPath);
+                FileInfo tempEx = new FileInfo(fullPathEx);
+                using (ExcelPackage pck = new ExcelPackage(temp))
+                {
+                    ExcelWorksheet wsIm = pck.Workbook.Worksheets.FirstOrDefault();
+                    using (ExcelPackage pckex = new ExcelPackage(tempEx))
+                    {
+                        ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
+                        ws.Cells[4, 4].Value = "Từ ngày" + startDate.Date.ToString("dd/MM/yyyy") + "đến hết ngày" + endDate.Date.ToString("dd/MM/yyyy");
+                        for (int r = 1; r <= wsIm.Dimension.End.Row; r++)
+                        {
+
+                            for (int c = 1; c <= wsIm.Dimension.End.Column; c++)
+                            {
+
+                                ws.Cells[r + 6, c].Value = wsIm.Cells[r, c].Value != null ? wsIm.Cells[r, c].Value : "";
+                            }
+                           
+
+                        }
+
+                        byte[] fileContents;
+                        string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        //Dispose the Excel engine
+                        fileContents = pckex.GetAsByteArray();
+                        return File(
+                                    fileContents: fileContents,
+                                    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                    fileDownloadName: "baocao.xlsx"
+                                    );
+                    }
+
+
+                }
+
+                #endregion
+            }
+            catch (Exception)
             {
                 return NoContent();
             }
@@ -505,6 +622,28 @@ namespace HumanResoureAPI.Controllers
                 #endregion
             }
             catch (Exception ex)
+            {
+                return NoContent();
+            }
+        }
+        #endregion
+        #region Tính lại thời gian nhật ký công việc tạm thời
+        //api: api/MyWorkReport/TinhLaiNhatKy
+        [HttpGet]
+        [Route("TinhLaiNhatKy")]
+        public async Task<IActionResult> TinhLaiNhatKy()
+        {
+            try
+            {
+                var or = _context.CV_QT_WorkNote.Where(x => x.DateEnd != null).ToList();
+                foreach (var item in or)
+                {
+                    item.WorkTime = SpaceTimeOnDay.CalSpaceTimeOnDay(item.DateStart??DateTime.Now, item.DateEnd ?? DateTime.Now) / 60;
+                }
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+            }
+            catch (Exception)
             {
                 return NoContent();
             }

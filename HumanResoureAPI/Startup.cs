@@ -93,7 +93,7 @@ namespace HumanResoureAPI
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:4567", "http://172.16.10.2:4567/", "http://172.16.10.2:4567", "http://localhost:4200", "http://113.190.242.215:4556")
+                builder.WithOrigins("http://192.168.24.103:4567", "http://172.16.10.2:4567/", "http://172.16.10.2:4567", "http://localhost:4200", "http://113.190.242.215:4556")
                 .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
             });
             app.UseRouting();

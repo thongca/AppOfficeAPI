@@ -605,8 +605,8 @@ namespace HumanResoureAPI.Controllers
                                  }).ToList();
                 var myWorks = (from a in _context.CV_QT_MyWork
                                join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
-                               where _context.CV_QT_WorkNote.Count(x => x.MyWorkId == a.Id && x.OverTime == true && x.Handle != true) > 0
-                               && users.Contains(a.UserTaskId)
+                               where _context.CV_QT_WorkNote.Count(x => x.MyWorkId == a.Id && x.OverTime == true && x.Handle != true && x.WorkTime >= 0.5) > 0
+                               && users.Contains(a.UserTaskId) && b.TypeFlow == 0
                                orderby b.CreateDate descending
                                select new
                                {
@@ -840,6 +840,26 @@ namespace HumanResoureAPI.Controllers
             catch (Exception e)
             {
                 bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetMyWorkById", e.Message, "Lấy 1 công việc theo MyworkId và FlowWorkId");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Trạng thái duyệt theo Mã công việc
+        // Post: api/MyWork/r1GetStateSignOfMyWork
+        [HttpPost]
+        [Route("r1GetStateSignOfMyWork")]
+        public async Task<ActionResult> r1GetStateSignOfMyWork(WorkFlow workFlow)
+        {
+            try
+            {
+                int[] duyetFlow = {2, 3, 5, 6, 15, 16 };
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var typeFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == workFlow.MyWorkId && duyetFlow.Contains(x.TypeFlow) == true).Select(x => x.TypeFlow);
+                return new ObjectResult(new { error = 0, data = typeFlows });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetStateSignOfMyWork", e.Message, "Mã công việc");
                 return new ObjectResult(new { error = 1 });
             }
         }
@@ -1181,7 +1201,7 @@ namespace HumanResoureAPI.Controllers
 
                 if (myWork.CycleWork == 1)
                 {
-                    if (myWork.StartDate.Value.Hour < 17)
+                    if (myWork.StartDate.Value.Hour < 17 || (myWork.StartDate.Value.Hour == 17 && myWork.StartDate.Value.Minute < 5))
                     {
                         myWork.WorkTime = myWork.WorkTime + (SpaceTimeOnDay.CalSpaceTimeOnDay(myWork.StartDate.Value, DateTime.Now) / 60);
                     }
@@ -1197,13 +1217,13 @@ namespace HumanResoureAPI.Controllers
                     if (note != null)
                     {
                         note.DateEnd = his.CreateDate;
-                        note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                        note.WorkTime = (SpaceTimeOnDay.CalSpaceTimeOnDay(note.DateStart.Value, his.CreateDate) / 60);
                     }
 
                 }
                 else if (myWork.CycleWork == 3)
                 {
-                    if (myWork.EndPause.Value.Hour < 17)
+                    if (myWork.EndPause.Value.Hour < 17 || (myWork.EndPause.Value.Hour == 17 && myWork.EndPause.Value.Minute < 5))
                     {
                         myWork.WorkTime = myWork.WorkTime + (SpaceTimeOnDay.CalSpaceTimeOnDay(myWork.EndPause.Value, DateTime.Now) / 60);
                     }
@@ -1219,7 +1239,7 @@ namespace HumanResoureAPI.Controllers
                     if (note != null)
                     {
                         note.DateEnd = his.CreateDate;
-                        note.WorkTime = (his.CreateDate - note.DateStart.Value).TotalHours;
+                        note.WorkTime = (SpaceTimeOnDay.CalSpaceTimeOnDay(note.DateStart.Value, his.CreateDate) / 60);
                         _context.Update(note);
                     }
                 }
@@ -1475,7 +1495,7 @@ namespace HumanResoureAPI.Controllers
                 myWork.WorkTime += model.WorkTime;
                 var notes = _context.CV_QT_WorkNote.Where(x => x.DateEnd != null
                 && x.State == 0 && x.MyWorkId == model.MyWorkId
-                && x.Handle != true
+                && x.Handle != true && x.OverTime == true
                 && x.DateEnd.Value.Date == TransforDate.FromDoubleToDate(model.DateOverTime));
                 foreach (var note in notes)
                 {

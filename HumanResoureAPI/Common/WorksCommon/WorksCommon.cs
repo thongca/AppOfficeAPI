@@ -42,7 +42,11 @@ namespace HumanResoureAPI.Common.WorksCommon
 
             if (myWork.CycleWork == 1)
             {
-                myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.StartDate.Value).TotalHours;
+                if (myWork.StartDate.Value.Hour < 17 || (myWork.StartDate.Value.Hour == 17 && myWork.StartDate.Value.Minute < 5))
+                {
+                    myWork.WorkTime = myWork.WorkTime + (SpaceTimeOnDay.CalSpaceTimeOnDay(myWork.StartDate.Value, DateTime.Now) / 60);
+                }
+                   
                 myWork.CycleWork = 2;
                 CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                 his.MyWorkId = myWork.Id;
@@ -59,7 +63,11 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             else if (myWork.CycleWork == 3)
             {
-                myWork.WorkTime = myWork.WorkTime + (DateTime.Now - myWork.EndPause.Value).TotalHours;
+                if (myWork.EndPause.Value.Hour < 17 || (myWork.EndPause.Value.Hour == 17 && myWork.EndPause.Value.Minute < 5))
+                {
+                    myWork.WorkTime = myWork.WorkTime + (SpaceTimeOnDay.CalSpaceTimeOnDay(myWork.EndPause.Value, DateTime.Now) / 60);
+                }
+              
                 myWork.CycleWork = 2;
                 CV_QT_StartPauseHistory his = new CV_QT_StartPauseHistory(); // lưu vào bảng lịch sử
                 his.MyWorkId = myWork.Id;

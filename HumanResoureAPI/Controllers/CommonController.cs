@@ -691,7 +691,7 @@ namespace HumanResoureAPI.Controllers
                     a.DaDoc,
                     a.RouterLink
                 });
-                var qrs = await tables.OrderByDescending(x => x.NgayGui).ToListAsync();
+                var qrs = await tables.OrderByDescending(x => x.NgayGui).Take(5).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs, total = tables.Count(x => x.DaDoc != true) });
 
             }
@@ -711,6 +711,31 @@ namespace HumanResoureAPI.Controllers
                 var tables = await _context.Sys_QT_ThongBao.FindAsync(thongbao.Id);
                 tables.DaDoc = true;
                 tables.NgayDoc = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return new ObjectResult(new { error = 0 });
+
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        // Get: api/Common/r1GetUpdateAllThongBao
+        [HttpGet]
+        [Route("r1GetUpdateAllThongBao")]
+        public async Task<ActionResult<IEnumerable<Sys_Dm_Company>>> r1GetUpdateAllThongBao()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var tables = await _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == userId).ToListAsync();
+                foreach (var item in tables)
+                {
+
+                    item.DaDoc = true;
+                    item.NgayDoc = DateTime.Now;
+                }
+               
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
 

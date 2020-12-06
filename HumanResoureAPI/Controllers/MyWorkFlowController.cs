@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using HumanResource.Application.Hub;
 using HumanResource.Application.Notifi;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
@@ -12,9 +11,7 @@ using HumanResource.Data.Entities.Works;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using HumanResoureAPI.Common.WorksCommon;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -189,7 +186,7 @@ namespace HumanResoureAPI.Controllers
                 var users = _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(c => c.Id);
                 var myWorks = from b in _context.CV_QT_WorkFlow
                               join a in _context.CV_QT_MyWork on b.MyWorkId equals a.Id
-                              where b.UserDeliverId == userId && b.Handled == false && (a.CycleWork != 4) && (b.TypeFlow == 14)
+                              where b.UserDeliverId == userId && b.Handled == false && (b.TypeFlow == 14)
                               orderby b.CreateDate descending
                               select new
                               {
@@ -311,7 +308,7 @@ namespace HumanResoureAPI.Controllers
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
-                var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).OrderByDescending(x=>x.CreateDate).FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0);
+                var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).OrderByDescending(x => x.CreateDate).FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0);
                 var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_MyWork.Predecessor == null)
                 {
@@ -369,7 +366,7 @@ namespace HumanResoureAPI.Controllers
                 // người chủ trì
                 CV_QT_CounterError cterror = new CV_QT_CounterError();
                 cterror.ErrorId = 7;
-                cterror.Point =3;// tinh diem tu dong
+                cterror.Point = 3;// tinh diem tu dong
                 cterror.NguoiBiPhatId = userId;
                 cterror.NguoiPhatId = 2028; // Hệ thống
                 cterror.MyWorkId = modelFlow.MyWorkId;
@@ -378,18 +375,18 @@ namespace HumanResoureAPI.Controllers
                 cterror.DepartmentId = user.DepartmentId ?? 0;
                 _context.CV_QT_CounterError.Add(cterror);
                 // công việc tiên quyết
-                var mypreWork = _context.CV_QT_MyWork.FirstOrDefault(x=>x.Code == cV_QT_MyWork.Predecessor);
-                    CV_QT_CounterError cterrorph = new CV_QT_CounterError();
-                    cterrorph.ErrorId = 7;
-                    cterrorph.Point = 3;
-                    cterrorph.NguoiBiPhatId = mypreWork.UserTaskId;
-                    cterrorph.NguoiPhatId = 2028; // Hệ thống
-                    cterrorph.MyWorkId = modelFlow.MyWorkId;
-                    cterrorph.FlowWorkId = cV_QT_WorkFlow.Id;
-                    cterrorph.CreateDate = DateTime.Now;
-                    cterrorph.DepartmentId = user.DepartmentId ?? 0;
-                    _context.CV_QT_CounterError.Add(cterror);
-               
+                var mypreWork = _context.CV_QT_MyWork.FirstOrDefault(x => x.Code == cV_QT_MyWork.Predecessor);
+                CV_QT_CounterError cterrorph = new CV_QT_CounterError();
+                cterrorph.ErrorId = 7;
+                cterrorph.Point = 3;
+                cterrorph.NguoiBiPhatId = mypreWork.UserTaskId;
+                cterrorph.NguoiPhatId = 2028; // Hệ thống
+                cterrorph.MyWorkId = modelFlow.MyWorkId;
+                cterrorph.FlowWorkId = cV_QT_WorkFlow.Id;
+                cterrorph.CreateDate = DateTime.Now;
+                cterrorph.DepartmentId = user.DepartmentId ?? 0;
+                _context.CV_QT_CounterError.Add(cterror);
+
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Trình giải quyết phối hợp công tác thành công!" });
 
@@ -625,7 +622,7 @@ namespace HumanResoureAPI.Controllers
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 CV_QT_WorkFlow cV_QT_WorkFlow = new CV_QT_WorkFlow();
                 cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 13);
-               
+
 
 
                 if (cV_QT_WorkFlow.Readed != true)
@@ -723,36 +720,21 @@ namespace HumanResoureAPI.Controllers
                     cV_QT_WorkFlow.HandleDate = DateTime.Now;
                 }
 
-
+                var mywork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
                 int TypeFlow = 2;
-                if (modelFlow.DEnd != null)
+                var datee = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
+                var dates = TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0);
+                if (dates.Date == mywork.EndDate.Value.Date && dates.Hour == mywork.EndDate.Value.Hour && dates.Minute == mywork.EndDate.Value.Minute &&
+                    datee.Date == mywork.ExpectedDate.Value.Date && dates.Hour == mywork.ExpectedDate.Value.Hour && dates.Minute == mywork.ExpectedDate.Value.Minute
+                    )
                 {
-                    var mywork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
-                    if (mywork != null)
-                    {
-                        if (TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0) != null)
-                        {
-                            mywork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
-                        }
-                       
-                        TypeFlow = 2;
-                    }
-                }
-                if (modelFlow.DStart != null)
-                {
-                    var mywork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
-                    if (mywork != null)
-                    {
-                        if (TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0) != null)
-                        {
-                            mywork.ExpectedDate = TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0);
-                        }
-                        TypeFlow = 2;
-                    }
+                    TypeFlow = 3;
                 }
                 else
                 {
-                    TypeFlow = 3;
+                    mywork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
+                    mywork.ExpectedDate = TransforDate.FromDoubleToDate(modelFlow.DStart ?? 0);
+                    TypeFlow = 2;
                 }
                 // lưu quy trình luân chuyển công việc
 
@@ -970,8 +952,8 @@ namespace HumanResoureAPI.Controllers
                     {
                         MyWorkId = cV_QT_MyWork.Id,
                         DateStart = cV_QT_MyWork.StartDate,
-                        DateEnd = cV_QT_MyWork.EndDate??DateTime.Now,
-                        WorkTime = cV_QT_MyWork.WorkTime??0,
+                        DateEnd = cV_QT_MyWork.EndDate ?? DateTime.Now,
+                        WorkTime = cV_QT_MyWork.WorkTime ?? 0,
                         OverTime = false,
                         CreatedBy = cV_QT_MyWork.UserTaskId,
                         State = 0
@@ -1128,7 +1110,7 @@ namespace HumanResoureAPI.Controllers
                     cV_QT_MyWork.TypeComplete = 0;
                     if (modelFlow.DEnd != null)
                     {
-                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd??0);
+                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
                         await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, cV_QT_MyWork.EndDate ?? DateTime.Now, userId);
                     }
 
@@ -1262,7 +1244,7 @@ namespace HumanResoureAPI.Controllers
                     cV_QT_WorkFlow.HandleDate = DateTime.Now;
                 }
 
-                var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); 
+                var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId);
                 if (cV_QT_MyWork != null)
                 {
 
@@ -1284,7 +1266,7 @@ namespace HumanResoureAPI.Controllers
 
                     if (modelFlow.DEnd != null)
                     {
-                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd??0);
+                        cV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(modelFlow.DEnd ?? 0);
                         await WorksCommon.saveDateChangeMyWork(_context, modelFlow.MyWorkId, cV_QT_MyWork.StartDate ?? DateTime.Now, cV_QT_MyWork.EndDate ?? DateTime.Now, userId);
                     }
                     // luu lai thay doi ve thoi gian ket thuc cong viec
@@ -1407,23 +1389,51 @@ namespace HumanResoureAPI.Controllers
                     }
                     foreach (var utem in modelFlow.TypeUserDelis) // 1: người chủ trì, 2: người phối hợp, 3: người làm trước
                     {
-                            var listusers =await WorksCommon.getUserFromTypeUserDeli(_context, utem.Id, modelFlow.MyWorkId); // danh sách người bị phạt
-                            if (utem.Id != 3)
+                        var listusers = await WorksCommon.getUserFromTypeUserDeli(_context, utem.Id, modelFlow.MyWorkId); // danh sách người bị phạt
+                        if (utem.Id != 3)
+                        {
+
+                            foreach (var ttem in listusers)
                             {
-                               
-                                foreach (var ttem in listusers)
+                                if (users.Count(x => x.UserId == ttem.UserId) == 0)
                                 {
-                                    if (users.Count(x => x.UserId == ttem.UserId) == 0)
-                                    {
                                     UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
                                     {
                                         UserId = ttem.UserId,
                                         Type = utem.Id
                                     };
-                                        users.Add(userAndStatus);
-                                    }
+                                    users.Add(userAndStatus);
+                                }
                                 CV_QT_CounterError cV_QT_Counter = new CV_QT_CounterError();
                                 cV_QT_Counter.MyWorkId = modelFlow.MyWorkId;
+                                cV_QT_Counter.FlowWorkId = modelFlow.Id;
+                                cV_QT_Counter.CreateDate = DateTime.Now;
+                                cV_QT_Counter.DepartmentId = user.DepartmentId ?? 0;
+                                cV_QT_Counter.ErrorId = item.Id;
+                                cV_QT_Counter.NguoiPhatId = userId;
+                                cV_QT_Counter.NguoiBiPhatId = ttem.UserId;
+                                cV_QT_Counter.Point = item.Point ?? 0.0;
+                                cV_QT_Counter.TypeUserDeli = utem.Id;
+                                _context.CV_QT_CounterError.Add(cV_QT_Counter);
+                            }
+                        }
+                        else // chỉ khi có công việc tiên quyết thì mới nhảy vào Type = 3
+                        {
+                            if (preDecWork != null) // công việc của tôi phải tồn tại công việc tiên quyết thì mới nhảy vào
+                            {
+                                foreach (var ttem in listusers)
+                                {
+                                    if (users.Count(x => x.UserId == ttem.UserId) == 0)
+                                    {
+                                        UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
+                                        {
+                                            UserId = ttem.UserId,
+                                            Type = utem.Id
+                                        };
+                                        users.Add(userAndStatus);
+                                    }
+                                    CV_QT_CounterError cV_QT_Counter = new CV_QT_CounterError();
+                                    cV_QT_Counter.MyWorkId = preDecWork.Id;
                                     cV_QT_Counter.FlowWorkId = modelFlow.Id;
                                     cV_QT_Counter.CreateDate = DateTime.Now;
                                     cV_QT_Counter.DepartmentId = user.DepartmentId ?? 0;
@@ -1435,38 +1445,10 @@ namespace HumanResoureAPI.Controllers
                                     _context.CV_QT_CounterError.Add(cV_QT_Counter);
                                 }
                             }
-                            else // chỉ khi có công việc tiên quyết thì mới nhảy vào Type = 3
-                            {
-                                if (preDecWork != null) // công việc của tôi phải tồn tại công việc tiên quyết thì mới nhảy vào
-                                {
-                                    foreach (var ttem in listusers)
-                                    {
-                                        if (users.Count(x=>x.UserId == ttem.UserId) == 0)
-                                        {
-                                            UserAndStatusDeliver userAndStatus = new UserAndStatusDeliver()
-                                            {
-                                                UserId = ttem.UserId,
-                                                Type = utem.Id
-                                            };
-                                            users.Add(userAndStatus);
-                                        }
-                                        CV_QT_CounterError cV_QT_Counter = new CV_QT_CounterError();
-                                        cV_QT_Counter.MyWorkId = preDecWork.Id;
-                                        cV_QT_Counter.FlowWorkId = modelFlow.Id;
-                                        cV_QT_Counter.CreateDate = DateTime.Now;
-                                        cV_QT_Counter.DepartmentId = user.DepartmentId ?? 0;
-                                        cV_QT_Counter.ErrorId = item.Id;
-                                        cV_QT_Counter.NguoiPhatId = userId;
-                                        cV_QT_Counter.NguoiBiPhatId = ttem.UserId;
-                                        cV_QT_Counter.Point = item.Point ?? 0.0;
-                                        cV_QT_Counter.TypeUserDeli = utem.Id;
-                                        _context.CV_QT_CounterError.Add(cV_QT_Counter);
-                                    }
-                                }
-                            }
-                           
-                        
-                       
+                        }
+
+
+
                     }
                 }
                 foreach (var item in users)
@@ -1474,21 +1456,23 @@ namespace HumanResoureAPI.Controllers
                     CV_QT_WorkFlow wflow = new CV_QT_WorkFlow();
                     if (item.Type != 3)
                     {
-                         wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, item.UserId, 10, "CV_DANHGIACL", modelFlow.Id, modelFlow.Note, modelFlow.Require, 1);
+                        wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, item.UserId, 10, "CV_DANHGIACL", modelFlow.Id, modelFlow.Note, modelFlow.Require, 1);
                         // lưu quy trình luân chuyển công việc
                         _context.CV_QT_WorkFlow.Add(wflow);
-                    } else
+                    }
+                    else
                     {
                         var workPreFlow = _context.CV_QT_WorkFlow.FirstOrDefault(x => x.MyWorkId == preDecWork.Id && x.TypeFlow == 6);
                         if (workPreFlow == null)
                         {
                             workPreFlow = _context.CV_QT_WorkFlow.FirstOrDefault(x => x.MyWorkId == preDecWork.Id && x.TypeFlow == 0); // nếu chưa hoàn thành thì gán giá trị = 0
                             wflow = WorksCommon.objWorkFlow(_context, preDecWork.Id, userId, item.UserId, 10, "CV_DANHGIACL", workPreFlow.Id, modelFlow.Note, modelFlow.Require, 1);
-                        }else
+                        }
+                        else
                         {
                             wflow = WorksCommon.objWorkFlow(_context, preDecWork.Id, userId, item.UserId, 10, "CV_DANHGIACL", workPreFlow.Id, modelFlow.Note, modelFlow.Require, 1);
                         }
-                       
+
                         // lưu quy trình luân chuyển công việc
                         _context.CV_QT_WorkFlow.Add(wflow);
                     }

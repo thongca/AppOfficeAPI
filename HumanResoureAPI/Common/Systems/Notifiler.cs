@@ -20,49 +20,53 @@ namespace HumanResoureAPI.Common.Systems
         {
             _context = context;
             _hubnoti = hubnoti;
+            HubService.Instance.Initialized();
         }
         public async Task SaveNotifiAsync(int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, int NguoiNhanId, int TrangThaixl, string router)
         {
-            try
+
+            Sys_QT_ThongBao sys_QT_ThongBao = new Sys_QT_ThongBao()
             {
-                Sys_QT_ThongBao sys_QT_ThongBao = new Sys_QT_ThongBao()
+                QuyTrinhId = QuyTrinhId,
+                MaLenh = MaLenh,
+                TenNguoiGui = TenNguoiGui,
+                NoiDung = NoiDung,
+                NgayGui = DateTime.Now,
+                NgayDoc = null,
+                DaDoc = false,
+                RouterLink = router,
+                NguoiNhanId = NguoiNhanId,
+                TrangThaiXuLy = TrangThaixl,
+                TrangThai = getTrangThaiXuLy(TrangThaixl, QuyTrinhId),
+                IsNotifi = true
+            };
+            NotifyContent notifyContent = new NotifyContent()
+            {
+                TenNguoiGui = sys_QT_ThongBao.TenNguoiGui,
+                TrangThai = sys_QT_ThongBao.TrangThai,
+                Ngay = DateTime.Now,
+                NoiDung = sys_QT_ThongBao.NoiDung
+
+            };
+            var connect = await _context.Sys_Dm_Connection.FirstOrDefaultAsync(x => x.UserId == NguoiNhanId);
+            if (connect != null)
+            {
+                int[] typeflow = { 2, 3, 5, 6, 16, 15 };
+                if (QuyTrinhId == 2 && typeflow.Contains(TrangThaixl))
                 {
-                    QuyTrinhId = QuyTrinhId,
-                    MaLenh = MaLenh,
-                    TenNguoiGui = TenNguoiGui,
-                    NoiDung = NoiDung,
-                    NgayGui = DateTime.Now,
-                    NgayDoc = null,
-                    DaDoc = false,
-                    RouterLink = router,
-                    NguoiNhanId = NguoiNhanId,
-                    TrangThaiXuLy = TrangThaixl,
-                    TrangThai = getTrangThaiXuLy(TrangThaixl, QuyTrinhId),
-                    IsNotifi = false
-                };
-                _context.Sys_QT_ThongBao.Add(sys_QT_ThongBao);
-                await _context.SaveChangesAsync();
+                    int[] pushtypef = { TrangThaixl };
+                    HubService.Instance.PushTypeFlow(pushtypef, connect.ConnectionId);
+                }
+                HubService.Instance.CallHub(notifyContent, connect.ConnectionId);
             }
-            catch (Exception e)
+            else
             {
-                throw new InvalidOperationException(e.Message);
+                sys_QT_ThongBao.IsNotifi = false;
             }
-          
-        }
-        public async Task PushNotifiAsync()
-        {
-            try
-            {
-                var nguoiNhanTBs =await _context.Sys_QT_ThongBao.Where(x => x.IsNotifi == false).Select(a => new {
-                    a.NguoiNhanId
-                }).ToListAsync();
-                string jsonNguoiNhans = JsonSerializer.Serialize(nguoiNhanTBs);
-               await _hubnoti.SendData(jsonNguoiNhans);
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException(e.Message);
-            }
+            _context.Sys_QT_ThongBao.Add(sys_QT_ThongBao);
+            await _context.SaveChangesAsync();
+
+
         }
         // đẩy thông báo cho người có công đoạn tiếp theo biết công việc tiên quyết đã hoàn thành
         public async Task SaveNotifiNextAsync(int? Code, int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, int TrangThaixl, string router)
@@ -70,7 +74,7 @@ namespace HumanResoureAPI.Common.Systems
             try
             {
                 var myWorks = _context.CV_QT_MyWork.Where(x => x.Predecessor == Code).Select(a => a.UserTaskId);
-                string messege = "(CV Tiên quyết của mã công việc (" + Code.ToString() + ") đã hoàn thành" ;
+                string messege = "(CV Tiên quyết của mã công việc (" + Code.ToString() + ") đã hoàn thành";
                 foreach (var item in myWorks)
                 {
                     Sys_QT_ThongBao sys_QT_ThongBao = new Sys_QT_ThongBao()
@@ -91,12 +95,13 @@ namespace HumanResoureAPI.Common.Systems
                     _context.Sys_QT_ThongBao.Add(sys_QT_ThongBao);
                 }
                 await _context.SaveChangesAsync();
+
             }
             catch (Exception e)
             {
                 throw new InvalidOperationException(e.Message);
             }
-         
+
         }
         private static string getTrangThaiXuLy(int ttxl, int QuytrinhId)
         {
@@ -159,6 +164,6 @@ namespace HumanResoureAPI.Common.Systems
 
         }
 
-       
+
     }
 }

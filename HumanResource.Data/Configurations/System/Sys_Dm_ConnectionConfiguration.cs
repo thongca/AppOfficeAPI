@@ -7,9 +7,9 @@ using System.Text;
 
 namespace HumanResource.Data.Configurations.System
 {
-    class Sys_QT_ThongBaoConfiguration : IEntityTypeConfiguration<Sys_QT_ThongBao>
+    public class Sys_Dm_ConnectionConfiguration : IEntityTypeConfiguration<Sys_Dm_Connection>
     {
-        public void Configure(EntityTypeBuilder<Sys_QT_ThongBao> builder)
+        public void Configure(EntityTypeBuilder<Sys_Dm_Connection> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
