@@ -157,6 +157,16 @@ namespace HumanResoureAPI.Common.Systems
                         return "Chuyển công việc";
                     case 12:
                         return "Chuyển kết quả cc";
+                    case 14:
+                        return "Trình công việc khởi tạo sau";
+                    case 15:
+                        return "Không đồng ý khởi tạo sau";
+                    case 16:
+                        return "Khởi tạo sau được duyệt";
+                    case 17:
+                        return "Trình phối hợp công tác";
+                    case 18:
+                        return "Chỉ đạo xử lý phối hợp công tác";
                     default:
                         return "Công việc mới";
                 }

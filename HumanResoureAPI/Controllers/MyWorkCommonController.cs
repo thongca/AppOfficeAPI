@@ -54,10 +54,13 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var user = await _context.Sys_Dm_User.FindAsync(userId);
                 defaultTask.Id = Helper.GenKey();
                 defaultTask.Frequency = 1;
                 defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
                 defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
+                defaultTask.DepartmentId = user.ParentDepartId;
                 _context.CV_DM_DefaultTask.Add(defaultTask);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Thêm mới công việc thường xuyên thành công!" });
@@ -132,12 +135,11 @@ namespace HumanResoureAPI.Controllers
                 var _defaultTask = await _context.CV_DM_DefaultTask.FindAsync(Id);
                 if (_defaultTask == null)
                 {
-                    return NoContent();
+                    return new ObjectResult(new { error = 1, ms = "Cập nhật công việc thường xuyên không thành công!" });
                 }
                 _defaultTask.Name = defaultTask.Name;
-                _defaultTask.Code = defaultTask.Code;
-                _defaultTask.LevelTask = defaultTask.LevelTask;
-                _defaultTask.LevelTime = defaultTask.LevelTime;
+                _defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
+                _defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Cập nhật công việc thường xuyên thành công!" });
             }

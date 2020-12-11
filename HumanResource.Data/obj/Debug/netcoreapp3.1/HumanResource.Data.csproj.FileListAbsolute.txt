@@ -48,15 +48,3 @@ H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp
 H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.AssemblyInfo.cs
 H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.dll
 H:\Web\VPDT_New_28082020\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.pdb
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\bin\Debug\netcoreapp3.1\HumanResource.Data.deps.json
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\bin\Debug\netcoreapp3.1\HumanResource.Data.runtimeconfig.json
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\bin\Debug\netcoreapp3.1\HumanResource.Data.runtimeconfig.dev.json
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\bin\Debug\netcoreapp3.1\HumanResource.Data.dll
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\bin\Debug\netcoreapp3.1\HumanResource.Data.pdb
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.csprojAssemblyReference.cache
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.csproj.CoreCompileInputs.cache
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.AssemblyInfoInputs.cache
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.AssemblyInfo.cs
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.dll
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.pdb
-J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Debug\netcoreapp3.1\HumanResource.Data.genruntimeconfig.cache

@@ -100,7 +100,7 @@ namespace HumanResoureAPI.Controllers
                 var error = await _context.CV_DM_Error.FindAsync(Id);
                 if (error == null)
                 {
-                    return NoContent();
+                    return new ObjectResult(new { error = 1, ms = "Cập nhật danh mục lỗi đánh giá không thành công!" });
                 }
                 error.ErrorName = dM_Error.ErrorName;
                 error.Point = dM_Error.Point;

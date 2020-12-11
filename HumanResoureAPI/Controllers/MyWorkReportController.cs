@@ -86,7 +86,7 @@ namespace HumanResoureAPI.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ObjectResult(new { error = 1 });
             }
@@ -190,7 +190,7 @@ namespace HumanResoureAPI.Controllers
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var reports = (from a in _context.CV_QT_StartPauseHistory
-                               where a.UserCreateId == userId && a.Done != true
+                               where a.UserCreateId == userId && a.Done != true && a.CreateDate.Month == DateTime.Now.Month
                                orderby a.Id
                                select new
                                {
@@ -206,29 +206,14 @@ namespace HumanResoureAPI.Controllers
                 }
                 List<CV_QT_SpaceTimeOnDay> listSpace = new List<CV_QT_SpaceTimeOnDay>();
 
-                for (int i = 0; i <= reports.Count() - 2; i++)
+                for (int i = 0; i < reports.Count() - 1; i++)
                 {
-                    // trong trường hợp nhật ký công việc ghi nhận bản ghi cuối cùng trong trạng thái tạm dừng thì lấy mốc 17h là mốc kết thúc
-                    if (i + 1 == reports.Count() - 1 && reports[i + 1].CycleWork == 2)
-                    {
-                        CV_QT_SpaceTimeOnDay obj = new CV_QT_SpaceTimeOnDay()
-                        {
-                            SpaceStart = TransforDate.FromDateToDouble(reports[i].CreateDate),
-                            SpaceEnd = TransforDate.FromDateToDouble(DateTime.Now),
-                            Time = SpaceTimeOnDay.CalSpaceTimeOnDay(reports[i].CreateDate, DateTime.Now),
-                            MyWorkId = reports[i].MyWorkId,
-                            UserId = reports[i].UserCreateId
-                        };
-                        if (obj.Time > 30)
-                        {
-                            listSpace.Add(obj);
-                        }
-                    }
-                    else if (reports[i + 1].CycleWork == 2)
+
+                    if (reports[i].CreateDate.Hour >=17 && reports[i].CreateDate.Minute > 3)
                     {
                         continue;
                     }
-                    else
+                   if (reports[i].CycleWork == 2)
                     {
                         CV_QT_SpaceTimeOnDay obj = new CV_QT_SpaceTimeOnDay()
                         {
@@ -238,14 +223,11 @@ namespace HumanResoureAPI.Controllers
                             MyWorkId = reports[i].MyWorkId,
                             UserId = reports[i].UserCreateId
                         };
-                        if (obj.Time > 30)
+                        if (obj.Time >= 30)
                         {
                             listSpace.Add(obj);
                         }
-                       
                     }
-
-
                 }
                 var objup =  _context.CV_QT_StartPauseHistory.Where(x=>x.UserCreateId == userId && x.Done != true);
                 foreach (var item in objup)
@@ -283,6 +265,10 @@ namespace HumanResoureAPI.Controllers
                 {
                     userId = model.UserId;
                 }
+                var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
+                var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
+                var startDate = TransforDate.FromDoubleToDate(model.ReportDate.dates ?? datesDefault);
+                var endDate = TransforDate.FromDoubleToDate(model.ReportDate.datee ?? dateeDefault);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 string folderImport = "Resources\\ExportFile\\ParaFile\\";
                 string folderExport = "Resources\\ExportFile\\HieuQuaCV\\";
@@ -321,7 +307,7 @@ namespace HumanResoureAPI.Controllers
                     using (ExcelPackage pckex = new ExcelPackage(tempEx))
                     {
                         ExcelWorksheet ws = pckex.Workbook.Worksheets.FirstOrDefault();
-                        ws.Cells[3, 1].Value = "Họ và tên: " + user.FullName.ToUpper() + "  - Tháng 10  năm 2020";
+                        ws.Cells[3, 1].Value = "Họ và tên: " + user.FullName.ToUpper() + "Từ "+ startDate.ToString("dd/MM/yyyy") + " đến " + endDate.ToString("dd/MM/yyyy");
                         for (int r = 1; r < wsIm.Dimension.End.Row; r++)
                         {
                             for (int c = 1; c <= wsIm.Dimension.End.Column; c++)

@@ -801,6 +801,10 @@ namespace HumanResoureAPI.Controllers
                         return "Chuyển công việc";
                     case 12:
                         return "Chuyển kết quả cc";
+                    case 17:
+                        return "Trình phối hợp công tác";
+                    case 18:
+                        return "Chỉ đạo xử lý phối hợp công tác";
                     default:
                         return "Công việc mới";
                 }

@@ -264,18 +264,18 @@ namespace HumanResoureAPI.Controllers
                 spaceTime.HandledUserId = userId;
                 spaceTime.MyWorkNewId = myWork.CV_QT_MyWork.Id;
 
-                List<CV_QT_DepartmentSupporter> listDep = new List<CV_QT_DepartmentSupporter>();
-                foreach (var item in myWork.CV_QT_DepartmentSupporter)
-                {
-                    CV_QT_DepartmentSupporter _QT_DepartmentSupporter = new CV_QT_DepartmentSupporter()
-                    {
-                        MyWorkId = myWork.CV_QT_MyWork.Id,
-                        DepartmentId = item.DepartmentId,
-                        DepartmentName = _context.Sys_Dm_Department.Find(item.DepartmentId) != null ? _context.Sys_Dm_Department.Find(item.DepartmentId).Name : null
-                    };
-                    listDep.Add(_QT_DepartmentSupporter);
-                }
-                _context.CV_QT_DepartmentSupporter.AddRange(listDep);
+                //List<CV_QT_DepartmentSupporter> listDep = new List<CV_QT_DepartmentSupporter>();
+                //foreach (var item in myWork.CV_QT_DepartmentSupporter)
+                //{
+                //    CV_QT_DepartmentSupporter _QT_DepartmentSupporter = new CV_QT_DepartmentSupporter()
+                //    {
+                //        MyWorkId = myWork.CV_QT_MyWork.Id,
+                //        DepartmentId = item.DepartmentId,
+                //        DepartmentName = _context.Sys_Dm_Department.Find(item.DepartmentId) != null ? _context.Sys_Dm_Department.Find(item.DepartmentId).Name : null
+                //    };
+                //    listDep.Add(_QT_DepartmentSupporter);
+                //}
+                //_context.CV_QT_DepartmentSupporter.AddRange(listDep);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
 
@@ -556,6 +556,66 @@ namespace HumanResoureAPI.Controllers
                                    b.Id,
                                    a.Note,
                                    a.Code,
+                                   TaskName = a.TaskCode == null ? a.TaskName : "(" + a.TaskCode + ") " + a.TaskName,
+                                   a.TaskId,
+                                   a.Predecessor,
+                                   a.StartDate,
+                                   a.EndDate,
+                                   Status = WorksCommon.getTrangThaiKetThucCv(a.TypeComplete ?? 0, a.EndDate ?? DateTime.Now, a.CompleteDate ?? DateTime.Now),
+                                   a.CycleWork,
+                                   a.DeliverType,
+                                   a.DepartmentId,
+                                   a.PauseTime,
+                                   a.WorkTime,
+                                   a.UserTaskName,
+                                   a.TypeComplete,
+                                   a.CompleteDate,
+                                   a.ExpectedDate
+                               });
+                var qrs = await WorksCommon.Paginate(myWorks, 0, 1000).ToListAsync();
+
+                return new ObjectResult(new { error = 0, data = qrs, TypeFlows, total = myWorks.Count() });
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r1GetListMyWorks", e.Message, "Danh sách công việc myworks");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách công việc MyWork cần xử lý phối hợp công tác
+        //Post: api/MyWork/r1GetListMyWorkPhoiHopCongTac
+        [HttpGet]
+        [Route("r1GetListMyWorkPhoiHopCongTac")]
+        public async Task<ActionResult<IEnumerator<CV_QT_MyWork>>> r1GetListMyWorkPhoiHopCongTac()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var myWorkIdMySuport = await _context.CV_QT_MySupportWork.Where(x => x.UserId == userId).Select(a => a.MyWorkId).ToListAsync();
+                // tam thoi su dung 2 danh sách để thực hiện where trong html sau này sẽ chỉnh lại trong backend
+                // Danh sách typeflow lấy ra tạm thời trong khi tìm cách xử lý trong backend
+                // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
+                var TypeFlows = (from n in _context.CV_QT_WorkFlow
+                                 join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
+                                 where v.UserTaskId == userId && (n.TypeFlow == 0 || (n.TypeFlow != 11 && n.TypeFlow != 12))
+                                 group n by new { n.TypeFlow, n.MyWorkId } into g
+                                 select new
+                                 {
+                                     g.Key.TypeFlow,
+                                     g.Key.MyWorkId,
+                                 }).ToList();
+                var myWorks = (from a in _context.CV_QT_MyWork
+                               join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
+                               where b.UserDeliverId == userId && b.TypeFlow == 17 && b.Handled != true
+                               orderby b.CreateDate descending
+                               select new
+                               {
+                                   MyWorkId = a.Id,
+                                   b.Id,
+                                   a.Note,
+                                   a.Code,
+                                   b.TypeFlow,
                                    TaskName = a.TaskCode == null ? a.TaskName : "(" + a.TaskCode + ") " + a.TaskName,
                                    a.TaskId,
                                    a.Predecessor,
@@ -903,7 +963,8 @@ namespace HumanResoureAPI.Controllers
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var myWorkSpaceTimes = await (from a in _context.CV_QT_SpaceTimeOnDay
                                               join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
-                                              where a.Handled != true && a.UserId == userId && a.Time >= 60
+                                              where a.Handled != true && a.UserId == userId && a.Time >= 30
+                                              orderby a.SpaceEnd descending
                                               select new
                                               {
                                                   a.Id,

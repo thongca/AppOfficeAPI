@@ -78,11 +78,12 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                var userLogin = await _context.Sys_Dm_User.FindAsync(userId);
                 if (_context.Sys_Dm_User.Count(x=>x.Code == userGroupRole.sys_Dm_User.Code) > 0)
                 {
                     return new ObjectResult(new { error = 2, ms = "Mã nhân viên đã tồn tại trong hệ thống." });
                 }
-                var department =await _context.Sys_Dm_Department.FindAsync(userGroupRole.sys_Dm_User.DepartmentId);
+                var department =await _context.Sys_Dm_Department.FindAsync(userLogin.ParentDepartId);
                 var position =await _context.Sys_Dm_Position.FindAsync(userGroupRole.sys_Dm_User.PositionId);
                 if (position == null)
                 {
