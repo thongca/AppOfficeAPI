@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj": {}
+    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj": {}
   },
   "projects": {
-    "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
+    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
+        "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
         "projectName": "HumanResource.Application",
-        "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
-        "packagesPath": "C:\\Users\\dinht\\.nuget\\packages\\",
-        "outputPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\obj\\",
+        "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dinht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -29,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -40,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.SignalR.Client": {
               "target": "Package",
@@ -77,24 +76,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
+    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
+        "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
         "projectName": "HumanResource.Data",
-        "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
-        "packagesPath": "C:\\Users\\dinht\\.nuget\\packages\\",
-        "outputPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\obj\\",
+        "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dinht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -106,6 +102,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -117,6 +114,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -154,24 +152,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj": {
+    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+        "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
         "projectName": "HumanResoureAPI",
-        "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
-        "packagesPath": "C:\\Users\\dinht\\.nuget\\packages\\",
-        "outputPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\obj\\",
+        "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\dinht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -183,12 +178,13 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
-                "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj"
+              "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
+                "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj"
               },
-              "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
-                "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj"
+              "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
+                "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj"
               }
             }
           }
@@ -201,6 +197,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "EPPlus": {
               "target": "Package",
@@ -263,7 +260,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

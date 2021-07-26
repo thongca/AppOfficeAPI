@@ -812,23 +812,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dinht\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
+      "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
       "projectName": "HumanResource.Data",
-      "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
-      "packagesPath": "C:\\Users\\dinht\\.nuget\\packages\\",
-      "outputPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\obj\\",
+      "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\dinht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -840,6 +836,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -851,6 +848,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -888,7 +886,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

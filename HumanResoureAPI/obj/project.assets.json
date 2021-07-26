@@ -5240,6 +5240,7 @@
       "path": "runtime.native.system.security.cryptography.apple/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -5821,6 +5822,7 @@
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8570,6 +8572,7 @@
       "path": "system.runtime.serialization.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9980,6 +9983,7 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10148,23 +10152,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dinht\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+      "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
       "projectName": "HumanResoureAPI",
-      "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
-      "packagesPath": "C:\\Users\\dinht\\.nuget\\packages\\",
-      "outputPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\obj\\",
+      "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\dinht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10176,12 +10176,13 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
-              "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj"
+            "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
+              "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj"
             },
-            "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
-              "projectPath": "J:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj"
+            "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
+              "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj"
             }
           }
         }
@@ -10194,6 +10195,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "EPPlus": {
             "target": "Package",
@@ -10256,7 +10258,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

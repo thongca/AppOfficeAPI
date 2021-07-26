@@ -127,17 +127,19 @@ namespace HumanResoureAPI.Controllers
         #endregion
         #region Cạp nhật công việc thường xuyên
         // Get: api/MyWorkCommon/5
-        [HttpPut("{Id}")]
-        public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r3UpdateWorkDefaultByID(string Id, CV_DM_DefaultTask defaultTask)
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r3UpdateWorkDefaultByID(CV_DM_DefaultTask defaultTask)
         {
             try
             {
-                var _defaultTask = await _context.CV_DM_DefaultTask.FindAsync(Id);
+                var _defaultTask = await _context.CV_DM_DefaultTask.FindAsync(defaultTask.Id);
                 if (_defaultTask == null)
                 {
                     return new ObjectResult(new { error = 1, ms = "Cập nhật công việc thường xuyên không thành công!" });
                 }
                 _defaultTask.Name = defaultTask.Name;
+                _defaultTask.LevelTask = defaultTask.LevelTask;
+                _defaultTask.LevelTime = defaultTask.LevelTime;
                 _defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
                 _defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
                 await _context.SaveChangesAsync();

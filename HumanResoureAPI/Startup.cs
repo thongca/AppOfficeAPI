@@ -45,8 +45,11 @@ namespace HumanResoureAPI
             // Read json settings
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
 
-            services.AddCors();
-
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                                 .AllowAnyMethod()
+                                                                                 .AllowAnyHeader()
+                                                                                 ));
+            services.AddMvc();
             var tokenManagement = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(tokenManagement.Secret);
 
@@ -90,17 +93,20 @@ namespace HumanResoureAPI
             {
                 app.UseHsts();
             }
-
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://192.168.24.100:4567", "http://172.16.10.2:4567/", "http://172.16.10.2:4567", "http://localhost:4200", "http://113.190.242.215:4556")
-                .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                builder.WithOrigins("https://owflow.com", "http://owflow.com", "http://172.16.10.2:4567", "https://172.16.10.2:4567", "http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowCredentials();
             });
-            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),

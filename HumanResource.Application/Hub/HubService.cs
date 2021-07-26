@@ -15,7 +15,7 @@ namespace HumanResource.Application.Hub
             try
             {
                 hubConnection = new HubConnectionBuilder()
-              .WithUrl("http://172.16.10.2:4646/signalrtc")
+              .WithUrl("https://172.16.10.2:4646/signalrtc")
               .Build();
                 await hubConnection.StartAsync();
             }

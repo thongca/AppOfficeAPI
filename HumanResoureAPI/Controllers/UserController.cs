@@ -147,15 +147,12 @@ namespace HumanResoureAPI.Controllers
         // PUT: api/User/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> r3UpdateDataModel(int id, UserGroupRole userGroupRole)
+        [HttpPost]
+        [Route("r3UpdateDataModel")]
+        public async Task<IActionResult> r3UpdateDataModel(UserGroupRole userGroupRole)
         {
             string PasswordEn = Helper.Encrypt(userGroupRole.sys_Dm_User.Username, userGroupRole.sys_Dm_User.Password);
             var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            if (id != userGroupRole.sys_Dm_User.Id)
-            {
-                return new ObjectResult(new { error = 1 });
-            }
             userGroupRole.sys_Dm_User.UserCreateId = userId;
             userGroupRole.sys_Dm_User.CreateDate = DateTime.Now;
             // update user

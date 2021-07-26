@@ -626,7 +626,6 @@ namespace HumanResoureAPI.Controllers
                     bool success = WorksCommon.PauseMyWork(_context, cV_QT_MyWork, workNote); // true là đã lưu thành công, false là không thuộc trường hợp cần lưu
                     // kết thúc xử lý tạm dừng công việc
 
-                    cV_QT_MyWork.CompleteDate = DateTime.Now;
                     cV_QT_MyWork.TypeComplete = 1;
                     cV_QT_MyWork.CycleWork = 2;
                 }
@@ -814,7 +813,7 @@ namespace HumanResoureAPI.Controllers
                         cterror.CreateDate = DateTime.Now;
                         cterror.DepartmentId = user.DepartmentId ?? 0;
                         _context.CV_QT_CounterError.Add(cterror);
-                        CV_QT_WorkFlow wflowerror = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, 2028, userId, 10, "CV_DANHGIACL", cV_QT_WorkFlow.Id, note, modelFlow.Require, 1);
+                        CV_QT_WorkFlow wflowerror = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, 2028, cV_QT_MyWork.UserTaskId, 10, "CV_DANHGIACL", cV_QT_WorkFlow.Id, note, modelFlow.Require, 1);
                         _context.CV_QT_WorkFlow.Add(wflowerror);
                         // kết thúc tính lỗi tự động
                     }
@@ -946,7 +945,7 @@ namespace HumanResoureAPI.Controllers
                 var cV_QT_MyWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); // update trạng thái hoàn thành công việc
                 if (cV_QT_MyWork != null)
                 {
-  
+
                     CV_QT_WorkFlow wflow2 = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, userId, cV_QT_MyWork.UserTaskId, 18, "CV_CHIDAOXULY", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1); // chuyển hoàn thành công việc
                     _context.CV_QT_WorkFlow.Add(wflow2);
                     // lưu thông báo cho người nhận
@@ -1026,6 +1025,14 @@ namespace HumanResoureAPI.Controllers
                 {
                     cV_QT_MyWork.TypeComplete = 3;
                     cV_QT_MyWork.CycleWork = 4;
+                    if (!checkChangeDate(cV_QT_MyWork, modelFlow.DCom??0))
+                    {
+                        cV_QT_MyWork.CompleteDate = TransforDate.FromDoubleToDate(modelFlow.DCom??0);
+                    }
+                    if (modelFlow.SoGio != null)
+                    {
+                        cV_QT_MyWork.WorkTime = modelFlow.SoGio;
+                    }
                     // thêm vào Note
                     CV_QT_WorkNote note = new CV_QT_WorkNote()
                     {
@@ -1603,5 +1610,17 @@ namespace HumanResoureAPI.Controllers
             }
         }
         #endregion
+        private bool checkChangeDate(CV_QT_MyWork model, double dateChange)
+        {
+            var date = TransforDate.FromDoubleToDate(dateChange);
+            if (model.CompleteDate.Value.Date == date.Date && model.CompleteDate.Value.Hour == date.Hour && model.CompleteDate.Value.Minute == date.Minute)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace HumanResource.Data.Entities.Online
         public int Id { get; set; }
         public bool Login { get; set; }
         public DateTime HanDung { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

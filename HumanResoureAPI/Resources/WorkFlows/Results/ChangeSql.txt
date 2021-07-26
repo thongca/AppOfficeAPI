@@ -1,0 +1,35 @@
+ALTER TABLE CV_QT_StartPauseHistory
+   ADD Done bit NULL
+
+alter table CV_QT_WorkNote add
+	[OverTime] [bit] NULL,
+	[Handle] [bit] NULL,
+	[HandleDate] [datetime] NULL,
+	[HandleUserId] [int] NULL,
+	[State] [int] NULL
+
+USE [AppOffice]
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CV_QT_StartPauseHistory](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[MyWorkId] [varchar](50) NULL,
+	[CreateDate] [datetime] NULL,
+	[UserCreateId] [int] NULL,
+	[CycleWork] [int] NULL,
+	[Done] [bit] NULL,
+ CONSTRAINT [PK_CV_QT_StartPauseHistory] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+

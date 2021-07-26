@@ -9,7 +9,6 @@ using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -164,7 +163,7 @@ namespace HumanResoureAPI.Controllers
             {
                 // trang thái sử dụng
                 var myWork = JsonConvert.DeserializeObject<Dtos_MyWork>(Request.Form["model"]);
-                var spaceTime = await _context.CV_QT_SpaceTimeOnDay.FindAsync(myWork.SpaceTimeId);
+                //var spaceTime = await _context.CV_QT_SpaceTimeOnDay.FindAsync(myWork.SpaceTimeId);
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
                 var user = await _context.Sys_Dm_User.FindAsync(userId);
                 var defaultWork = _context.CV_DM_DefaultTask.FirstOrDefault(x => x.Name == myWork.CV_QT_MyWork.TaskName);
@@ -187,15 +186,13 @@ namespace HumanResoureAPI.Controllers
                 }
                 myWork.CV_QT_MyWork.Id = Helper.GenKey();
                 myWork.CV_QT_MyWork.StartPause = null;
-                myWork.CV_QT_MyWork.StartDate = TransforDate.FromDoubleToDate(spaceTime.SpaceStart);
-                myWork.CV_QT_MyWork.EndPause = TransforDate.FromDoubleToDate(spaceTime.SpaceEnd);
+                myWork.CV_QT_MyWork.StartDate = myWork.CV_QT_MyWork.ExpectedDate;
+                myWork.CV_QT_MyWork.EndPause = myWork.CV_QT_MyWork.EndDate;
                 myWork.CV_QT_MyWork.CycleWork = 4;
                 myWork.CV_QT_MyWork.TypeComplete = 1;
                 myWork.CV_QT_MyWork.PauseTime = 0.0;
-                myWork.CV_QT_MyWork.WorkTime = spaceTime.Time / 60;
-                myWork.CV_QT_MyWork.ExpectedDate = TransforDate.FromDoubleToDate(spaceTime.SpaceStart);
-                myWork.CV_QT_MyWork.EndDate = TransforDate.FromDoubleToDate(spaceTime.SpaceEnd);
-                myWork.CV_QT_MyWork.CompleteDate = TransforDate.FromDoubleToDate(spaceTime.SpaceEnd);
+                myWork.CV_QT_MyWork.WorkTime = (myWork.CV_QT_MyWork.EndDate.Value - myWork.CV_QT_MyWork.StartDate.Value).TotalHours;
+                myWork.CV_QT_MyWork.CompleteDate = myWork.CV_QT_MyWork.EndDate;
                 myWork.CV_QT_MyWork.CreatedDate = DateTime.Now;
                 _context.CV_QT_MyWork.Add(myWork.CV_QT_MyWork);
                 // lưu quy trình luân chuyển công việc
@@ -259,11 +256,6 @@ namespace HumanResoureAPI.Controllers
                     }
 
                 }
-                spaceTime.Handled = true;
-                spaceTime.HandledDate = DateTime.Now;
-                spaceTime.HandledUserId = userId;
-                spaceTime.MyWorkNewId = myWork.CV_QT_MyWork.Id;
-
                 //List<CV_QT_DepartmentSupporter> listDep = new List<CV_QT_DepartmentSupporter>();
                 //foreach (var item in myWork.CV_QT_DepartmentSupporter)
                 //{
@@ -711,7 +703,6 @@ namespace HumanResoureAPI.Controllers
             {
 
                 var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-
                 var query = from a in _context.CV_QT_MySupportWork.ToList()
                             where a.MyWorkId == workFlow.MyWorkId
                             group a by a.MyWorkId into g

@@ -32,7 +32,9 @@ namespace HumanResource.Application.Paremeters.Works
         public int? UserManagerId { get; set; }
         public int? UserNextId { get; set; }
         public double? DEnd { get; set; }
+        public double? DCom { get; set; }
         public double? DStart { get; set; }
+        public double? SoGio { get; set; }
         public List<UserDeliver> UserDelivers { get; set; }
         public List<TypeUserDeli> TypeUserDelis { get; set; }
         public List<Error> Errors { get; set; }

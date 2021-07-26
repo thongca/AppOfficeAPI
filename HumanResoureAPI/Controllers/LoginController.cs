@@ -38,6 +38,8 @@ namespace HumanResoureAPI.Controllers
                 
                 string PasswordEn = Helper.Encrypt(checklogin.UserName, checklogin.Password);
                 var useronline = _onlinecontext.Sys_Dm_Lisesion.Count(x => x.Login == true && x.HanDung >= DateTime.Now); // online check
+                var checkadmin = _onlinecontext.Sys_Dm_Lisesion.Count(x => x.UserName == checklogin.UserName && x.Password == PasswordEn); // online check
+               
                 var user = _context.Sys_Dm_User.FirstOrDefault(x => x.Username == checklogin.UserName && x.Password == PasswordEn);
                 if (user == null)
                 {
@@ -59,82 +61,156 @@ namespace HumanResoureAPI.Controllers
                     Name = "(" + a.Code + ") " + a.Name,
                     a.Id
                 }).ToListAsync();
-
-                switch (perMission)
+                #region admin
+                if (checkadmin > 0)
                 {
-                    #region Nhóm quản trị tổng perMission = 0
-                    case 0:
-                        var companyId = congTys[0].Id;
-                        var _listMenuAdmin = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
-                                                    select new
-                                                    {
-                                                        b.Id,
-                                                        b.IsOrder,
-                                                        name = b.Name,
-                                                        url = b.RouterLink,
-                                                        icon = b.IconMenu,
-                                                        title = b.IsTitle,
-                                                        b.MenuRank,
-                                                        b.ParentId,
-                                                    }).ToListAsync();
-                        return new JsonResult(new
-                        {
-                            token = tk,
-                            u = new
-                            {
-                                user.Id,
-                                user.FullName,
-                                user.CompanyId,
-                                user.DepartmentId,
-                                Permission = 0,
-                                GroupRoleDeFault = groupRoleDeFault,
-                                CompanyIdDefault = companyId,
-                            }
-                        ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
-                            _listQuyen = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
+                    var companyId = congTys[0].Id;
+                    var _listMenuAdmin = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
                                                 select new
                                                 {
                                                     b.Id,
-                                                    b.RouterLink,
-                                                    ViewPer = true,
-                                                    AddPer = true,
-                                                    EditPer = true,
-                                                    DelPer = true,
-                                                    ExportPer = true,
-                                                }).ToListAsync(),
-                            data = _listMenuAdmin.Where(x => x.MenuRank < 3).Select(a => new
+                                                    b.IsOrder,
+                                                    name = b.Name,
+                                                    url = b.RouterLink,
+                                                    icon = b.IconMenu,
+                                                    title = b.IsTitle,
+                                                    b.MenuRank,
+                                                    b.ParentId,
+                                                }).ToListAsync();
+                    return new JsonResult(new
+                    {
+                        token = tk,
+                        u = new
+                        {
+                            user.Id,
+                            user.FullName,
+                            user.CompanyId,
+                            user.DepartmentId,
+                            Permission = 0,
+                            GroupRoleDeFault = groupRoleDeFault,
+                            CompanyIdDefault = companyId,
+                        }
+                    ,
+                        _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
+                                                join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
+                                                where a.UserId == user.Id
+                                                orderby b.RankRole
+                                                select new
+                                                {
+                                                    a.GroupRoleId,
+                                                    b.Name
+                                                }).ToListAsync()
+                    ,
+                        _listQuyen = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
+                                            select new
+                                            {
+                                                b.Id,
+                                                b.RouterLink,
+                                                ViewPer = true,
+                                                AddPer = true,
+                                                EditPer = true,
+                                                DelPer = true,
+                                                ExportPer = true,
+                                            }).ToListAsync(),
+                        data = _listMenuAdmin.Where(x => x.MenuRank < 3).Select(a => new
+                        {
+                            a.Id,
+                            a.IsOrder,
+                            a.name,
+                            a.url,
+                            a.icon,
+                            a.MenuRank,
+                            a.title,
+                            children = _listMenuAdmin.Where(x => x.MenuRank >= 3 && x.ParentId == a.Id).Select(b => new
                             {
-                                a.Id,
-                                a.IsOrder,
-                                a.name,
-                                a.url,
-                                a.icon,
-                                a.MenuRank,
-                                a.title,
-                                children = _listMenuAdmin.Where(x => x.MenuRank >= 3 && x.ParentId == a.Id).Select(b => new
-                                {
-                                    b.Id,
-                                    b.name,
-                                    b.url,
-                                    b.icon,
-                                    b.title,
-                                    b.IsOrder
-                                }).OrderBy(y => y.IsOrder)
-                            }).OrderBy(y => y.IsOrder),
-                            congTys,
-                            error = 0
-                        });
-                    #endregion
+                                b.Id,
+                                b.name,
+                                b.url,
+                                b.icon,
+                                b.title,
+                                b.IsOrder
+                            }).OrderBy(y => y.IsOrder)
+                        }).OrderBy(y => y.IsOrder),
+                        congTys,
+                        error = 0
+                    });
+                }
+                #endregion
+                switch (perMission)
+                {
+                    //#region Nhóm quản trị tổng perMission = 0
+                    //case 0:
+                    //    var companyId = congTys[0].Id;
+                    //    var _listMenuAdmin = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
+                    //                                select new
+                    //                                {
+                    //                                    b.Id,
+                    //                                    b.IsOrder,
+                    //                                    name = b.Name,
+                    //                                    url = b.RouterLink,
+                    //                                    icon = b.IconMenu,
+                    //                                    title = b.IsTitle,
+                    //                                    b.MenuRank,
+                    //                                    b.ParentId,
+                    //                                }).ToListAsync();
+                    //    return new JsonResult(new
+                    //    {
+                    //        token = tk,
+                    //        u = new
+                    //        {
+                    //            user.Id,
+                    //            user.FullName,
+                    //            user.CompanyId,
+                    //            user.DepartmentId,
+                    //            Permission = 0,
+                    //            GroupRoleDeFault = groupRoleDeFault,
+                    //            CompanyIdDefault = companyId,
+                    //        }
+                    //    ,
+                    //        _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
+                    //                                join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
+                    //                                where a.UserId == user.Id
+                    //                                orderby b.RankRole
+                    //                                select new
+                    //                                {
+                    //                                    a.GroupRoleId,
+                    //                                    b.Name
+                    //                                }).ToListAsync()
+                    //    ,
+                    //        _listQuyen = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
+                    //                            select new
+                    //                            {
+                    //                                b.Id,
+                    //                                b.RouterLink,
+                    //                                ViewPer = true,
+                    //                                AddPer = true,
+                    //                                EditPer = true,
+                    //                                DelPer = true,
+                    //                                ExportPer = true,
+                    //                            }).ToListAsync(),
+                    //        data = _listMenuAdmin.Where(x => x.MenuRank < 3).Select(a => new
+                    //        {
+                    //            a.Id,
+                    //            a.IsOrder,
+                    //            a.name,
+                    //            a.url,
+                    //            a.icon,
+                    //            a.MenuRank,
+                    //            a.title,
+                    //            children = _listMenuAdmin.Where(x => x.MenuRank >= 3 && x.ParentId == a.Id).Select(b => new
+                    //            {
+                    //                b.Id,
+                    //                b.name,
+                    //                b.url,
+                    //                b.icon,
+                    //                b.title,
+                    //                b.IsOrder
+                    //            }).OrderBy(y => y.IsOrder)
+                    //        }).OrderBy(y => y.IsOrder),
+                    //        congTys,
+                    //        error = 0
+                    //    });
+                    //#endregion
                     #region Nhóm quản trị công ty, chi nhánh
                     case 1:
                         var _listMenuCustomers = await (from a in _context.Sys_Cog_MenuCom
@@ -227,6 +303,7 @@ namespace HumanResoureAPI.Controllers
                         var _listMenuDepartments = await (from a in _context.Sys_Cog_MenuDep
                                                           join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
                                                           where a.DepartmentId == user.DepartmentId && b.IsActive == true && a.IsActive == true
+                                                          && a.CompanyId == user.CompanyId
                                                           select new
                                                           {
                                                               name = b.Name,
@@ -455,9 +532,9 @@ namespace HumanResoureAPI.Controllers
                         #endregion
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ObjectResult(new {error = 1});
+                return new ObjectResult(new {error = 1, ms = ex.Message});
             }
            
            

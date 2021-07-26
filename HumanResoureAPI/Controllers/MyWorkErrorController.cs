@@ -92,12 +92,12 @@ namespace HumanResoureAPI.Controllers
         #endregion
         #region Cập nhật  danh mục lỗi đánh giá chất lượng
         // Get: api/MyWorkError/5
-        [HttpPut("{Id}")]
-        public async Task<ActionResult<IEnumerable<CV_DM_Error>>> r3UpdateWorkDefaultByID(int Id, CV_DM_Error dM_Error)
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<CV_DM_Error>>> r3UpdateWorkDefaultByID(CV_DM_Error dM_Error)
         {
             try
             {
-                var error = await _context.CV_DM_Error.FindAsync(Id);
+                var error = await _context.CV_DM_Error.FindAsync(dM_Error.Id);
                 if (error == null)
                 {
                     return new ObjectResult(new { error = 1, ms = "Cập nhật danh mục lỗi đánh giá không thành công!" });

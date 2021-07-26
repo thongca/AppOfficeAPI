@@ -10,7 +10,7 @@ namespace HumanResource.Data.DTO
         public CV_QT_MyWork CV_QT_MyWork { get; set; }
         public List<CV_QT_MySupportWork> CV_QT_MySupportWorks { get; set; }
         public List<CV_QT_DepartmentSupporter> CV_QT_DepartmentSupporter { get; set; }
-        public int SpaceTimeId { get; set; }
+        public int? SpaceTimeId { get; set; }
     }
     public class Dtos_FlowWork
     {
