@@ -10157,11 +10157,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+      "projectUniqueName": "E:\\9.WeWork\\AppOfficeAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
       "projectName": "HumanResoureAPI",
-      "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+      "projectPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\obj\\",
+      "outputPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResoureAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10178,11 +10178,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
-              "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj"
+            "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
+              "projectPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj"
             },
-            "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
-              "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj"
+            "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
+              "projectPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Data\\HumanResource.Data.csproj"
             }
           }
         }

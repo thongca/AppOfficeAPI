@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "G2+gZNCNSZFPZ8xFMS3dn1F6wcw2g+LF+LmA/JMlzL0xtI0id0YoZ7VZHc1C1asBNwg1Sa7DBJiMBnWmB78G+g==",
+  "dgSpecHash": "BpOHwsbi5TWc78WVAl+HsPf3WrX17bG9tGGyNOxZJ22IPD6s5bnHhotGp2mWyK2E88fw4KdEf03Eb/p9mrq0MA==",
   "success": true,
-  "projectFilePath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Data\\HumanResource.Data.csproj",
+  "projectFilePath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Data\\HumanResource.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

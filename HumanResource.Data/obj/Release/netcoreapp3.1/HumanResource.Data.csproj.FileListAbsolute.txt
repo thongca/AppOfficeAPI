@@ -20,3 +20,15 @@ J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Release\netcoreapp3
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.dll
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.pdb
 J:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.genruntimeconfig.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\bin\Release\netcoreapp3.1\HumanResource.Data.deps.json
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\bin\Release\netcoreapp3.1\HumanResource.Data.runtimeconfig.json
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\bin\Release\netcoreapp3.1\HumanResource.Data.runtimeconfig.dev.json
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\bin\Release\netcoreapp3.1\HumanResource.Data.dll
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\bin\Release\netcoreapp3.1\HumanResource.Data.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.csproj.AssemblyReference.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.AssemblyInfoInputs.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.AssemblyInfo.cs
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.csproj.CoreCompileInputs.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.dll
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Data\obj\Release\netcoreapp3.1\HumanResource.Data.genruntimeconfig.cache

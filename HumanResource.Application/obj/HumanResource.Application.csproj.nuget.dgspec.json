@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {}
+    "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj": {}
   },
   "projects": {
-    "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
+    "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
+        "projectUniqueName": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj",
         "projectName": "HumanResource.Application",
-        "projectPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\HumanResource.Application.csproj",
+        "projectPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\HumanResource.Application.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResource.Application\\obj\\",
+        "outputPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u0cWP99DkafjClQ7rX+yjXcVbazYxkF6HBAPA0DyRjBifUqD5psxB5sN07vNHcpx1E3vT+VMm1oRFvz5klC55w==",
+  "dgSpecHash": "4dTVKTVKy4xYKc2OMh2G6jnpm1C0a3yTPqJhvzrLwKuwvkDtz7rJ9XNzjGY9FGv2Wv4gsyOc4ctgGioku59MXw==",
   "success": true,
-  "projectFilePath": "K:\\2.Web Ca Nhan\\VPDT\\HumanResoureAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
+  "projectFilePath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResoureAPI\\HumanResoureAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\epplus\\5.4.0\\epplus.5.4.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\mailkit\\2.9.0\\mailkit.2.9.0.nupkg.sha512",
