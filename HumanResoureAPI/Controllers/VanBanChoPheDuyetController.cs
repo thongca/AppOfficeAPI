@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
@@ -30,10 +31,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListVanBanChoPheDuyet")]
         public async Task<ActionResult<IEnumerable<VB_QT_LuanChuyenVanBan>>> r1GetListVanBanChoPheDuyet()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables =await (from a in _context.VB_QT_LuanChuyenVanBan
                           join b in _context.VB_QT_VanBanMoiSoHoa on a.VbMoiSoHoaId equals b.Id
-                          where a.NguoiNhanId == userId && a.NgayXuLy == null && a.MaLenh == "VB_CHOTRINHKY"
+                          where a.NguoiNhanId == token.UserID && a.NgayXuLy == null && a.MaLenh == "VB_CHOTRINHKY"
                           orderby a.ThoiGianGui descending
                           select new
                           {
@@ -61,8 +62,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 List<NguoiNhanThongBao> nhanThongBaos = new List<NguoiNhanThongBao>();
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var qtLuanChuyenVb =await _context.VB_QT_LuanChuyenVanBan.FindAsync(luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.Id);
                
                 qtLuanChuyenVb.NgayXuLy = DateTime.Now;
@@ -81,7 +82,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         var userNN = await _context.Sys_Dm_User.FindAsync(item.NguoiGuiId);
                         VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                          qtLuanChuyenVb.VbMoiSoHoaId, item.NguoiGuiId, item.TenNguoiGui, userId, user.FullName,
+                          qtLuanChuyenVb.VbMoiSoHoaId, item.NguoiGuiId, item.TenNguoiGui, token.UserID, user.FullName,
                           luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.TieuDe,
                           luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.NoiDung, false,
                           luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -112,7 +113,7 @@ namespace HumanResoureAPI.Controllers
                 }
                 var userNNN = await _context.Sys_Dm_User.FindAsync(nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").NguoiGuiId);
                 VB_QT_LuanChuyenVanBan lcvb1 = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                  qtLuanChuyenVb.VbMoiSoHoaId, nguoiNhans.FirstOrDefault(x=>x.MaLenh == "VB_MOISOHOA").NguoiGuiId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").TenNguoiGui, userId, user.FullName,
+                  qtLuanChuyenVb.VbMoiSoHoaId, nguoiNhans.FirstOrDefault(x=>x.MaLenh == "VB_MOISOHOA").NguoiGuiId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").TenNguoiGui, token.UserID, user.FullName,
                   luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.TieuDe,
                   luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.NoiDung, false,
                   luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -160,8 +161,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 List<NguoiNhanThongBao> nhanThongBaos = new List<NguoiNhanThongBao>();
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var qtLuanChuyenVb = await _context.VB_QT_LuanChuyenVanBan.FindAsync(luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.Id);
 
                 qtLuanChuyenVb.NgayXuLy = DateTime.Now;
@@ -182,7 +183,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         var userNN = await _context.Sys_Dm_User.FindAsync(item.NguoiGuiId);
                         VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                        qtLuanChuyenVb.VbMoiSoHoaId, item.NguoiGuiId, item.TenNguoiGui, userId, user.FullName,
+                        qtLuanChuyenVb.VbMoiSoHoaId, item.NguoiGuiId, item.TenNguoiGui, token.UserID, user.FullName,
                         luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.TieuDe,
                         luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.NoiDung, false,
                         luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -213,7 +214,7 @@ namespace HumanResoureAPI.Controllers
                 }
                 var userNNN = await _context.Sys_Dm_User.FindAsync(nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").NguoiGuiId);
                 VB_QT_LuanChuyenVanBan lcvb1 = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                qtLuanChuyenVb.VbMoiSoHoaId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").NguoiGuiId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").TenNguoiGui, userId, user.FullName,
+                qtLuanChuyenVb.VbMoiSoHoaId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").NguoiGuiId, nguoiNhans.FirstOrDefault(x => x.MaLenh == "VB_MOISOHOA").TenNguoiGui, token.UserID, user.FullName,
                 luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.TieuDe,
                 luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.NoiDung, false,
                 luanChuyenVbXNHT.VB_QT_LuanChuyenVanBan.HanXuLy, null,

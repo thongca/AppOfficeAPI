@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
 using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +33,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListWorks")]
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListWorks()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            var user = await _context.Sys_Dm_User.FindAsync(userId);
+             RequestToken token = CommonData.GetDataFromToken(User);
+            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
             int DepartmentId =await WorksCommon.getDepartmentID(_context, user.DepartmentId??0);
             var tables = from a in _context.CV_DM_DefaultTask
                          join b in _context.CV_DM_GroupTask on a.GroupTaskId equals b.Id
@@ -54,8 +56,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 defaultTask.Id = Helper.GenKey();
                 defaultTask.Frequency = 1;
                 defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
@@ -81,8 +83,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var defaultTask = await _context.CV_DM_DefaultTask.Where(x => x.DepartmentId == user.DepartmentId).Select(a => new
                 {
                     a.Code,
@@ -175,8 +177,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListGroupWork")]
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListGroupWorks()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            var user = await _context.Sys_Dm_User.FindAsync(userId);
+             RequestToken token = CommonData.GetDataFromToken(User);
+            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
             var tables = from a in _context.CV_DM_GroupTask
                          where a.DepartmentId == user.DepartmentId
                          select new
@@ -194,10 +196,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListHistory")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListHistory(OptionsCv option)
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from a in _context.CV_QT_StartPauseHistory
                          join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
-                         where a.UserCreateId == userId && a.MyWorkId == option.MyWorkId
+                         where a.UserCreateId == token.UserID && a.MyWorkId == option.MyWorkId
                          select new
                          {
                              b.TaskCode,
@@ -216,8 +218,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListErrorCTG")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorCTG()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            var user = await _context.Sys_Dm_User.FindAsync(userId);
+             RequestToken token = CommonData.GetDataFromToken(User);
+            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
             var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
@@ -246,8 +248,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListErrorhqcv")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorhqcv()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            var user = await _context.Sys_Dm_User.FindAsync(userId);
+             RequestToken token = CommonData.GetDataFromToken(User);
+            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
             var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
@@ -278,8 +280,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == options.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 var myWork = await _context.CV_QT_MyWork.FindAsync(options.MyWorkId);
                 List<string> list = new List<string>();

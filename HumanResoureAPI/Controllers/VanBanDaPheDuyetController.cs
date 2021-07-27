@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +28,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListVBDaPheDuyet")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListVBDaPheDuyet()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
-                         where b.MaLenh == "VB_DAPHEDUYET" && b.NgayXuLy == null && b.NguoiNhanId == userId
+                         where b.MaLenh == "VB_DAPHEDUYET" && b.NgayXuLy == null && b.NguoiNhanId == token.UserID
                          orderby b.ThoiGianGui descending
                          select new
                          {
@@ -52,15 +54,15 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListVBMinhDaPheDuyet")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListVBMinhDaPheDuyet()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = (from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
-                         where b.MaLenh == "VB_DAPHEDUYET" && b.NguoiGuiId == userId
+                         where b.MaLenh == "VB_DAPHEDUYET" && b.NguoiGuiId == token.UserID
 
                          select new
                          {
                              b.MaLenh,
-                             _context.VB_QT_LuanChuyenVanBan.Where(x=>x.Id == b.ParentId && x.NguoiNhanId == userId && x.VbMoiSoHoaId == b.VbMoiSoHoaId).FirstOrDefault().TenNguoiGui,
+                             _context.VB_QT_LuanChuyenVanBan.Where(x=>x.Id == b.ParentId && x.NguoiNhanId == token.UserID && x.VbMoiSoHoaId == b.VbMoiSoHoaId).FirstOrDefault().TenNguoiGui,
                              b.VbMoiSoHoaId,
                              a.TrichYeu,
                              a.NgayBanHanh,
@@ -75,7 +77,7 @@ namespace HumanResoureAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetVanBanSoHoaById(string id)
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = await _context.VB_QT_VanBanMoiSoHoa.FindAsync(id);
             var vb = await (from a in _context.VB_QT_VanBanMoiSoHoa
                             join b in _context.VB_Dm_LinhVuc on a.LinhVucId equals b.Id

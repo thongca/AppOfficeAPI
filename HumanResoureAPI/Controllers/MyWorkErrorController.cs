@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +29,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 data.DepartmentId = user.DepartmentId ?? 0;
                 _context.CV_DM_Error.Add(data);
                 await _context.SaveChangesAsync();
@@ -50,8 +52,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var datas = await _context.CV_DM_Error.Where(x => x.DepartmentId == user.DepartmentId && x.Active != true).Select(a => new
                 {
                     a.ErrorName,

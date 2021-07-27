@@ -16,12 +16,12 @@ namespace HumanResource.Application.Helper
         {
             _tokenManagement = tokenManagement.Value;
         }
-        public string GenerateToken(string claimTypes, RequestToken request)
+        public string GenerateToken(string claimTypes, string request)
         {
             string token = string.Empty;
             var claim = new[]
             {
-                new Claim(claimTypes, request.UserID.ToString())
+                new Claim(claimTypes, request)
             };
 
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
@@ -39,8 +40,8 @@ namespace HumanResoureAPI.Controllers
             {
                 var model = JsonConvert.DeserializeObject<VB_QT_VanBanMoiSoHoa>(Request.Form["model"]);
                 VB_QT_VanBanMoiSoHoa objvb = new VB_QT_VanBanMoiSoHoa();
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var userNguoiKy = await _context.Sys_Dm_User.FirstOrDefaultAsync(x=>x.Id == model.NguoiKyId);
                 if (model != null)
                 {
@@ -58,11 +59,11 @@ namespace HumanResoureAPI.Controllers
                     objvb.SoTrang = model.SoTrang;
                     objvb.TenNguoiTao = user.FullName;
                     objvb.CreateDate = DateTime.Now;
-                    objvb.UserCreateId = userId;
+                    objvb.UserCreateId = token.UserID;
                     objvb.TrichYeu = model.TrichYeu;
                     _context.VB_QT_VanBanMoiSoHoa.Add(objvb);
                 }
-                VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(objvb.Id, userId, user.FullName, userId, user.FullName, "", "", false, null, null, 1, "VB_MOISOHOA", DateTime.Now, false, null, "VB0101", "VB0101", user.PositionName, user.PositionName, user.DepartmentName, user.DepartmentName);
+                VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(objvb.Id, token.UserID, user.FullName, token.UserID, user.FullName, "", "", false, null, null, 1, "VB_MOISOHOA", DateTime.Now, false, null, "VB0101", "VB0101", user.PositionName, user.PositionName, user.DepartmentName, user.DepartmentName);
                 _context.VB_QT_LuanChuyenVanBan.Add(lcvb);
                 if (Request.Form.Files.Count != 0)
                 {
@@ -119,7 +120,7 @@ namespace HumanResoureAPI.Controllers
                 lcvb.DaDoc = true;
                 await _context.SaveChangesAsync();
             }
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await _context.VB_QT_VanBanMoiSoHoa.FindAsync(id);
             var vb =await (from a in _context.VB_QT_VanBanMoiSoHoa
                      join b in _context.VB_Dm_LinhVuc on a.LinhVucId equals b.Id
@@ -168,10 +169,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListDanhSachVBSoHoa")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListDanhSachVBSoHoa()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
-                         where b.MaLenh == "VB_MOISOHOA" && a.UserCreateId == userId
+                         where b.MaLenh == "VB_MOISOHOA" && a.UserCreateId == token.UserID
                          select new
                          {
                              b.MaLenh,
@@ -196,15 +197,15 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var userNN = await _context.Sys_Dm_User.FindAsync(vB_QT_LuanChuyenVanBan.NguoiNhanId);
                 var qtLuanChuyenVb = await _context.VB_QT_LuanChuyenVanBan.FindAsync(vB_QT_LuanChuyenVanBan.Id);
                 qtLuanChuyenVb.NgayDoc = DateTime.Now;
                 qtLuanChuyenVb.DaDoc = true;
                 qtLuanChuyenVb.NgayXuLy = DateTime.Now;
                 VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                    qtLuanChuyenVb.VbMoiSoHoaId, vB_QT_LuanChuyenVanBan.NguoiNhanId, vB_QT_LuanChuyenVanBan.TenNguoiNhan, userId, user.FullName,
+                    qtLuanChuyenVb.VbMoiSoHoaId, vB_QT_LuanChuyenVanBan.NguoiNhanId, vB_QT_LuanChuyenVanBan.TenNguoiNhan, token.UserID, user.FullName,
                     vB_QT_LuanChuyenVanBan.TieuDe,
                     vB_QT_LuanChuyenVanBan.NoiDung, false,
                     vB_QT_LuanChuyenVanBan.HanXuLy, null, 
@@ -250,8 +251,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var userNCD = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiChiDaoId);
                 var userNXL = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiXuLyId);
                 var userNDXL = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiDXuLyId);
@@ -263,7 +264,7 @@ namespace HumanResoureAPI.Controllers
                 if (luanChuyenVbUser.UserNhan.NguoiChiDaoId != null)
                 {
                     VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiChiDaoId, luanChuyenVbUser.UserNhan.TenNguoiChiDao, userId, user.FullName,
+                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiChiDaoId, luanChuyenVbUser.UserNhan.TenNguoiChiDao, token.UserID, user.FullName,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.TieuDe,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.NoiDung, false,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -278,7 +279,7 @@ namespace HumanResoureAPI.Controllers
                 if (luanChuyenVbUser.UserNhan.NguoiXuLyId != null)
                 {
                     VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiXuLyId, luanChuyenVbUser.UserNhan.TenNguoiXuLy, userId, user.FullName,
+                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiXuLyId, luanChuyenVbUser.UserNhan.TenNguoiXuLy, token.UserID, user.FullName,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.TieuDe,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.NoiDung, false,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -293,7 +294,7 @@ namespace HumanResoureAPI.Controllers
                 if (luanChuyenVbUser.UserNhan.NguoiDXuLyId != null)
                 {
                     VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiDXuLyId, luanChuyenVbUser.UserNhan.TenNguoiDXuLy, userId, user.FullName,
+                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiDXuLyId, luanChuyenVbUser.UserNhan.TenNguoiDXuLy, token.UserID, user.FullName,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.TieuDe,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.NoiDung, false,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.HanXuLy, null,
@@ -308,7 +309,7 @@ namespace HumanResoureAPI.Controllers
                 if (luanChuyenVbUser.UserNhan.NguoiDXuLyId != null)
                 {
                     VB_QT_LuanChuyenVanBan lcvb = LuanChuyenVanBan.r2AddLuanChuyenVanBan(
-                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiNDBId, luanChuyenVbUser.UserNhan.TenNguoiNDB, userId, user.FullName,
+                  luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId, luanChuyenVbUser.UserNhan.NguoiNDBId, luanChuyenVbUser.UserNhan.TenNguoiNDB, token.UserID, user.FullName,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.TieuDe,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.NoiDung, false,
                   luanChuyenVbUser.VB_QT_LuanChuyenVanBan.HanXuLy, null,

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,8 +59,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListNhanSu")]
         public async Task<ActionResult<IEnumerable<VB_Dm_LinhVuc>>> r1GetListNhanSu()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            var user = await _context.Sys_Dm_User.FindAsync(userId);
+             RequestToken token = CommonData.GetDataFromToken(User);
+            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
             var tables = _context.Sys_Dm_User.Where(x => x.CompanyId == user.CompanyId).Select(a => new
             {
                 a.FullName,
@@ -85,10 +87,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListVBNhanThongBao")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListVBNhanThongBao()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
-                         where b.MaLenh == "VB_NHANTHONGBAO" && b.NgayXuLy == null && b.NguoiNhanId == userId
+                         where b.MaLenh == "VB_NHANTHONGBAO" && b.NgayXuLy == null && b.NguoiNhanId == token.UserID
                          orderby b.ThoiGianGui descending
                          select new
                          {

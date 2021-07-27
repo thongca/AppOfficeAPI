@@ -45,10 +45,6 @@ namespace HumanResoureAPI
             // Read json settings
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
 
-            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-                                                                                 .AllowAnyMethod()
-                                                                                 .AllowAnyHeader()
-                                                                                 ));
             services.AddMvc();
             var tokenManagement = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(tokenManagement.Secret);

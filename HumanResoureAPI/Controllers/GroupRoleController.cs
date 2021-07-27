@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
@@ -29,7 +30,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_GroupRole.Select(a => new
                 {
                     a.Name,
@@ -75,8 +76,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                sys_Dm_Group.UserCreateId = userId;
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                sys_Dm_Group.UserCreateId = token.UserID;
                 sys_Dm_Group.CreateDate = DateTime.Now;
                 sys_Dm_Group.RankRole = GetRankRole(sys_Dm_Group);
                 _context.Sys_Dm_GroupRole.Add(sys_Dm_Group);
@@ -143,7 +144,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new JsonResult(new { error = 1 });
             }
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             foreach (var item in listDataRms)
             {
                 if (_context.Sys_Cog_UsersGroup.Count(x => x.GroupRoleId == item.Id) > 0)

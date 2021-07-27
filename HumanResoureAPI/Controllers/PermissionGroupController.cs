@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,7 +90,7 @@ namespace HumanResoureAPI.Controllers
                 {
                     options.DepartmentId = options.NestId;
                 }
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.MenuId);
                 var menuComThree = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
                 if (menuComThree == 0)
@@ -112,7 +114,7 @@ namespace HumanResoureAPI.Controllers
                             objOne.EditPer = options.EditPer ?? false;
                             objOne.ExportPer = options.ExportPer ?? false;
                             objOne.DelPer = options.DelPer ?? false;
-                            objOne.UserCreateId = userId;
+                            objOne.UserCreateId = token.UserID;
                             objOne.CreatDate = DateTime.Now;
                             objOne.ParentId = null;
                             _context.Sys_Cog_Permission.Add(objOne);
@@ -127,7 +129,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.EditPer = options.EditPer ?? false;
                             objTwo.ExportPer = options.ExportPer ?? false;
                             objTwo.DelPer = options.DelPer ?? false;
-                            objTwo.UserCreateId = userId;
+                            objTwo.UserCreateId = token.UserID;
                             objTwo.CreatDate = DateTime.Now;
                             objTwo.ParentId = menuOne.Id;
                             _context.Sys_Cog_Permission.Add(objTwo);
@@ -142,7 +144,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.EditPer = options.EditPer ?? false;
                             objThree.ExportPer = options.ExportPer ?? false;
                             objThree.DelPer = options.DelPer ?? false;
-                            objThree.UserCreateId = userId;
+                            objThree.UserCreateId = token.UserID;
                             objThree.CreatDate = DateTime.Now;
                             objThree.ParentId = menuTwo.Id;
                             _context.Sys_Cog_Permission.Add(objThree);
@@ -160,7 +162,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.EditPer = options.EditPer ?? false;
                             objTwo.ExportPer = options.ExportPer ?? false;
                             objTwo.DelPer = options.DelPer ?? false;
-                            objTwo.UserCreateId = userId;
+                            objTwo.UserCreateId = token.UserID;
                             objTwo.CreatDate = DateTime.Now;
                             objTwo.ParentId = menuOne.Id;
                             _context.Sys_Cog_Permission.Add(objTwo);
@@ -175,7 +177,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.EditPer = options.EditPer ?? false;
                             objThree.ExportPer = options.ExportPer ?? false;
                             objThree.DelPer = options.DelPer ?? false;
-                            objThree.UserCreateId = userId;
+                            objThree.UserCreateId = token.UserID;
                             objThree.CreatDate = DateTime.Now;
                             objThree.ParentId = menuTwo.Id;
                             _context.Sys_Cog_Permission.Add(objThree);
@@ -195,7 +197,7 @@ namespace HumanResoureAPI.Controllers
                         objThree.EditPer = options.EditPer ?? false;
                         objThree.ExportPer = options.ExportPer ?? false;
                         objThree.DelPer = options.DelPer ?? false;
-                        objThree.UserCreateId = userId;
+                        objThree.UserCreateId = token.UserID;
                         objThree.CreatDate = DateTime.Now;
                         objThree.ParentId = menuTwo.Id;
                         _context.Sys_Cog_Permission.Add(objThree);

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -78,7 +80,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
                 var menuComThree =  _context.Sys_Cog_MenuCom.Count(x=>x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId);
                 if (menuComThree == 0)
@@ -96,7 +98,7 @@ namespace HumanResoureAPI.Controllers
                             objOne.CompanyId = options.CompanyId;
                             objOne.IsActive = true;
                             objOne.ParentId = null;
-                            objOne.UserUpdateId = userId;
+                            objOne.UserUpdateId = token.UserID;
                             objOne.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuCom.Add(objOne);
                             Sys_Cog_MenuCom objTwo = new Sys_Cog_MenuCom();
@@ -104,7 +106,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.CompanyId = options.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuCom.Add(objTwo);
                             Sys_Cog_MenuCom objThree = new Sys_Cog_MenuCom();
@@ -112,7 +114,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.CompanyId = options.CompanyId;
                             objThree.IsActive = true;
                             objThree.ParentId = menuTwo.Id;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuCom.Add(objThree);
                         }
@@ -123,7 +125,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.CompanyId = options.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuCom.Add(objTwo);
                             Sys_Cog_MenuCom objThree = new Sys_Cog_MenuCom();
@@ -131,7 +133,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.CompanyId = options.CompanyId;
                             objThree.ParentId = menuTwo.Id;
                             objThree.IsActive = true;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuCom.Add(objThree);
                         }
@@ -144,7 +146,7 @@ namespace HumanResoureAPI.Controllers
                         objThree.CompanyId = options.CompanyId;
                         objThree.IsActive = true;
                         objThree.ParentId = menuTwo.Id;
-                        objThree.UserUpdateId = userId;
+                        objThree.UserUpdateId = token.UserID;
                         objThree.DateUpdate = DateTime.Now;
                         _context.Sys_Cog_MenuCom.Add(objThree);
                         menuComTwoParent.IsActive = true;
@@ -179,7 +181,7 @@ namespace HumanResoureAPI.Controllers
                         }
                         menuCome.IsActive = false;
                         menuCome.DateUpdate = DateTime.Now;
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                     }
                     else
                     {
@@ -189,7 +191,7 @@ namespace HumanResoureAPI.Controllers
                         }
                         menuCome.IsActive = true;
                         menuCome.DateUpdate = DateTime.Now;
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                     }
                 }
                 await _context.SaveChangesAsync();
@@ -267,7 +269,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
                 var menuComThree = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
                 if (menuComThree == 0)
@@ -286,7 +288,7 @@ namespace HumanResoureAPI.Controllers
                             objOne.IsActive = true;
                             objOne.ParentId = null;
                             objOne.DepartmentId = options.DepartmentId;
-                            objOne.UserUpdateId = userId;
+                            objOne.UserUpdateId = token.UserID;
                             objOne.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuDep.Add(objOne);
                             Sys_Cog_MenuDep objTwo = new Sys_Cog_MenuDep();
@@ -295,7 +297,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.DepartmentId;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuDep.Add(objTwo);
                             Sys_Cog_MenuDep objThree = new Sys_Cog_MenuDep();
@@ -304,7 +306,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.IsActive = true;
                             objThree.ParentId = menuTwo.Id;
                             objThree.DepartmentId = options.DepartmentId;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuDep.Add(objThree);
                         }
@@ -316,7 +318,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.DepartmentId;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuDep.Add(objTwo);
                             Sys_Cog_MenuDep objThree = new Sys_Cog_MenuDep();
@@ -325,7 +327,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.ParentId = menuTwo.Id;
                             objThree.IsActive = true;
                             objThree.DepartmentId = options.DepartmentId;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuDep.Add(objThree);
                         }
@@ -339,7 +341,7 @@ namespace HumanResoureAPI.Controllers
                         objThree.IsActive = true;
                         objThree.ParentId = menuTwo.Id;
                         objThree.DepartmentId = options.DepartmentId;
-                        objThree.UserUpdateId = userId;
+                        objThree.UserUpdateId = token.UserID;
                         objThree.DateUpdate = DateTime.Now;
                         _context.Sys_Cog_MenuDep.Add(objThree);
                         menuComTwoParent.IsActive = true;
@@ -364,7 +366,7 @@ namespace HumanResoureAPI.Controllers
                             item.IsActive = false;
 
                         }
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                         menuCome.DateUpdate = DateTime.Now;
                     }
                     else
@@ -374,7 +376,7 @@ namespace HumanResoureAPI.Controllers
                             menuComTwoParent.IsActive = true;
                         }
                         menuCome.IsActive = true;
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                         menuCome.DateUpdate = DateTime.Now;
                     }
                 }
@@ -453,7 +455,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
                 var menuComThree = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
                 if (menuComThree == 0)
@@ -473,7 +475,7 @@ namespace HumanResoureAPI.Controllers
                             objOne.ParentId = null;
                             objOne.DepartmentId = options.NestId;
                             objOne.ParentDepartmentId = options.DepartmentId;
-                            objOne.UserUpdateId = userId;
+                            objOne.UserUpdateId = token.UserID;
                             objOne.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuNest.Add(objOne);
                             Sys_Cog_MenuNest objTwo = new Sys_Cog_MenuNest();
@@ -483,7 +485,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.NestId;
                             objTwo.ParentDepartmentId = options.DepartmentId;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuNest.Add(objTwo);
                             Sys_Cog_MenuNest objThree = new Sys_Cog_MenuNest();
@@ -493,7 +495,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.ParentId = menuTwo.Id;
                             objThree.DepartmentId = options.NestId;
                             objThree.ParentDepartmentId = options.DepartmentId;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuNest.Add(objThree);
                         }
@@ -506,7 +508,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.NestId;
                             objTwo.ParentDepartmentId = options.DepartmentId;
-                            objTwo.UserUpdateId = userId;
+                            objTwo.UserUpdateId = token.UserID;
                             objTwo.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuNest.Add(objTwo);
                             Sys_Cog_MenuNest objThree = new Sys_Cog_MenuNest();
@@ -516,7 +518,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.IsActive = true;
                             objThree.DepartmentId = options.NestId;
                             objThree.ParentDepartmentId = options.DepartmentId;
-                            objThree.UserUpdateId = userId;
+                            objThree.UserUpdateId = token.UserID;
                             objThree.DateUpdate = DateTime.Now;
                             _context.Sys_Cog_MenuNest.Add(objThree);
                         }
@@ -530,7 +532,7 @@ namespace HumanResoureAPI.Controllers
                         objThree.ParentId = menuTwo.Id;
                         objThree.DepartmentId = options.NestId;
                         objThree.ParentDepartmentId = options.DepartmentId;
-                        objThree.UserUpdateId = userId;
+                        objThree.UserUpdateId = token.UserID;
                         objThree.DateUpdate = DateTime.Now;
                         _context.Sys_Cog_MenuNest.Add(objThree);
                         if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
@@ -562,7 +564,7 @@ namespace HumanResoureAPI.Controllers
                             }
                         }
                         menuCome.IsActive = false;
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                         menuCome.DateUpdate = DateTime.Now;
                     }
                     else
@@ -578,7 +580,7 @@ namespace HumanResoureAPI.Controllers
                             }
                         }
                         menuCome.IsActive = true;
-                        menuCome.UserUpdateId = userId;
+                        menuCome.UserUpdateId = token.UserID;
                         menuCome.DateUpdate = DateTime.Now;
                     }
                 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
@@ -147,8 +148,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user =await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user =await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var listUser =await _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(x => x.Id).ToListAsync();
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
@@ -185,12 +186,12 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 TimeSpan ts17 = new TimeSpan(17, 00, 0);
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
 
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var reports = (from a in _context.CV_QT_StartPauseHistory
-                               where a.UserCreateId == userId && a.Done != true && a.CreateDate.Month == DateTime.Now.Month
+                               where a.UserCreateId == token.UserID && a.Done != true && a.CreateDate.Month == DateTime.Now.Month
                                orderby a.Id
                                select new
                                {
@@ -229,7 +230,7 @@ namespace HumanResoureAPI.Controllers
                         }
                     }
                 }
-                var objup =  _context.CV_QT_StartPauseHistory.Where(x=>x.UserCreateId == userId && x.Done != true);
+                var objup =  _context.CV_QT_StartPauseHistory.Where(x=>x.UserCreateId == token.UserID && x.Done != true);
                 foreach (var item in objup)
                 {
                     item.Done = true;

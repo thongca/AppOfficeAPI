@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +28,10 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListVBBiTraLai")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListVBBiTraLai()
         {
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
-                         where b.MaLenh == "VB_TRALAI" && b.NgayXuLy == null && b.NguoiNhanId == userId
+                         where b.MaLenh == "VB_TRALAI" && b.NgayXuLy == null && b.NguoiNhanId == token.UserID
                          orderby b.ThoiGianGui descending
                          select new
                          {

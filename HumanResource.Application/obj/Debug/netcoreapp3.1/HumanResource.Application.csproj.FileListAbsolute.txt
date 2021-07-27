@@ -56,3 +56,12 @@ K:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcor
 K:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.csproj.CoreCompileInputs.cache
 K:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.dll
 K:\2.Web Ca Nhan\VPDT\HumanResoureAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\bin\Debug\netcoreapp3.1\HumanResource.Application.deps.json
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\bin\Debug\netcoreapp3.1\HumanResource.Application.dll
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\bin\Debug\netcoreapp3.1\HumanResource.Application.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.csproj.AssemblyReference.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.AssemblyInfoInputs.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.AssemblyInfo.cs
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.csproj.CoreCompileInputs.cache
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.dll
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Debug\netcoreapp3.1\HumanResource.Application.pdb

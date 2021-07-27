@@ -9,6 +9,7 @@ using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Application.Paremeters;
 using HumanResoureAPI.Common;
+using HumanResource.Application.Helper.Dtos;
 
 namespace HumanResoureAPI.Controllers
 {
@@ -116,7 +117,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new JsonResult(new { error = 1 });
             }
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
                 foreach (var item in sys_Dm_Companys)
                 {
                     var sys_Dm_Company = _context.Sys_Dm_Company.FirstOrDefault(x => x.Id == item.Id);

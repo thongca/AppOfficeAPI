@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
@@ -30,7 +31,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                         var tables = _context.VB_QT_QuyTrinh.Select(a => new {
                             a.Name,
                             a.Id,
@@ -62,7 +63,7 @@ namespace HumanResoureAPI.Controllers
                                      c.Id,
                                      b.BuocId,
                                  };
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.VB_QT_Buoc.Where(x=>x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == options.CompanyId).Select(a => new {
                     a.Name,
                     a.Id,

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Data.DTO;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
+using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +32,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_User.Select(a => new {
                     a.FullName,
                     a.Id,
@@ -38,23 +40,25 @@ namespace HumanResoureAPI.Controllers
                     a.Password,
                     a.IsActive,
                     a.DepartmentId,
-                    a.CompanyId
+                    a.CompanyId,
+                    a.NestId,
+                    a.Role
                 }).AsQueryable();
                 if (options.companyId == 0)
                 {
                     tables = tables.Where(x => x.CompanyId == 0);
                 }
-                if (options.companyId > 0 && options.departmentId == 0 && options.nestId == 0)
+                if (options.companyId > 0)
                 {
-                    tables = tables.Where(x => x.CompanyId == options.companyId && x.DepartmentId == 0);
+                    tables = tables.Where(x => x.CompanyId == options.companyId);
                 }
-                if (options.departmentId > 0 && options.nestId == 0)
+                if (options.departmentId > 0)
                 {
                     tables = tables.Where(x => x.DepartmentId == options.departmentId);
                 }
                 if (options.nestId > 0)
                 {
-                    tables = tables.Where(x => x.DepartmentId == options.nestId);
+                    tables = tables.Where(x => x.NestId == options.nestId);
                 }
                 if (!string.IsNullOrEmpty(options.s))
                 {
@@ -77,13 +81,19 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var userLogin = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var userLogin = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 if (_context.Sys_Dm_User.Count(x=>x.Code == userGroupRole.sys_Dm_User.Code) > 0)
                 {
                     return new ObjectResult(new { error = 2, ms = "Mã nhân viên đã tồn tại trong hệ thống." });
                 }
-                var department =await _context.Sys_Dm_Department.FindAsync(userLogin.ParentDepartId);
+                var department =await _context.Sys_Dm_Department.FindAsync(userLogin.DepartmentId);
+                var nest = await _context.Sys_Dm_Department.FindAsync(userGroupRole.sys_Dm_User.NestId);
+                Nullable<int> NestId = null;
+                if (nest != null)
+                {
+                    NestId = nest.Id;
+                }
                 var position =await _context.Sys_Dm_Position.FindAsync(userGroupRole.sys_Dm_User.PositionId);
                 if (position == null)
                 {
@@ -93,8 +103,9 @@ namespace HumanResoureAPI.Controllers
                 userGroupRole.sys_Dm_User.Password = PasswordEn;
                 userGroupRole.sys_Dm_User.PositionName = position.Name;
                 userGroupRole.sys_Dm_User.DepartmentName = department.Name;
-                userGroupRole.sys_Dm_User.UserCreateId = userId;
+                userGroupRole.sys_Dm_User.UserCreateId = token.UserID;
                 userGroupRole.sys_Dm_User.CreateDate = DateTime.Now;
+                userGroupRole.sys_Dm_User.NestId = NestId;
                 _context.Sys_Dm_User.Add(userGroupRole.sys_Dm_User);
                 await _context.SaveChangesAsync();
                 var user = _context.Sys_Dm_User.FirstOrDefault(x=>x.Code == userGroupRole.sys_Dm_User.Code);
@@ -152,14 +163,14 @@ namespace HumanResoureAPI.Controllers
         public async Task<IActionResult> r3UpdateDataModel(UserGroupRole userGroupRole)
         {
             string PasswordEn = Helper.Encrypt(userGroupRole.sys_Dm_User.Username, userGroupRole.sys_Dm_User.Password);
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-            userGroupRole.sys_Dm_User.UserCreateId = userId;
+             RequestToken token = CommonData.GetDataFromToken(User);
+            userGroupRole.sys_Dm_User.UserCreateId = token.UserID;
             userGroupRole.sys_Dm_User.CreateDate = DateTime.Now;
             // update user
             var user =await _context.Sys_Dm_User.FindAsync(userGroupRole.sys_Dm_User.Id);
             user.Password = PasswordEn;
             user.FullName = userGroupRole.sys_Dm_User.FullName;
-            user.Code = userGroupRole.sys_Dm_User.Code;
+            user.Role = userGroupRole.sys_Dm_User.Role;
             // update quyền
             var userGroup = _context.Sys_Cog_UsersGroup.Where(x=>x.UserId == userGroupRole.sys_Dm_User.Id);
             _context.Sys_Cog_UsersGroup.RemoveRange(userGroup);
@@ -190,7 +201,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new JsonResult(new { error = 1 });
             }
-            var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+             RequestToken token = CommonData.GetDataFromToken(User);
             foreach (var item in listDataRms)
             {
                 var userGroup = _context.Sys_Cog_UsersGroup.Where(x => x.UserId == item.Id);

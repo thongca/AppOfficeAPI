@@ -7,5 +7,6 @@ namespace HumanResource.Application.Helper.Dtos
    public class RequestToken
     {
         public int UserID { get; set; }
+        public int CompanyId { get; set; }
     }
 }

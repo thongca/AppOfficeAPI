@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Data.Entities.VanBan;
+using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using Microsoft.AspNetCore.Http;
@@ -32,23 +34,20 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                int groupRoleDeFault = CheckPermission.getGroupRoleDefault(_context, userId);
-                int perMission = CheckPermission.CheckPer(_context, userId, options.groupId);
-                switch (perMission)
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
+                if (user.Role == RoleUserEnum.Administrator)
                 {
-                    case 0:
-                        var tables = _context.Sys_Dm_Company.Select(a => new
-                        {
-                            Name = a.Code + " " + a.Name,
-                            a.Id,
-                            a.IsOrder
-                        });
-                        var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
-                        return new ObjectResult(new { error = 0, data = qrs });
-                    default:
-                        return new ObjectResult(new { error = 0, data = new List<Sys_Dm_Company>() });
+                    var tables = _context.Sys_Dm_Company.Select(a => new
+                    {
+                        Name = a.Code + " " + a.Name,
+                        a.Id,
+                        a.IsOrder
+                    });
+                    var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
+                    return new ObjectResult(new { error = 0, data = qrs });
                 }
+                return new ObjectResult(new { error = 0, data = new List<Sys_Dm_Company>() });
 
             }
             catch (Exception e)
@@ -66,7 +65,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == options.companyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
@@ -92,8 +91,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == user.CompanyId).Select(a => new
                 {
                     DepartmentName = "(" + a.Code + ") " + a.Name,
@@ -119,7 +118,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Position.Where(x => x.CompanyId == options.companyId).Select(a => new
                 {
                     a.Name,
@@ -144,7 +143,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == options.departmentId && x.CompanyId == options.companyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
@@ -170,7 +169,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_GroupRole
                     .Where(x =>
                     x.CompanyId == options.companyId &&
@@ -218,7 +217,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.VB_QT_Buoc.Where(x => x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == options.CompanyId).Select(a => new
                 {
                     a.Name,
@@ -242,8 +241,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var tables = from a in _context.VB_QT_BuocLenhGroupRole
                              where a != null
                              join b in _context.VB_QT_BuocLenhTuongTac on a.BuocLenhTuongTacId equals b.Id
@@ -276,8 +275,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 int hienNguoiNhan = CheckNguoiNhan.DuocHienThiNguoiNhan(_context, options.GroupRoleId, options.BuocLenhGroupId);
                 switch (hienNguoiNhan)
                 {
@@ -486,8 +485,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 #region Phòng ban 
 
                 int DepId = 0;
@@ -523,8 +522,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var user = await _context.Sys_Dm_User.FindAsync(userId);
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var buoc = _context.VB_QT_Buoc.FirstOrDefault(x => x.MenuId == options.MenuId);
                 var LenhTuongTac = _context.VB_QT_LenhTuongTac.FirstOrDefault(x => x.Code == options.MaLenh);
                 var buocLenhTuongTac = _context.VB_QT_BuocLenhTuongTac.FirstOrDefault(x => x.BuocId == buoc.Id && x.LenhTuongTacId == LenhTuongTac.Id);
@@ -633,7 +632,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_User.Select(a => new
                 {
                     a.FullName,
@@ -678,8 +677,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var tables = _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == userId).Select(a => new
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var tables = _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == token.UserID).Select(a => new
                 {
                     a.TenNguoiGui,
                     a.NoiDung,
@@ -707,7 +706,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                 RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await _context.Sys_QT_ThongBao.FindAsync(thongbao.Id);
                 tables.DaDoc = true;
                 tables.NgayDoc = DateTime.Now;
@@ -727,8 +726,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
-                var tables = await _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == userId).ToListAsync();
+                 RequestToken token = CommonData.GetDataFromToken(User);
+                var tables = await _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == token.UserID).ToListAsync();
                 foreach (var item in tables)
                 {
 
