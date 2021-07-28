@@ -44,13 +44,13 @@ namespace HumanResoureAPI.Controllers
                     a.NestId,
                     a.Role
                 }).AsQueryable();
-                if (options.companyId == 0)
+                if (token.CompanyId == 0)
                 {
                     tables = tables.Where(x => x.CompanyId == 0);
                 }
-                if (options.companyId > 0)
+                if (token.CompanyId > 0)
                 {
-                    tables = tables.Where(x => x.CompanyId == options.companyId);
+                    tables = tables.Where(x => x.CompanyId == token.CompanyId);
                 }
                 if (options.departmentId > 0)
                 {
@@ -87,7 +87,7 @@ namespace HumanResoureAPI.Controllers
                 {
                     return new ObjectResult(new { error = 2, ms = "Mã nhân viên đã tồn tại trong hệ thống." });
                 }
-                var department =await _context.Sys_Dm_Department.FindAsync(userLogin.DepartmentId);
+                var department = await _context.Sys_Dm_Department.FindAsync(userGroupRole.sys_Dm_User.DepartmentId);
                 var nest = await _context.Sys_Dm_Department.FindAsync(userGroupRole.sys_Dm_User.NestId);
                 Nullable<int> NestId = null;
                 if (nest != null)
@@ -100,6 +100,7 @@ namespace HumanResoureAPI.Controllers
                     return new ObjectResult(new { error = 2, ms = "Chưa chọn chức vụ cho nhân viên mới." });
                 }
                 string PasswordEn = Helper.Encrypt(userGroupRole.sys_Dm_User.Username, userGroupRole.sys_Dm_User.Password);
+                userGroupRole.sys_Dm_User.CompanyId = token.CompanyId;
                 userGroupRole.sys_Dm_User.Password = PasswordEn;
                 userGroupRole.sys_Dm_User.PositionName = position.Name;
                 userGroupRole.sys_Dm_User.DepartmentName = department.Name;
@@ -109,13 +110,13 @@ namespace HumanResoureAPI.Controllers
                 _context.Sys_Dm_User.Add(userGroupRole.sys_Dm_User);
                 await _context.SaveChangesAsync();
                 var user = _context.Sys_Dm_User.FirstOrDefault(x=>x.Code == userGroupRole.sys_Dm_User.Code);
-                foreach (var item in userGroupRole.GroupRoles)
-                {
-                    Sys_Cog_UsersGroup obj = new Sys_Cog_UsersGroup();
-                    obj.UserId = user.Id;
-                    obj.GroupRoleId = item.Id;
-                    _context.Sys_Cog_UsersGroup.Add(obj);
-                }
+                //foreach (var item in userGroupRole.GroupRoles)
+                //{
+                //    Sys_Cog_UsersGroup obj = new Sys_Cog_UsersGroup();
+                //    obj.UserId = user.Id;
+                //    obj.GroupRoleId = item.Id;
+                //    _context.Sys_Cog_UsersGroup.Add(obj);
+                //}
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
 
@@ -168,19 +169,23 @@ namespace HumanResoureAPI.Controllers
             userGroupRole.sys_Dm_User.CreateDate = DateTime.Now;
             // update user
             var user =await _context.Sys_Dm_User.FindAsync(userGroupRole.sys_Dm_User.Id);
-            user.Password = PasswordEn;
+            if (user.Password != userGroupRole.sys_Dm_User.Password)
+            {
+                user.Password = PasswordEn;
+            }
             user.FullName = userGroupRole.sys_Dm_User.FullName;
             user.Role = userGroupRole.sys_Dm_User.Role;
+            user.GroupRoleId = userGroupRole.sys_Dm_User.GroupRoleId;
             // update quyền
             var userGroup = _context.Sys_Cog_UsersGroup.Where(x=>x.UserId == userGroupRole.sys_Dm_User.Id);
             _context.Sys_Cog_UsersGroup.RemoveRange(userGroup);
-            foreach (var item in userGroupRole.GroupRoles)
-            {
-                Sys_Cog_UsersGroup obj = new Sys_Cog_UsersGroup();
-                obj.UserId = user.Id;
-                obj.GroupRoleId = item.Id;
-                _context.Sys_Cog_UsersGroup.Add(obj);
-            }
+            //foreach (var item in userGroupRole.GroupRoles)
+            //{
+            //    Sys_Cog_UsersGroup obj = new Sys_Cog_UsersGroup();
+            //    obj.UserId = user.Id;
+            //    obj.GroupRoleId = item.Id;
+            //    _context.Sys_Cog_UsersGroup.Add(obj);
+            //}
             try
             {
                 await _context.SaveChangesAsync();

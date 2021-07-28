@@ -36,22 +36,19 @@ namespace HumanResoureAPI.Controllers
                     a.Name,
                     a.Id,
                     a.IsOrder,
-                    a.IsAdminCom,
-                    a.IsAdminDep,
-                    a.IsAdminNest,
                     a.IsActive,
                     a.DepartmentId,
                     a.CompanyId
                 }).AsQueryable();
-                if (options.companyId == 0)
+                if (token.CompanyId == 0)
                 {
                     tables = tables.Where(x => x.CompanyId == 0);
                 }
-                if (options.companyId > 0 && options.departmentId == 0 && options.nestId == 0)
+                if (token.CompanyId > 0)
                 {
-                    tables = tables.Where(x => x.CompanyId == options.companyId && x.DepartmentId == 0);
+                    tables = tables.Where(x => x.CompanyId == token.CompanyId);
                 }
-                if (options.departmentId > 0 && options.nestId == 0)
+                if (options.departmentId > 0)
                 {
                     tables = tables.Where(x => x.DepartmentId == options.departmentId);
                 }
@@ -79,7 +76,6 @@ namespace HumanResoureAPI.Controllers
                  RequestToken token = CommonData.GetDataFromToken(User);
                 sys_Dm_Group.UserCreateId = token.UserID;
                 sys_Dm_Group.CreateDate = DateTime.Now;
-                sys_Dm_Group.RankRole = GetRankRole(sys_Dm_Group);
                 _context.Sys_Dm_GroupRole.Add(sys_Dm_Group);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
@@ -121,7 +117,6 @@ namespace HumanResoureAPI.Controllers
             {
                 return new ObjectResult(new { error = 1 });
             }
-            sys_Dm_Group.RankRole = GetRankRole(sys_Dm_Group);
             _context.Entry(sys_Dm_Group).State = EntityState.Modified;
 
             try
@@ -162,25 +157,6 @@ namespace HumanResoureAPI.Controllers
             await _context.SaveChangesAsync();
             return new JsonResult(new { error = 0 });
 
-        }
-        private int GetRankRole(Sys_Dm_GroupRole sys_Dm_GroupRole)
-        {
-            if (sys_Dm_GroupRole.IsAdminCom == true)
-            {
-                return 1;
-            }
-            else if (sys_Dm_GroupRole.IsAdminDep == true)
-            {
-                return 2;
-            }
-            else if (sys_Dm_GroupRole.IsAdminNest == true)
-            {
-                return 3;
-            }
-            else
-            {
-                return 4;
-            }
         }
     }
 }

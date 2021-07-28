@@ -32,6 +32,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Dm_Menu
                                     orderby a.IsOrder
                                     select new
@@ -59,7 +60,7 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             c.Id,
                             c.MenuRank,
-                            IsActive = (_context.Sys_Cog_MenuCom.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.IsActive == true) != null) ? true : false
+                            IsActive = (_context.Sys_Cog_MenuCom.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.IsActive == true) != null) ? true : false
                         })
                     })
                 });
@@ -82,20 +83,20 @@ namespace HumanResoureAPI.Controllers
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
-                var menuComThree =  _context.Sys_Cog_MenuCom.Count(x=>x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId);
+                var menuComThree =  _context.Sys_Cog_MenuCom.Count(x=>x.MenuId == menuThree.Id && x.CompanyId == token.CompanyId);
                 if (menuComThree == 0)
                 {
                     var menuTwo = await _context.Sys_Dm_Menu.FindAsync(menuThree.ParentId);
-                    var menuComTwo = _context.Sys_Cog_MenuCom.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId);
+                    var menuComTwo = _context.Sys_Cog_MenuCom.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId);
                     if (menuComTwo == 0)
                     {
                         var menuOne = await _context.Sys_Dm_Menu.FindAsync(menuTwo.ParentId);
-                        var menuComOne = _context.Sys_Cog_MenuCom.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == options.CompanyId);
+                        var menuComOne = _context.Sys_Cog_MenuCom.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == token.CompanyId);
                         if (menuComOne == 0)
                         {
                             Sys_Cog_MenuCom objOne = new Sys_Cog_MenuCom();
                             objOne.MenuId = menuOne.Id;
-                            objOne.CompanyId = options.CompanyId;
+                            objOne.CompanyId = token.CompanyId;
                             objOne.IsActive = true;
                             objOne.ParentId = null;
                             objOne.UserUpdateId = token.UserID;
@@ -103,7 +104,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuCom.Add(objOne);
                             Sys_Cog_MenuCom objTwo = new Sys_Cog_MenuCom();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.UserUpdateId = token.UserID;
@@ -111,7 +112,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuCom.Add(objTwo);
                             Sys_Cog_MenuCom objThree = new Sys_Cog_MenuCom();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.IsActive = true;
                             objThree.ParentId = menuTwo.Id;
                             objThree.UserUpdateId = token.UserID;
@@ -122,7 +123,7 @@ namespace HumanResoureAPI.Controllers
                         {
                             Sys_Cog_MenuCom objTwo = new Sys_Cog_MenuCom();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.UserUpdateId = token.UserID;
@@ -130,7 +131,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuCom.Add(objTwo);
                             Sys_Cog_MenuCom objThree = new Sys_Cog_MenuCom();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.ParentId = menuTwo.Id;
                             objThree.IsActive = true;
                             objThree.UserUpdateId = token.UserID;
@@ -140,10 +141,10 @@ namespace HumanResoureAPI.Controllers
                     }
                     else
                     {
-                        var menuComTwoParent = await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId);
+                        var menuComTwoParent = await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId);
                         Sys_Cog_MenuCom objThree = new Sys_Cog_MenuCom();
                         objThree.MenuId = options.Id;
-                        objThree.CompanyId = options.CompanyId;
+                        objThree.CompanyId = token.CompanyId;
                         objThree.IsActive = true;
                         objThree.ParentId = menuTwo.Id;
                         objThree.UserUpdateId = token.UserID;
@@ -155,13 +156,13 @@ namespace HumanResoureAPI.Controllers
                 }
                 else
                 {
-                    var menuCome =await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x=>x.MenuId == options.Id && x.CompanyId == options.CompanyId);
-                    var menuComTwoParent =await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x=>x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId);
+                    var menuCome =await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x=>x.MenuId == options.Id && x.CompanyId == token.CompanyId);
+                    var menuComTwoParent =await _context.Sys_Cog_MenuCom.FirstOrDefaultAsync(x=>x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId);
                     if (options.IsActive == false)
                     {
-                        var rmmenuDeps = _context.Sys_Cog_MenuDep.Where(x => x.MenuId == options.Id && x.CompanyId == options.CompanyId).ToList(); // xóa menu phòng
+                        var rmmenuDeps = _context.Sys_Cog_MenuDep.Where(x => x.MenuId == options.Id && x.CompanyId == token.CompanyId).ToList(); // xóa menu phòng
                        
-                        if (_context.Sys_Cog_MenuCom.Count(x=>x.ParentId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.IsActive == true && x.MenuId != options.Id) == 0)
+                        if (_context.Sys_Cog_MenuCom.Count(x=>x.ParentId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.IsActive == true && x.MenuId != options.Id) == 0)
                         {
                             menuComTwoParent.IsActive = false;
                         }
@@ -173,7 +174,7 @@ namespace HumanResoureAPI.Controllers
                             {
                                 menuDepParent.IsActive = false;
                             }
-                            var rmmenuNests = _context.Sys_Cog_MenuNest.Where(x => x.MenuId == options.Id && x.CompanyId == options.CompanyId && x.ParentDepartmentId == item.DepartmentId).ToList(); // xóa menu phòng
+                            var rmmenuNests = _context.Sys_Cog_MenuNest.Where(x => x.MenuId == options.Id && x.CompanyId == token.CompanyId && x.ParentDepartmentId == item.DepartmentId).ToList(); // xóa menu phòng
                             foreach (var ntem in rmmenuNests)
                             {
                                 ntem.IsActive = false;
@@ -185,7 +186,7 @@ namespace HumanResoureAPI.Controllers
                     }
                     else
                     {
-                        if (_context.Sys_Cog_MenuCom.Count(x => x.ParentId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.IsActive == true) == 0)
+                        if (_context.Sys_Cog_MenuCom.Count(x => x.ParentId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.IsActive == true) == 0)
                         {
                             menuComTwoParent.IsActive = true;
                         }
@@ -197,7 +198,7 @@ namespace HumanResoureAPI.Controllers
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
             }
-            catch (Exception ez)
+            catch (Exception)
             {
                 return new ObjectResult(new { error = 1 });
             }
@@ -211,9 +212,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Cog_MenuCom
                                     join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                    where a.CompanyId == options.companyId && a.IsActive == true
+                                    where a.CompanyId == token.CompanyId && a.IsActive == true
                                     orderby b.IsOrder
                                     select new
                                     {
@@ -224,7 +226,7 @@ namespace HumanResoureAPI.Controllers
                                         a.IsActive
                                     }).ToListAsync();
                 var exits =  from a in _context.Sys_Cog_MenuCom
-                                    where a.CompanyId == options.companyId && a.IsActive == true 
+                                    where a.CompanyId == token.CompanyId && a.IsActive == true 
                                     group a by a.ParentId into c
                                     select new
                                     {
@@ -248,7 +250,7 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             c.Id,
                             c.MenuRank,
-                            IsActive = (_context.Sys_Cog_MenuDep.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.DepartmentId == options.departmentId && x.IsActive == true) != null) ? true : false
+                            IsActive = (_context.Sys_Cog_MenuDep.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.departmentId && x.IsActive == true) != null) ? true : false
                         })
                     })
                 });
@@ -271,20 +273,20 @@ namespace HumanResoureAPI.Controllers
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
-                var menuComThree = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
+                var menuComThree = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuThree.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
                 if (menuComThree == 0)
                 {
                     var menuTwo = await _context.Sys_Dm_Menu.FindAsync(menuThree.ParentId);
-                    var menuComTwo = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
+                    var menuComTwo = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
                     if (menuComTwo == 0)
                     {
                         var menuOne = await _context.Sys_Dm_Menu.FindAsync(menuTwo.ParentId);
-                        var menuComOne = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
+                        var menuComOne = _context.Sys_Cog_MenuDep.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
                         if (menuComOne == 0)
                         {
                             Sys_Cog_MenuDep objOne = new Sys_Cog_MenuDep();
                             objOne.MenuId = menuOne.Id;
-                            objOne.CompanyId = options.CompanyId;
+                            objOne.CompanyId = token.CompanyId;
                             objOne.IsActive = true;
                             objOne.ParentId = null;
                             objOne.DepartmentId = options.DepartmentId;
@@ -293,7 +295,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuDep.Add(objOne);
                             Sys_Cog_MenuDep objTwo = new Sys_Cog_MenuDep();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.DepartmentId;
@@ -302,7 +304,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuDep.Add(objTwo);
                             Sys_Cog_MenuDep objThree = new Sys_Cog_MenuDep();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.IsActive = true;
                             objThree.ParentId = menuTwo.Id;
                             objThree.DepartmentId = options.DepartmentId;
@@ -314,7 +316,7 @@ namespace HumanResoureAPI.Controllers
                         {
                             Sys_Cog_MenuDep objTwo = new Sys_Cog_MenuDep();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.DepartmentId;
@@ -323,7 +325,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuDep.Add(objTwo);
                             Sys_Cog_MenuDep objThree = new Sys_Cog_MenuDep();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.ParentId = menuTwo.Id;
                             objThree.IsActive = true;
                             objThree.DepartmentId = options.DepartmentId;
@@ -334,10 +336,10 @@ namespace HumanResoureAPI.Controllers
                     }
                     else
                     {
-                        var menuComTwoParent = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
+                        var menuComTwoParent = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
                         Sys_Cog_MenuDep objThree = new Sys_Cog_MenuDep();
                         objThree.MenuId = options.Id;
-                        objThree.CompanyId = options.CompanyId;
+                        objThree.CompanyId = token.CompanyId;
                         objThree.IsActive = true;
                         objThree.ParentId = menuTwo.Id;
                         objThree.DepartmentId = options.DepartmentId;
@@ -350,13 +352,13 @@ namespace HumanResoureAPI.Controllers
                 }
                 else
                 {
-                    var menuCome = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == options.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
-                    var menuComTwoParent = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.DepartmentId);
+                    var menuCome = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == options.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
+                    var menuComTwoParent = await _context.Sys_Cog_MenuDep.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.DepartmentId);
                     
                     if (options.IsActive == false)
                     {
-                        var rmmenuNest = _context.Sys_Cog_MenuNest.Where(x => x.MenuId == options.Id && x.CompanyId == options.CompanyId && x.ParentDepartmentId == options.DepartmentId); // xóa menu tổ
-                        if (_context.Sys_Cog_MenuDep.Count(x => x.ParentId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.IsActive == true && x.MenuId != options.Id && x.DepartmentId == options.DepartmentId) == 0)
+                        var rmmenuNest = _context.Sys_Cog_MenuNest.Where(x => x.MenuId == options.Id && x.CompanyId == token.CompanyId && x.ParentDepartmentId == options.DepartmentId); // xóa menu tổ
+                        if (_context.Sys_Cog_MenuDep.Count(x => x.ParentId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.IsActive == true && x.MenuId != options.Id && x.DepartmentId == options.DepartmentId) == 0)
                         {
                             menuComTwoParent.IsActive = false;
                         }
@@ -397,9 +399,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Cog_MenuDep
                                     join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                    where a.CompanyId == options.companyId && a.IsActive == true && a.DepartmentId == options.departmentId
+                                    where a.CompanyId == token.CompanyId && a.IsActive == true && a.DepartmentId == options.departmentId
                                     orderby b.IsOrder
                                     select new
                                     {
@@ -410,7 +413,7 @@ namespace HumanResoureAPI.Controllers
                                         a.IsActive
                                     }).ToListAsync();
                 var exits = from a in _context.Sys_Cog_MenuDep
-                            where a.CompanyId == options.companyId && a.IsActive == true && a.DepartmentId == options.departmentId
+                            where a.CompanyId == token.CompanyId && a.IsActive == true && a.DepartmentId == options.departmentId
                             group a by a.ParentId into c
                             select new
                             {
@@ -434,7 +437,7 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             c.Id,
                             c.MenuRank,
-                            IsActive = (_context.Sys_Cog_MenuNest.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.DepartmentId == options.nestId && x.IsActive == true) != null) ? true : false
+                            IsActive = (_context.Sys_Cog_MenuNest.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.nestId && x.IsActive == true) != null) ? true : false
                         })
                     })
                 });
@@ -457,20 +460,20 @@ namespace HumanResoureAPI.Controllers
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.Id);
-                var menuComThree = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                var menuComThree = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuThree.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                 if (menuComThree == 0)
                 {
                     var menuTwo = await _context.Sys_Dm_Menu.FindAsync(menuThree.ParentId);
-                    var menuComTwo = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                    var menuComTwo = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                     if (menuComTwo == 0)
                     {
                         var menuOne = await _context.Sys_Dm_Menu.FindAsync(menuTwo.ParentId);
-                        var menuComOne = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                        var menuComOne = _context.Sys_Cog_MenuNest.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                         if (menuComOne == 0)
                         {
                             Sys_Cog_MenuNest objOne = new Sys_Cog_MenuNest();
                             objOne.MenuId = menuOne.Id;
-                            objOne.CompanyId = options.CompanyId;
+                            objOne.CompanyId = token.CompanyId;
                             objOne.IsActive = true;
                             objOne.ParentId = null;
                             objOne.DepartmentId = options.NestId;
@@ -480,7 +483,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuNest.Add(objOne);
                             Sys_Cog_MenuNest objTwo = new Sys_Cog_MenuNest();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.NestId;
@@ -490,7 +493,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuNest.Add(objTwo);
                             Sys_Cog_MenuNest objThree = new Sys_Cog_MenuNest();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.IsActive = true;
                             objThree.ParentId = menuTwo.Id;
                             objThree.DepartmentId = options.NestId;
@@ -503,7 +506,7 @@ namespace HumanResoureAPI.Controllers
                         {
                             Sys_Cog_MenuNest objTwo = new Sys_Cog_MenuNest();
                             objTwo.MenuId = menuTwo.Id;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.ParentId = menuOne.Id;
                             objTwo.DepartmentId = options.NestId;
@@ -513,7 +516,7 @@ namespace HumanResoureAPI.Controllers
                             _context.Sys_Cog_MenuNest.Add(objTwo);
                             Sys_Cog_MenuNest objThree = new Sys_Cog_MenuNest();
                             objThree.MenuId = options.Id;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.ParentId = menuTwo.Id;
                             objThree.IsActive = true;
                             objThree.DepartmentId = options.NestId;
@@ -527,7 +530,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         Sys_Cog_MenuNest objThree = new Sys_Cog_MenuNest();
                         objThree.MenuId = options.Id;
-                        objThree.CompanyId = options.CompanyId;
+                        objThree.CompanyId = token.CompanyId;
                         objThree.IsActive = true;
                         objThree.ParentId = menuTwo.Id;
                         objThree.DepartmentId = options.NestId;
@@ -535,13 +538,13 @@ namespace HumanResoureAPI.Controllers
                         objThree.UserUpdateId = token.UserID;
                         objThree.DateUpdate = DateTime.Now;
                         _context.Sys_Cog_MenuNest.Add(objThree);
-                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
+                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
                         {
-                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                             menuTwoParent.IsActive = true;
-                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
+                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
                             {
-                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                                 menuoneParent.IsActive = true;
                             }
                         }
@@ -550,16 +553,16 @@ namespace HumanResoureAPI.Controllers
                 }
                 else
                 {
-                    var menuCome = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == options.Id && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                    var menuCome = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == options.Id && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                     if (options.IsActive == false)
                     {
-                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
+                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
                         {
-                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                             menuTwoParent.IsActive = false;
-                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId  && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
+                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId  && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
                             {
-                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                                 menuoneParent.IsActive = false;
                             }
                         }
@@ -569,13 +572,13 @@ namespace HumanResoureAPI.Controllers
                     }
                     else
                     {
-                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
+                        if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.MenuId != options.Id && x.DepartmentId == options.NestId) == 0)
                         {
-                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                            var menuTwoParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                             menuTwoParent.IsActive = true;
-                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
+                            if (_context.Sys_Cog_MenuNest.Count(x => x.IsActive == true && x.ParentId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId && x.DepartmentId == options.NestId) == 0)
                             {
-                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.DepartmentId == options.NestId);
+                                var menuoneParent = await _context.Sys_Cog_MenuNest.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.DepartmentId == options.NestId);
                                 menuoneParent.IsActive = true;
                             }
                         }

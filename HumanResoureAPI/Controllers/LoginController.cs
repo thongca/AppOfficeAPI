@@ -51,7 +51,8 @@ namespace HumanResoureAPI.Controllers
                 RequestToken token = new RequestToken()
                 {
                     UserID = user.Id,
-                    CompanyId = user.CompanyId??0
+                    CompanyId = user.CompanyId??0,
+                    GroupRoleId = user.GroupRoleId??0
                 };
                 string tk = GenerateTokenData(token); ;
                 var congTys = await _context.Sys_Dm_Company.Where(x => x.IsActive == true).Select(a => new
@@ -89,18 +90,7 @@ namespace HumanResoureAPI.Controllers
                                 Permission = 0,
                                 GroupRoleDeFault = user.Role,
                                 CompanyIdDefault = companyId,
-                            }
-                        ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
+                            },
                             _listQuyen = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
                                                 select new
                                                 {
@@ -176,19 +166,7 @@ namespace HumanResoureAPI.Controllers
                                 Permission = 1,
                                 GroupRoleDeFault = user.Role,
                                 CompanyIdDefault = user.CompanyId,
-                            }
-
-                        ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
+                            },
                             _listQuyen = _listMenuCustomers.Select(a => new
                             {
                                 a.Id,
@@ -266,16 +244,6 @@ namespace HumanResoureAPI.Controllers
                             }
 
                         ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
                             _listQuyen = _listMenuCustomerBranchs.Select(a => new
                             {
                                 a.Id,
@@ -344,18 +312,7 @@ namespace HumanResoureAPI.Controllers
                                 Permission = 2,
                                 GroupRoleDeFault = user.Role,
                                 CompanyIdDefault = user.CompanyId
-                            }
-                            ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
+                            },
                             _listQuyen = _listMenuDepartments.Select(a => new
                             {
                                 a.Id,
@@ -424,18 +381,7 @@ namespace HumanResoureAPI.Controllers
                                 Permission = 3,
                                 GroupRoleDeFault = user.Role,
                                 CompanyIdDefault = user.CompanyId
-                            }
-                            ,
-                            _listNhomQuyen = await (from a in _context.Sys_Cog_UsersGroup
-                                                    join b in _context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
-                                                    where a.UserId == user.Id
-                                                    orderby b.RankRole
-                                                    select new
-                                                    {
-                                                        a.GroupRoleId,
-                                                        b.Name
-                                                    }).ToListAsync()
-                        ,
+                            },
                             _listQuyen = _listMenuNest.Select(a => new
                             {
                                 a.Id,

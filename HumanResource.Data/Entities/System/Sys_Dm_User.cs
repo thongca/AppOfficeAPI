@@ -33,5 +33,6 @@ namespace HumanResource.Data.Entities.System
         public string Email { get; set; }
         public Nullable<int> NestId { get; set; }
         public RoleUserEnum Role { get; set; }
+        public Nullable<int>  GroupRoleId { get; set; }
     }
 }

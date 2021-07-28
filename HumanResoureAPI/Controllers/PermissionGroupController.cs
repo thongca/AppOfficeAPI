@@ -31,9 +31,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Cog_MenuCom
                                     join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                    where a.CompanyId == options.companyId
+                                    where a.CompanyId == token.CompanyId
                                     orderby b.IsOrder
                                     select new
                                     {
@@ -60,11 +61,11 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             MenuId =c.Id,
                             c.MenuRank,
-                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.AddPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
-                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.ViewPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
-                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.EditPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
-                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.DelPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
-                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == options.companyId && x.ExportPer == true && x.GroupRoleId == options.groupId) != null) ? true : false
+                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.AddPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
+                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.ViewPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
+                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.EditPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
+                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.DelPer == true && x.GroupRoleId == options.groupId) != null) ? true : false,
+                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.Id && x.CompanyId == token.CompanyId && x.ExportPer == true && x.GroupRoleId == options.groupId) != null) ? true : false
                         })
                     })
                 });
@@ -92,22 +93,22 @@ namespace HumanResoureAPI.Controllers
                 }
                  RequestToken token = CommonData.GetDataFromToken(User);
                 var menuThree = await _context.Sys_Dm_Menu.FindAsync(options.MenuId);
-                var menuComThree = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuThree.Id && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                var menuComThree = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuThree.Id && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                 if (menuComThree == 0)
                 {
                     var menuTwo = await _context.Sys_Dm_Menu.FindAsync(menuThree.ParentId);
-                    var menuComTwo = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                    var menuComTwo = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                     if (menuComTwo == 0)
                     {
                         var menuOne = await _context.Sys_Dm_Menu.FindAsync(menuTwo.ParentId);
-                        var menuComOne = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                        var menuComOne = _context.Sys_Cog_Permission.Count(x => x.MenuId == menuTwo.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                         if (menuComOne == 0)
                         {
                             Sys_Cog_Permission objOne = new Sys_Cog_Permission();
                             objOne.MenuId = menuOne.Id;
                             objOne.GroupRoleId = options.GroupRoleId;
                             objOne.DepartmentId = options.DepartmentId;
-                            objOne.CompanyId = options.CompanyId;
+                            objOne.CompanyId = token.CompanyId;
                             objOne.IsActive = true;
                             objOne.AddPer = options.AddPer ?? false;
                             objOne.ViewPer = options.ViewPer ?? false;
@@ -121,7 +122,7 @@ namespace HumanResoureAPI.Controllers
                             Sys_Cog_Permission objTwo = new Sys_Cog_Permission();
                             objTwo.MenuId = menuTwo.Id;
                             objTwo.GroupRoleId = options.GroupRoleId;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.DepartmentId = options.DepartmentId;
                             objTwo.IsActive = true;
                             objTwo.AddPer = options.AddPer ?? false;
@@ -137,7 +138,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.MenuId = options.MenuId;
                             objThree.GroupRoleId = options.GroupRoleId;
                             objThree.DepartmentId = options.DepartmentId;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.IsActive = true;
                             objThree.AddPer = options.AddPer ?? false;
                             objThree.ViewPer = options.ViewPer ?? false;
@@ -155,7 +156,7 @@ namespace HumanResoureAPI.Controllers
                             objTwo.MenuId = menuTwo.Id;
                             objTwo.GroupRoleId = options.GroupRoleId;
                             objTwo.DepartmentId = options.DepartmentId;
-                            objTwo.CompanyId = options.CompanyId;
+                            objTwo.CompanyId = token.CompanyId;
                             objTwo.IsActive = true;
                             objTwo.AddPer = options.AddPer ?? false;
                             objTwo.ViewPer = options.ViewPer ?? false;
@@ -170,7 +171,7 @@ namespace HumanResoureAPI.Controllers
                             objThree.MenuId = options.MenuId;
                             objThree.GroupRoleId = options.GroupRoleId;
                             objThree.DepartmentId = options.DepartmentId;
-                            objThree.CompanyId = options.CompanyId;
+                            objThree.CompanyId = token.CompanyId;
                             objThree.IsActive = true;
                             objThree.AddPer = options.AddPer ?? false;
                             objThree.ViewPer = options.ViewPer ?? false;
@@ -185,11 +186,11 @@ namespace HumanResoureAPI.Controllers
                     }
                     else
                     {
-                        var menuComTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                        var menuComTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                         Sys_Cog_Permission objThree = new Sys_Cog_Permission();
                         objThree.MenuId = options.MenuId;
                         objThree.GroupRoleId = options.GroupRoleId;
-                        objThree.CompanyId = options.CompanyId;
+                        objThree.CompanyId = token.CompanyId;
                         objThree.DepartmentId = options.DepartmentId;
                         objThree.IsActive = true;
                         objThree.AddPer = options.AddPer ?? false;
@@ -204,13 +205,13 @@ namespace HumanResoureAPI.Controllers
                       
                         #region ViewPer three nhap vao = true
 
-                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuThree.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != options.MenuId) == 0)
+                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuThree.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != options.MenuId) == 0)
                             {
-                                var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                                var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuThree.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                                 menuTwoParent.ViewPer = true;
-                                if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
+                                if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
                                 {
-                                    var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                                    var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                                     menuoneParent.ViewPer = true;
                                 }
                             }
@@ -222,17 +223,17 @@ namespace HumanResoureAPI.Controllers
                 else
                 {
 
-                    var menuCome = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == options.MenuId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                    var menuCome = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == options.MenuId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                     #region Viewper nhap vao = false
                     if (options.ViewPer == false && menuCome.ViewPer == true)
                     {
-                        if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuCome.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != options.MenuId) == 0)
+                        if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuCome.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != options.MenuId) == 0)
                         {
-                            var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                            var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                             menuTwoParent.ViewPer = false;
-                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
+                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
                             {
-                                var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                                var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                                 menuoneParent.ViewPer = false;
                             }
                         }
@@ -241,13 +242,13 @@ namespace HumanResoureAPI.Controllers
                     #region ViewPer three nhap vao = true
                     if (options.ViewPer == true && menuCome.ViewPer == false)
                     {
-                        if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuCome.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != options.MenuId) == 0)
+                        if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuCome.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != options.MenuId) == 0)
                         {
-                            var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                            var menuTwoParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuCome.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                             menuTwoParent.ViewPer = true;
-                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == options.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
+                            if (_context.Sys_Cog_Permission.Count(x => x.ViewPer == true && x.ParentId == menuTwoParent.ParentId && x.GroupRoleId == options.GroupRoleId && x.CompanyId == token.CompanyId && x.MenuId != menuTwoParent.MenuId) == 0)
                             {
-                                var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == options.CompanyId && x.GroupRoleId == options.GroupRoleId);
+                                var menuoneParent = await _context.Sys_Cog_Permission.FirstOrDefaultAsync(x => x.MenuId == menuTwoParent.ParentId && x.CompanyId == token.CompanyId && x.GroupRoleId == options.GroupRoleId);
                                 menuoneParent.ViewPer = true;
                             }
                         }
@@ -277,9 +278,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Cog_MenuDep
                                     join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                    where a.CompanyId == options.companyId && a.IsActive == true && a.DepartmentId == options.departmentId
+                                    where a.CompanyId == token.CompanyId && a.IsActive == true && a.DepartmentId == options.departmentId
                                     orderby b.IsOrder
                                     select new
                                     {
@@ -290,7 +292,7 @@ namespace HumanResoureAPI.Controllers
                                         a.IsActive
                                     }).ToListAsync();
                 var exits = from a in _context.Sys_Cog_MenuCom
-                            where a.CompanyId == options.companyId && a.IsActive == true
+                            where a.CompanyId == token.CompanyId && a.IsActive == true
                             group a by a.ParentId into c
                             select new
                             {
@@ -314,11 +316,11 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             c.MenuId,
                             c.MenuRank,
-                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.AddPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
-                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.ViewPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
-                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.EditPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
-                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.DelPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
-                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.ExportPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false
+                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.AddPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
+                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.ViewPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
+                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.EditPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
+                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.DelPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false,
+                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.ExportPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.departmentId) != null) ? true : false
                         })
                     })
                 });
@@ -342,9 +344,10 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await (from a in _context.Sys_Cog_MenuNest
                                     join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                    where a.CompanyId == options.companyId && a.IsActive == true && a.DepartmentId == options.nestId
+                                    where a.CompanyId == token.CompanyId && a.IsActive == true && a.DepartmentId == options.nestId
                                     orderby b.IsOrder
                                     select new
                                     {
@@ -355,7 +358,7 @@ namespace HumanResoureAPI.Controllers
                                         a.IsActive
                                     }).ToListAsync();
                 var exits = from a in _context.Sys_Cog_MenuCom
-                            where a.CompanyId == options.companyId && a.IsActive == true
+                            where a.CompanyId == token.CompanyId && a.IsActive == true
                             group a by a.ParentId into c
                             select new
                             {
@@ -379,11 +382,11 @@ namespace HumanResoureAPI.Controllers
                             c.ParentId,
                             c.MenuId,
                             c.MenuRank,
-                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.AddPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
-                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.ViewPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
-                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.EditPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
-                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.DelPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
-                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == options.companyId && x.ExportPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false
+                            AddPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.AddPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
+                            ViewPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.ViewPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
+                            EditPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.EditPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
+                            DelPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.DelPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false,
+                            ExportPer = (_context.Sys_Cog_Permission.FirstOrDefault(x => x.MenuId == c.MenuId && x.CompanyId == token.CompanyId && x.ExportPer == true && x.GroupRoleId == options.groupId && x.DepartmentId == options.nestId) != null) ? true : false
                         })
                     })
                 });

@@ -8,5 +8,6 @@ namespace HumanResource.Application.Helper.Dtos
     {
         public int UserID { get; set; }
         public int CompanyId { get; set; }
+        public int GroupRoleId { get; set; }
     }
 }

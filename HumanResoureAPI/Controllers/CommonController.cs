@@ -66,7 +66,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == options.companyId).Select(a => new
+                var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
                     a.Id,
@@ -119,7 +119,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = _context.Sys_Dm_Position.Where(x => x.CompanyId == options.companyId).Select(a => new
+                var tables = _context.Sys_Dm_Position.Where(x => x.CompanyId == token.CompanyId).Select(a => new
                 {
                     a.Name,
                     a.Id
@@ -144,7 +144,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == options.departmentId && x.CompanyId == options.companyId).Select(a => new
+                var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == options.departmentId && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
                     a.Id,
@@ -172,9 +172,7 @@ namespace HumanResoureAPI.Controllers
                  RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_GroupRole
                     .Where(x =>
-                    x.CompanyId == options.companyId &&
-                    x.RankRole > options.rankrole &&
-                    x.IsAdministrator != true
+                    x.CompanyId == token.CompanyId
                 ).Select(a => new
                 {
                     a.Name,
@@ -183,15 +181,15 @@ namespace HumanResoureAPI.Controllers
                     a.CompanyId,
                     a.DepartmentId
                 });
-                if (options.companyId == 0)
+                if (token.CompanyId == 0)
                 {
                     tables = tables.Where(x => x.CompanyId == 0);
                 }
-                if (options.companyId > 0 && options.departmentId == 0 && options.nestId == 0)
+                if (token.CompanyId > 0)
                 {
-                    tables = tables.Where(x => x.CompanyId == options.companyId && x.DepartmentId == 0);
+                    tables = tables.Where(x => x.CompanyId == token.CompanyId);
                 }
-                if (options.departmentId > 0 && options.nestId == 0)
+                if (options.departmentId > 0)
                 {
                     tables = tables.Where(x => x.DepartmentId == options.departmentId);
                 }
@@ -218,7 +216,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = _context.VB_QT_Buoc.Where(x => x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == options.CompanyId).Select(a => new
+                var tables = _context.VB_QT_Buoc.Where(x => x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     a.Name,
                     a.Id,
@@ -600,7 +598,7 @@ namespace HumanResoureAPI.Controllers
                         var tps = await (from b in _context.Sys_Cog_UsersGroup
                                          join c in _context.Sys_Dm_GroupRole on b.GroupRoleId equals c.Id
                                          join a in _context.Sys_Dm_User on b.UserId equals a.Id
-                                         where listNsInPB.Contains(b.UserId) && c.IsAdminDep == true
+                                         where listNsInPB.Contains(b.UserId)
                                          select new
                                          {
                                              b.UserId,
@@ -641,9 +639,9 @@ namespace HumanResoureAPI.Controllers
                     a.CompanyId
                 }).AsQueryable();
 
-                if (options.companyId > 0)
+                if (token.CompanyId > 0)
                 {
-                    tables = tables.Where(x => x.CompanyId == options.companyId);
+                    tables = tables.Where(x => x.CompanyId == token.CompanyId);
                 }
                 if (options.departmentId > 0)
                 {

@@ -16,7 +16,6 @@ namespace HumanResoureAPI.Common
             List<Sys_Dm_GroupRoleLogin> userRole = (List<Sys_Dm_GroupRoleLogin>)(from a in context.Sys_Cog_UsersGroup
                            join b in context.Sys_Dm_GroupRole on a.GroupRoleId equals b.Id
                            where a.UserId == UserId
-                           orderby b.RankRole
                            select new
                            {
                                a.GroupRoleId,

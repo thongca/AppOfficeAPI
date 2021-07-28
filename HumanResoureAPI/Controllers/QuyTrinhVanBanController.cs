@@ -64,7 +64,7 @@ namespace HumanResoureAPI.Controllers
                                      b.BuocId,
                                  };
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = _context.VB_QT_Buoc.Where(x=>x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == options.CompanyId).Select(a => new {
+                var tables = _context.VB_QT_Buoc.Where(x=>x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == token.CompanyId).Select(a => new {
                     a.Name,
                     a.Id,
                     a.IsOrder,
@@ -171,8 +171,9 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = from a in _context.Sys_Dm_GroupRole
-                             where a.CompanyId == options.CompanyId
+                             where a.CompanyId == token.CompanyId
                              select new
                              {
                                  a.Name,
