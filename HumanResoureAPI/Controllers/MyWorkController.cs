@@ -4,6 +4,7 @@ using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.DTO;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.Systems;
 using HumanResoureAPI.Common.WorksCommon;
@@ -40,7 +41,6 @@ namespace HumanResoureAPI.Controllers
                 // trang thái sử dụng
                 var myWork = JsonConvert.DeserializeObject<Dtos_MyWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var defaultWork = _context.CV_DM_DefaultTask.FirstOrDefault(x => x.Name == myWork.CV_QT_MyWork.TaskName);
                 if (defaultWork != null)
                 {
@@ -85,7 +85,7 @@ namespace HumanResoureAPI.Controllers
                 {
 
                     TaskName = myWork.CV_QT_MyWork.TaskName,
-                    FullName = user.FullName,
+                    FullName = token.FullName,
                     UserCreateId = token.UserID,
                     UserDeliverId = token.UserID,
                     StartDate = myWork.CV_QT_MyWork.ExpectedDate,
@@ -166,7 +166,6 @@ namespace HumanResoureAPI.Controllers
                 var myWork = JsonConvert.DeserializeObject<Dtos_MyWork>(Request.Form["model"]);
                 //var spaceTime = await _context.CV_QT_SpaceTimeOnDay.FindAsync(myWork.SpaceTimeId);
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var defaultWork = _context.CV_DM_DefaultTask.FirstOrDefault(x => x.Name == myWork.CV_QT_MyWork.TaskName);
                 if (defaultWork != null)
                 {
@@ -197,7 +196,7 @@ namespace HumanResoureAPI.Controllers
                 myWork.CV_QT_MyWork.CreatedDate = DateTime.Now;
                 _context.CV_QT_MyWork.Add(myWork.CV_QT_MyWork);
                 // lưu quy trình luân chuyển công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.CV_QT_MyWork.Id, token.UserID, token.UserID, 13, "CV_MYWORK", null, myWork.CV_QT_MyWork.Note, "Công việc khởi tạo sau", 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.CV_QT_MyWork.Id, token.UserID, token.UserID, TypeFlowEnum.CongViecKhoiTaoSau, "CV_MYWORK", null, myWork.CV_QT_MyWork.Note, "Công việc khởi tạo sau", 1);
                 wflow.ReadDate = DateTime.Now;
                 wflow.Readed = true;
                 _context.CV_QT_WorkFlow.Add(wflow);
@@ -211,7 +210,7 @@ namespace HumanResoureAPI.Controllers
                 {
 
                     TaskName = myWork.CV_QT_MyWork.TaskName,
-                    FullName = user.FullName,
+                    FullName = token.FullName,
                     UserCreateId = token.UserID,
                     UserDeliverId = token.UserID,
                     StartDate = myWork.CV_QT_MyWork.ExpectedDate,
@@ -290,12 +289,12 @@ namespace HumanResoureAPI.Controllers
             {
                 var myWork = await _context.CV_QT_MyWork.FindAsync(workFlow.MyWorkId);
                 var workFlowDelete = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == workFlow.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
-                if (workFlowDelete.Contains(13) && workFlowDelete.Contains(6))
+                if (workFlowDelete.Contains(TypeFlowEnum.CongViecKhoiTaoSau) && workFlowDelete.Contains(TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong))
                 {
                     bool success = SaveLog.SaveLogEx(_context, "api/MyWork/r4RemoveMyWork", "NotContent()", "Xóa mywork");
                     return new ObjectResult(new { error = 1, ms = "Không thể xóa công việc khởi tạo sau vì đã được duyệt!" });
                 }
-                else if (workFlowDelete.Contains(13))
+                else if (workFlowDelete.Contains(TypeFlowEnum.CongViecKhoiTaoSau))
                 {
                     if (myWork == null)
                     {
@@ -414,7 +413,7 @@ namespace HumanResoureAPI.Controllers
                 // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
-                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != TypeFlowEnum.ChuyenChoNguoiTiepTheo && n.TypeFlow != TypeFlowEnum.CCNguoiTheoDoi
                                  group n by new { n.TypeFlow, n.MyWorkId } into g
                                  select new
                                  {
@@ -472,7 +471,7 @@ namespace HumanResoureAPI.Controllers
                 // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
-                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != TypeFlowEnum.ChuyenChoNguoiTiepTheo && n.TypeFlow != TypeFlowEnum.CCNguoiTheoDoi
                                  group n by new { n.TypeFlow, n.MyWorkId } into g
                                  select new
                                  {
@@ -481,7 +480,7 @@ namespace HumanResoureAPI.Controllers
                                  }).ToList();
                 var myWorks = (from a in _context.CV_QT_MyWork
                                join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
-                               where a.UserTaskId == token.UserID && b.UserSendId == b.UserDeliverId && b.TypeFlow == 13
+                               where a.UserTaskId == token.UserID && b.UserSendId == b.UserDeliverId && b.TypeFlow == TypeFlowEnum.CongViecKhoiTaoSau
                                orderby b.CreateDate descending
                                select new
                                {
@@ -532,7 +531,7 @@ namespace HumanResoureAPI.Controllers
                 // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
-                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != TypeFlowEnum.ChuyenChoNguoiTiepTheo && n.TypeFlow != TypeFlowEnum.CCNguoiTheoDoi
                                  group n by new { n.TypeFlow, n.MyWorkId } into g
                                  select new
                                  {
@@ -591,7 +590,7 @@ namespace HumanResoureAPI.Controllers
                 // Sẽ lấy 1 danh sách thay vì phải sử dụng 2 danh sách rồi xử lý phía client
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
-                                 where v.UserTaskId == token.UserID && (n.TypeFlow == 0 || (n.TypeFlow != 11 && n.TypeFlow != 12))
+                                 where v.UserTaskId == token.UserID && (n.TypeFlow == 0 || (n.TypeFlow != TypeFlowEnum.ChuyenChoNguoiTiepTheo && n.TypeFlow != TypeFlowEnum.CCNguoiTheoDoi))
                                  group n by new { n.TypeFlow, n.MyWorkId } into g
                                  select new
                                  {
@@ -600,7 +599,7 @@ namespace HumanResoureAPI.Controllers
                                  }).ToList();
                 var myWorks = (from a in _context.CV_QT_MyWork
                                join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
-                               where b.UserDeliverId == token.UserID && b.TypeFlow == 17 && b.Handled != true
+                               where b.UserDeliverId == token.UserID && b.TypeFlow == TypeFlowEnum.TrinhGiaiQuyetPhoiHopCongTac && b.Handled != true
                                orderby b.CreateDate descending
                                select new
                                {
@@ -645,11 +644,11 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                var users = _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(c => c.Id);
+                
+                var users = _context.Sys_Dm_User.Where(x => x.ParentDepartId == token.DepartmentId).Select(c => c.Id);
                 var TypeFlows = (from n in _context.CV_QT_WorkFlow
                                  join v in _context.CV_QT_MyWork on n.MyWorkId equals v.Id
-                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != 11 && n.TypeFlow != 12
+                                 where v.UserTaskId == token.UserID && n.TypeFlow != 0 && n.TypeFlow != TypeFlowEnum.ChuyenChoNguoiTiepTheo && n.TypeFlow != TypeFlowEnum.CCNguoiTheoDoi
                                  group n by new { n.TypeFlow, n.MyWorkId } into g
                                  select new
                                  {
@@ -906,7 +905,7 @@ namespace HumanResoureAPI.Controllers
             {
                 int[] duyetFlow = {2, 3, 5, 6, 15, 16 };
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var typeFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == workFlow.MyWorkId && duyetFlow.Contains(x.TypeFlow) == true).Select(x => x.TypeFlow);
+                var typeFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == workFlow.MyWorkId && duyetFlow.Contains((int)x.TypeFlow) == true).Select(x => x.TypeFlow);
                 return new ObjectResult(new { error = 0, data = typeFlows });
             }
             catch (Exception e)
@@ -987,7 +986,7 @@ namespace HumanResoureAPI.Controllers
                 var myWork = JsonConvert.DeserializeObject<CV_QT_WorkFlow>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.MyWorkId, token.UserID, myWork.UserDeliverId, 1, "CV_MYWORK", myWork.ParentId, myWork.Note, myWork.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.MyWorkId, token.UserID, myWork.UserDeliverId, TypeFlowEnum.TrinhPheDuyetThoiHan, "CV_MYWORK", myWork.ParentId, myWork.Note, myWork.Require, 1);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 if (Request.Form.Files.Count != 0)
                 {
@@ -1046,7 +1045,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, 4, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.TrinhPheDuyetKetQua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
                 if (Request.Form.Files.Count != 0)
@@ -1088,7 +1087,7 @@ namespace HumanResoureAPI.Controllers
                 if (model.CV_QT_NextPlan.UserId != 0)
                 {
                     CV_QT_WorkFlow wnext = new CV_QT_WorkFlow();
-                    wnext = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_NextPlan.UserId, 4, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 2);
+                    wnext = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_NextPlan.UserId, TypeFlowEnum.TrinhPheDuyetKetQua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 2);
                     _context.CV_QT_WorkFlow.Add(wnext);
                     if (_WorkFlowFiles.Count != 0)
                     {
@@ -1128,7 +1127,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWorkPheDuyetTH>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, 7, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.ChinhSuaPhatSinh, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
                 _context.CV_QT_WorkFlow.Add(wflow);
 
                 if (Request.Form.Files.Count != 0)

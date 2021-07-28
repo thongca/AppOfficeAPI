@@ -3,6 +3,7 @@ using HumanResource.Application.Notifi;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
+using HumanResource.Data.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace HumanResoureAPI.Common.Systems
             _hubnoti = hubnoti;
             HubService.Instance.Initialized();
         }
-        public async Task SaveNotifiAsync(int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, int NguoiNhanId, int TrangThaixl, string router)
+        public async Task SaveNotifiAsync(int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, int NguoiNhanId, TypeFlowEnum TrangThaixl, string router)
         {
 
             Sys_QT_ThongBao sys_QT_ThongBao = new Sys_QT_ThongBao()
@@ -36,8 +37,8 @@ namespace HumanResoureAPI.Common.Systems
                 DaDoc = false,
                 RouterLink = router,
                 NguoiNhanId = NguoiNhanId,
-                TrangThaiXuLy = TrangThaixl,
-                TrangThai = getTrangThaiXuLy(TrangThaixl, QuyTrinhId),
+                TrangThaiXuLy = (int) TrangThaixl,
+                TrangThai = getTrangThaiXuLy((int)TrangThaixl, QuyTrinhId),
                 IsNotifi = true
             };
             NotifyContent notifyContent = new NotifyContent()
@@ -52,9 +53,9 @@ namespace HumanResoureAPI.Common.Systems
             if (connect != null)
             {
                 int[] typeflow = { 2, 3, 5, 6, 16, 15 };
-                if (QuyTrinhId == 2 && typeflow.Contains(TrangThaixl))
+                if (QuyTrinhId == 2 && typeflow.Contains((int)TrangThaixl))
                 {
-                    int[] pushtypef = { TrangThaixl };
+                    int[] pushtypef = {(int) TrangThaixl };
                     HubService.Instance.PushTypeFlow(pushtypef, connect.ConnectionId);
                 }
                 HubService.Instance.CallHub(notifyContent, connect.ConnectionId);
@@ -69,7 +70,7 @@ namespace HumanResoureAPI.Common.Systems
 
         }
         // đẩy thông báo cho người có công đoạn tiếp theo biết công việc tiên quyết đã hoàn thành
-        public async Task SaveNotifiNextAsync(int? Code, int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, int TrangThaixl, string router)
+        public async Task SaveNotifiNextAsync(int? Code, int QuyTrinhId, string MaLenh, string TenNguoiGui, string NoiDung, TypeFlowEnum TrangThaixl, string router)
         {
             try
             {
@@ -88,8 +89,8 @@ namespace HumanResoureAPI.Common.Systems
                         DaDoc = false,
                         RouterLink = router,
                         NguoiNhanId = item,
-                        TrangThaiXuLy = TrangThaixl,
-                        TrangThai = getTrangThaiXuLy(TrangThaixl, QuyTrinhId),
+                        TrangThaiXuLy = (int) TrangThaixl,
+                        TrangThai = getTrangThaiXuLy((int)TrangThaixl, QuyTrinhId),
                         IsNotifi = false
                     };
                     _context.Sys_QT_ThongBao.Add(sys_QT_ThongBao);

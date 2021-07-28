@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HumanResource.Data.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,7 +14,7 @@ namespace HumanResource.Data.Entities.Works
         public int UserDeliverId { get; set; }
         public string DeliverName { get; set; }
         public DateTime SendDate { get; set; }
-        public int TypeFlow { get; set; }
+        public TypeFlowEnum TypeFlow { get; set; }
         public DateTime CreateDate { get; set; }
         public string MaLenh { get; set; }
         public string ParentId { get; set; }

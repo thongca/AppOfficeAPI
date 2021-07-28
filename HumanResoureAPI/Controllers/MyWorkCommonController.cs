@@ -9,6 +9,7 @@ using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
 using HumanResource.Data.Entities.Works;
+using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
@@ -34,8 +35,8 @@ namespace HumanResoureAPI.Controllers
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListWorks()
         {
              RequestToken token = CommonData.GetDataFromToken(User);
-            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-            int DepartmentId =await WorksCommon.getDepartmentID(_context, user.DepartmentId??0);
+            
+            int DepartmentId =await WorksCommon.getDepartmentID(_context, token.DepartmentId);
             var tables = from a in _context.CV_DM_DefaultTask
                          join b in _context.CV_DM_GroupTask on a.GroupTaskId equals b.Id
                          where a.DepartmentId == DepartmentId
@@ -57,12 +58,12 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
+                
                 defaultTask.Id = Helper.GenKey();
                 defaultTask.Frequency = 1;
                 defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
                 defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
-                defaultTask.DepartmentId = user.ParentDepartId;
+                defaultTask.DepartmentId = token.DepartmentId;
                 _context.CV_DM_DefaultTask.Add(defaultTask);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Thêm mới công việc thường xuyên thành công!" });
@@ -84,8 +85,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                var defaultTask = await _context.CV_DM_DefaultTask.Where(x => x.DepartmentId == user.DepartmentId).Select(a => new
+                
+                var defaultTask = await _context.CV_DM_DefaultTask.Where(x => x.DepartmentId == token.DepartmentId).Select(a => new
                 {
                     a.Code,
                     a.Id,
@@ -178,9 +179,9 @@ namespace HumanResoureAPI.Controllers
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListGroupWorks()
         {
              RequestToken token = CommonData.GetDataFromToken(User);
-            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
+            
             var tables = from a in _context.CV_DM_GroupTask
-                         where a.DepartmentId == user.DepartmentId
+                         where a.DepartmentId == token.DepartmentId
                          select new
                          {
                              a.Name,
@@ -219,8 +220,8 @@ namespace HumanResoureAPI.Controllers
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorCTG()
         {
              RequestToken token = CommonData.GetDataFromToken(User);
-            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-            var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
+            
+            var room = await _context.Sys_Dm_Department.FindAsync(token.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
             {
@@ -249,8 +250,8 @@ namespace HumanResoureAPI.Controllers
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorhqcv()
         {
              RequestToken token = CommonData.GetDataFromToken(User);
-            var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-            var room = await _context.Sys_Dm_Department.FindAsync(user.DepartmentId);
+            
+            var room = await _context.Sys_Dm_Department.FindAsync(token.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
             {
@@ -281,7 +282,6 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == options.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 var myWork = await _context.CV_QT_MyWork.FindAsync(options.MyWorkId);
                 List<string> list = new List<string>();
@@ -292,38 +292,38 @@ namespace HumanResoureAPI.Controllers
                         list.Add("CV_TRINHHOANTHANH");
                     }
                 }
-                if (!workFlows.Contains(1) && !workFlows.Contains(13))
+                if (!workFlows.Contains(TypeFlowEnum.TrinhPheDuyetThoiHan) && !workFlows.Contains(TypeFlowEnum.CongViecKhoiTaoSau))
                 {
                     list.Add("CV_TRINHHOANTHANH");
                     list.Add("CV_TRINHCHINHSUA");
                 }
-                if (workFlows.Contains(1))
+                if (workFlows.Contains(TypeFlowEnum.TrinhPheDuyetThoiHan))
                 {
                     list.Add("CV_TRINHTHOIHAN");
                     list.Add("CV_TRINHCHINHSUA");
                 }
-                if (workFlows.Contains(2) || workFlows.Contains(3))
+                if (workFlows.Contains(TypeFlowEnum.DaPheDuyetThoiHanCoChinhSua) || workFlows.Contains(TypeFlowEnum.DaPheDuyetThoiHanKhongChinhSua))
                 {
                     list.Add("CV_TRINHTHOIHAN");
                     list.Add("CV_DUYETTHOIHAN");
                 }
-                if (workFlows.Contains(4) && !workFlows.Contains(5))
+                if (workFlows.Contains(TypeFlowEnum.TrinhPheDuyetKetQua) && !workFlows.Contains(TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua))
                 {
                     list.Add("CV_TRINHHOANTHANH");
 
                 }
-                if (workFlows.Contains(6))
+                if (workFlows.Contains(TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong))
                 {
                     list.Add("CV_TRINHHOANTHANH");
                     list.Add("CV_DUYETHOANTHANH");
                 }
-                if (workFlows.Contains(13))
+                if (workFlows.Contains(TypeFlowEnum.CongViecKhoiTaoSau))
                 {
                     list.Add("CV_TRINHTHOIHAN");
                     list.Add("CV_TRINHCHINHSUA");
                 }
                 
-                if(workFlows.Contains(14) && workFlows.Contains(16))
+                if(workFlows.Contains(TypeFlowEnum.TrinhHoanThanhKhoiTaoSau) && workFlows.Contains(TypeFlowEnum.DuyetCongViecKhoiTaoSau))
                 {
                     list.Add("CV_KHOITAOSAU");
                     list.Add("CV_DUYETKHOITAOSAU"); 

@@ -27,7 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Data\\HumanResource.Data.csproj": {
+                "projectPath": "E:\\9.WeWork\\AppOfficeAPI\\HumanResource.Data\\HumanResource.Data.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

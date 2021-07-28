@@ -2,6 +2,7 @@
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResource.Data.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -304,9 +305,9 @@ namespace HumanResoureAPI.Common.WorksCommon
             }
             return 0;
         }
-        public static int getTrangThaiKetThucCv(int TypeComplete, DateTime endDate, DateTime completeDate, int workflow)
+        public static int getTrangThaiKetThucCv(int TypeComplete, DateTime endDate, DateTime completeDate, TypeFlowEnum workflow)
         {
-            if (workflow == 13)
+            if (workflow == TypeFlowEnum.CongViecKhoiTaoSau)
             {
                 if (TypeComplete == 3)
                 {
@@ -374,7 +375,7 @@ namespace HumanResoureAPI.Common.WorksCommon
         {
             return query.Skip(skip).Take(take);
         }
-        public static CV_QT_WorkFlow objWorkFlow(humanDbContext dbContext, string MyWorkId,int UserSendId, int UserDeliverId, int TypeFlow, string MaLenh, string ParentId, string Note, string Require, int Repossibility)
+        public static CV_QT_WorkFlow objWorkFlow(humanDbContext dbContext, string MyWorkId,int UserSendId, int UserDeliverId, TypeFlowEnum TypeFlow, string MaLenh, string ParentId, string Note, string Require, int Repossibility)
         {
             var userSend = dbContext.Sys_Dm_User.Find(UserSendId);
             var userDeli = dbContext.Sys_Dm_User.Find(UserDeliverId);

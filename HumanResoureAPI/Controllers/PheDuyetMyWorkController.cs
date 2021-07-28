@@ -8,6 +8,7 @@ using HumanResource.Application.Helper.Dtos;
 using HumanResource.Data.DTO;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
+using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace HumanResoureAPI.Controllers
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
                 CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, model.CV_QT_WorkFlow.TypeFlow, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
-                if (model.CV_QT_WorkFlow.TypeFlow == 2)
+                if (model.CV_QT_WorkFlow.TypeFlow == TypeFlowEnum.DaPheDuyetThoiHanCoChinhSua)
                 {
                     var myWork =await _context.CV_QT_MyWork.FindAsync(model.CV_QT_WorkFlow.MyWorkId);
                     myWork.EndDate = model.ChangeDate;
@@ -99,7 +100,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, 6, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
                 if (Request.Form.Files.Count != 0)
@@ -141,7 +142,7 @@ namespace HumanResoureAPI.Controllers
                 foreach (var item in model.CV_QT_CCUsers)
                 {
                     CV_QT_WorkFlow wflowcc = new CV_QT_WorkFlow();
-                     wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, 6, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
+                     wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
                     _context.CV_QT_WorkFlow.Add(wflowcc);
                     foreach (var ftem in _WorkFlowFiles)
                     {
@@ -176,7 +177,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, 5, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
                 if (Request.Form.Files.Count != 0)
@@ -218,7 +219,7 @@ namespace HumanResoureAPI.Controllers
                 foreach (var item in model.CV_QT_CCUsers)
                 {
                     CV_QT_WorkFlow wflowcc = new CV_QT_WorkFlow();
-                    wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, 5, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
+                    wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
                     _context.CV_QT_WorkFlow.Add(wflowcc);
                     foreach (var ftem in _WorkFlowFiles)
                     {

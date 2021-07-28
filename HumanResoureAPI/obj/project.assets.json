@@ -3225,6 +3225,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
+          "HumanResource.Data": "1.0.0",
           "Microsoft.AspNetCore.SignalR.Client": "3.1.1",
           "Microsoft.AspNetCore.SignalR.Client.Core": "3.1.1",
           "Microsoft.Extensions.Options": "3.1.5",

@@ -34,5 +34,7 @@ namespace HumanResource.Data.Entities.Works
         public DateTime? CreatedDate { get; set; }
         public DateTime? ExpectedDate { get; set; }
         public int? Repossibility { get; set; }
+        public Nullable<int> ReporterId { get; set; }
+        public string ReporterName { get; set; }
     }
 }

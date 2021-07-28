@@ -52,7 +52,9 @@ namespace HumanResoureAPI.Controllers
                 {
                     UserID = user.Id,
                     CompanyId = user.CompanyId??0,
-                    GroupRoleId = user.GroupRoleId??0
+                    GroupRoleId = user.GroupRoleId??0,
+                    FullName = user.FullName,
+                    DepartmentId = user.DepartmentId??0
                 };
                 string tk = GenerateTokenData(token); ;
                 var congTys = await _context.Sys_Dm_Company.Where(x => x.IsActive == true).Select(a => new
@@ -531,6 +533,8 @@ namespace HumanResoureAPI.Controllers
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 request.UserID = token.UserID;
+                request.DepartmentId = token.DepartmentId;
+                request.GroupRoleId = token.GroupRoleId;
                 string tk = GenerateTokenData(request);
                 return new ObjectResult(new { error = 0, data = tk });
             }
