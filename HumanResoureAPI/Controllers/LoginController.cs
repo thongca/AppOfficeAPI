@@ -90,7 +90,7 @@ namespace HumanResoureAPI.Controllers
                                 user.CompanyId,
                                 user.DepartmentId,
                                 Permission = 0,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = companyId,
                             },
                             _listQuyen = await (from b in _context.Sys_Dm_Menu.Where(x => x.IsActive == true)
@@ -166,7 +166,7 @@ namespace HumanResoureAPI.Controllers
                                 user.CompanyId,
                                 user.DepartmentId,
                                 Permission = 1,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = user.CompanyId,
                             },
                             _listQuyen = _listMenuCustomers.Select(a => new
@@ -241,7 +241,7 @@ namespace HumanResoureAPI.Controllers
                                 user.CompanyId,
                                 user.DepartmentId,
                                 Permission = 1,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = user.CompanyId,
                             }
 
@@ -312,7 +312,7 @@ namespace HumanResoureAPI.Controllers
                                 user.DepartmentId,
                                 user.CompanyId,
                                 Permission = 2,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = user.CompanyId
                             },
                             _listQuyen = _listMenuDepartments.Select(a => new
@@ -381,7 +381,7 @@ namespace HumanResoureAPI.Controllers
                                 user.DepartmentId,
                                 user.CompanyId,
                                 Permission = 3,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = user.CompanyId
                             },
                             _listQuyen = _listMenuNest.Select(a => new
@@ -451,7 +451,7 @@ namespace HumanResoureAPI.Controllers
                                 user.DepartmentId,
                                 user.CompanyId,
                                 Permission = 4,
-                                GroupRoleDeFault = user.Role,
+                                GroupRoleDeFault = user.GroupRoleId,
                                 CompanyIdDefault = user.CompanyId
                             }
                             ,
