@@ -102,6 +102,11 @@ namespace HumanResource.Data.Enum
         /// </summary>
         [Description("Đã Xử lý phối hợp công tác")]
         DaXuLyPhoiHopCongTac = 17,
+        /// <summary>
+        /// Chuyển công việc cho người khác 18
+        /// </summary>
+        [Description("Chuyển công việc cho người khác")]
+        AssignWork = 18,
 
     }
 }

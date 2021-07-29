@@ -666,6 +666,41 @@ namespace HumanResoureAPI.Controllers
                 return new ObjectResult(new { error = 1 });
             }
         }
+        // Post: api/Common/r1GetListUserByGroup
+        [HttpGet]
+        [Route("r1GetListUserByDepartmentId")]
+        public async Task<ActionResult<IEnumerable<Sys_Dm_User>>> r1GetListUserByDepartmentId()
+        {
+            try
+            {
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var tables = _context.Sys_Dm_User.Select(a => new
+                {
+                    a.FullName,
+                    a.Id,
+                    a.DepartmentId,
+                    a.CompanyId,
+                    a.GroupRoleId
+                }).AsQueryable();
+
+                if (token.CompanyId > 0)
+                {
+                    tables = tables.Where(x => x.CompanyId == token.CompanyId);
+                }
+                if (token.DepartmentId > 0)
+                {
+                    var depart = _context.Sys_Dm_Department.Where(x => x.ParentId == token.DepartmentId).Select(c => c.Id);
+                    tables = tables.Where(x => x.DepartmentId == token.DepartmentId || depart.Contains(x.DepartmentId ?? 0));
+                }
+                var qrs = await tables.OrderBy(x => x.FullName).ToListAsync();
+                return new ObjectResult(new { error = 0, data = qrs, total = tables.Count() });
+
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
         #endregion
         #region Thông báo
         // Get: api/Common/r1GetListThongBao

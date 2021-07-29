@@ -59,6 +59,12 @@ namespace HumanResoureAPI.Controllers
                 {
                     myWork.CV_QT_MyWork.TaskCode = "";
                 }
+                // Nếu không chọn người thực hiện. mặc định gán cho người tạo
+                if (myWork.CV_QT_MyWork.UserTaskId == 0)
+                {
+                    myWork.CV_QT_MyWork.UserTaskId = token.UserID;
+                    myWork.CV_QT_MyWork.UserTaskName = token.FullName;
+                }
                 myWork.CV_QT_MyWork.Id = Helper.GenKey();
                 myWork.CV_QT_MyWork.StartPause = null;
                 myWork.CV_QT_MyWork.StartDate = null;
@@ -69,9 +75,11 @@ namespace HumanResoureAPI.Controllers
                 myWork.CV_QT_MyWork.WorkTime = 0.0;
                 myWork.CV_QT_MyWork.CreatedDate = DateTime.Now;
                 myWork.CV_QT_MyWork.Id = Helper.GenKey();
+                myWork.CV_QT_MyWork.ReporterId = token.UserID;
+                myWork.CV_QT_MyWork.ReporterName = token.FullName;
                 _context.CV_QT_MyWork.Add(myWork.CV_QT_MyWork);
                 // lưu quy trình luân chuyển công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.CV_QT_MyWork.Id, token.UserID, token.UserID, 0, "CV_MYWORK", null, myWork.CV_QT_MyWork.Note, "", 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, myWork.CV_QT_MyWork.Id, token.UserID, myWork.CV_QT_MyWork.UserTaskId, 0, "CV_MYWORK", null, myWork.CV_QT_MyWork.Note, "", 1);
                 wflow.ReadDate = DateTime.Now;
                 wflow.Readed = true;
                 _context.CV_QT_WorkFlow.Add(wflow);
@@ -422,7 +430,7 @@ namespace HumanResoureAPI.Controllers
                                  }).ToList();
                 var myWorks = (from a in _context.CV_QT_MyWork
                                join b in _context.CV_QT_WorkFlow on a.Id equals b.MyWorkId
-                               where a.UserTaskId == token.UserID && b.UserSendId == b.UserDeliverId && b.TypeFlow == 0
+                               where a.UserTaskId == token.UserID && b.TypeFlow == 0
                                orderby b.CreateDate descending
                                select new
                                {
@@ -751,6 +759,7 @@ namespace HumanResoureAPI.Controllers
                                         a.EndDate,
                                         a.StartDate,
                                         a.UserTaskName,
+                                        a.ReporterName,
                                         a.Note,
                                         a.PreWorkDeadline,
                                         Suporter = query.FirstOrDefault() != null ? query.FirstOrDefault().SpecialtyCode : null,
@@ -878,11 +887,10 @@ namespace HumanResoureAPI.Controllers
                 var cV_QT_WorkFlows = _context.CV_QT_WorkFlow.Where(x => x.UserDeliverId == token.UserID && x.MyWorkId == workFlow.MyWorkId);
                 foreach (var item in cV_QT_WorkFlows)
                 {
-                    var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FindAsync(item.Id);
-                    if (cV_QT_WorkFlow.Readed != true)
+                    if (item.Readed != true)
                     {
-                        cV_QT_WorkFlow.ReadDate = DateTime.Now;
-                        cV_QT_WorkFlow.Readed = true;
+                        item.ReadDate = DateTime.Now;
+                        item.Readed = true;
                     }
                 }
                 await _context.SaveChangesAsync();

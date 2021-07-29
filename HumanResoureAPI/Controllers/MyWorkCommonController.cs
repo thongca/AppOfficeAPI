@@ -44,6 +44,8 @@ namespace HumanResoureAPI.Controllers
                          {
                              a.Name,
                              a.Id,
+                             a.LevelTask,
+                             a.LevelTime
                          };
             return new ObjectResult(new { error = 0, data = await tables.OrderBy(x => x.Id).ToListAsync() });
 
@@ -290,6 +292,9 @@ namespace HumanResoureAPI.Controllers
                     if (myWork.CycleWork == 0)
                     {
                         list.Add("CV_TRINHHOANTHANH");
+                    } else
+                    {
+                        list.Add("CV_ASSIGNWORK");
                     }
                 }
                 if (!workFlows.Contains(TypeFlowEnum.TrinhPheDuyetThoiHan) && !workFlows.Contains(TypeFlowEnum.CongViecKhoiTaoSau))
