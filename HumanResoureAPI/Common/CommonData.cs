@@ -1,4 +1,5 @@
 ﻿using HumanResource.Application.Helper.Dtos;
+using HumanResource.Data.Request;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

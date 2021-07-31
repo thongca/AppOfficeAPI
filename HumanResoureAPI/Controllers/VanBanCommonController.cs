@@ -5,7 +5,7 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
 using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;

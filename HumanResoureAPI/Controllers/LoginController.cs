@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HumanResource.Application.Helper;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
+using HumanResource.Data.Request;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Data.Enum;
@@ -23,7 +24,7 @@ namespace HumanResoureAPI.Controllers
         private readonly humanDbContext _context;
         private readonly onlineDbContext _onlinecontext;
         private readonly IAuthentication _authentication;
-        public LoginController(humanDbContext context, IAuthentication authentication, onlineDbContext onlinecontext )
+        public LoginController(humanDbContext context, IAuthentication authentication, onlineDbContext onlinecontext)
         {
             _context = context;
             _authentication = authentication;
@@ -37,24 +38,24 @@ namespace HumanResoureAPI.Controllers
 
             try
             {
-                
+
                 string PasswordEn = Helper.Encrypt(checklogin.UserName, checklogin.Password);
                 //var useronline = _onlinecontext.Sys_Dm_Lisesion.Count(x => x.Login == true && x.HanDung >= DateTime.Now); // online check
                 //var checkadmin = _onlinecontext.Sys_Dm_Lisesion.Count(x => x.UserName == checklogin.UserName && x.Password == PasswordEn); // online check
-               
+
                 var user = _context.Sys_Dm_User.FirstOrDefault(x => x.Username == checklogin.UserName && x.Password == PasswordEn);
                 if (user == null)
                 {
                     return new JsonResult(new { error = 1, ms = "Tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại!" });
                 }
-               
+
                 RequestToken token = new RequestToken()
                 {
                     UserID = user.Id,
-                    CompanyId = user.CompanyId??0,
-                    GroupRoleId = user.GroupRoleId??0,
+                    CompanyId = user.CompanyId ?? 0,
+                    GroupRoleId = user.GroupRoleId ?? 0,
                     FullName = user.FullName,
-                    DepartmentId = user.DepartmentId??0
+                    DepartmentId = user.DepartmentId ?? 0
                 };
                 string tk = GenerateTokenData(token); ;
                 var congTys = await _context.Sys_Dm_Company.Where(x => x.IsActive == true).Select(a => new
@@ -205,32 +206,32 @@ namespace HumanResoureAPI.Controllers
                     #region Nhóm quản trị chi nhánh
                     case RoleUserEnum.AdminBranch:
                         var _listMenuCustomerBranchs = await (from a in _context.Sys_Cog_MenuCom
-                                                        join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
-                                                        where a.CompanyId == user.CompanyId && b.IsActive == true && a.IsActive == true
-                                                        select new
-                                                        {
-                                                            name = b.Name,
-                                                            url = b.RouterLink,
-                                                            icon = b.IconMenu,
-                                                            title = b.IsTitle,
-                                                            b.ParentId,
-                                                            b.MenuRank,
-                                                            b.Id,
-                                                            b.IsOrder,
-                                                            ViewPer = true,
-                                                            AddPer = true,
-                                                            EditPer = true,
-                                                            DelPer = true,
-                                                            ExportPer = true,
-                                                            b.RouterLink
-                                                        }).ToListAsync();
+                                                              join b in _context.Sys_Dm_Menu on a.MenuId equals b.Id
+                                                              where a.CompanyId == user.CompanyId && b.IsActive == true && a.IsActive == true
+                                                              select new
+                                                              {
+                                                                  name = b.Name,
+                                                                  url = b.RouterLink,
+                                                                  icon = b.IconMenu,
+                                                                  title = b.IsTitle,
+                                                                  b.ParentId,
+                                                                  b.MenuRank,
+                                                                  b.Id,
+                                                                  b.IsOrder,
+                                                                  ViewPer = true,
+                                                                  AddPer = true,
+                                                                  EditPer = true,
+                                                                  DelPer = true,
+                                                                  ExportPer = true,
+                                                                  b.RouterLink
+                                                              }).ToListAsync();
                         var _listMenuBranchExitst = await (from a in _context.Sys_Cog_MenuCom
-                                                     where a.CompanyId == user.CompanyId && a.IsActive == true
-                                                     group a by a.ParentId into c
-                                                     select new
-                                                     {
-                                                         ParentId = c.Key
-                                                     }).ToListAsync();
+                                                           where a.CompanyId == user.CompanyId && a.IsActive == true
+                                                           group a by a.ParentId into c
+                                                           select new
+                                                           {
+                                                               ParentId = c.Key
+                                                           }).ToListAsync();
                         return new JsonResult(new
                         {
                             token = tk,
@@ -493,10 +494,10 @@ namespace HumanResoureAPI.Controllers
             }
             catch (Exception ex)
             {
-                return new ObjectResult(new {error = 1, ms = ex.Message});
+                return new ObjectResult(new { error = 1, ms = ex.Message });
             }
-           
-           
+
+
 
         }
         [HttpPost]
@@ -505,15 +506,16 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 string passwordOld = Helper.Encrypt(user.Username, change.PassOld);
                 string passwordNew = Helper.Encrypt(user.Username, change.PassNew);
                 if (passwordOld == user.Password)
                 {
                     user.Password = passwordNew;
-                    
-                } else
+
+                }
+                else
                 {
                     return new ObjectResult(new { error = 1 });
                 }

@@ -1,6 +1,6 @@
 ﻿using HumanResource.Application.Helper;
 using HumanResource.Application.Paremeters.Works;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using HumanResource.Data.Enum;
 using System;

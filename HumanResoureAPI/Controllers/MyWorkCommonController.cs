@@ -6,10 +6,12 @@ using HumanResource.Application.Helper;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Dtos;
 using HumanResource.Application.Paremeters.Works;
+using HumanResource.Data.Request;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.VanBan;
 using HumanResource.Data.Entities.Works;
 using HumanResource.Data.Enum;
+using HumanResource.Data.Request;
 using HumanResoureAPI.Common;
 using HumanResoureAPI.Common.WorksCommon;
 using Microsoft.AspNetCore.Http;
@@ -34,9 +36,9 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListWorks")]
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListWorks()
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
-            
-            int DepartmentId =await WorksCommon.getDepartmentID(_context, token.DepartmentId);
+            RequestToken token = CommonData.GetDataFromToken(User);
+
+            int DepartmentId = await WorksCommon.getDepartmentID(_context, token.DepartmentId);
             var tables = from a in _context.CV_DM_DefaultTask
                          join b in _context.CV_DM_GroupTask on a.GroupTaskId equals b.Id
                          where a.DepartmentId == DepartmentId
@@ -44,8 +46,10 @@ namespace HumanResoureAPI.Controllers
                          {
                              a.Name,
                              a.Id,
-                             a.LevelTask,
-                             a.LevelTime
+                             a.LevelTaskName,
+                             a.LevelTimeName,
+                             a.LevelTimeId,
+                             a.LevelTaskId
                          };
             return new ObjectResult(new { error = 0, data = await tables.OrderBy(x => x.Id).ToListAsync() });
 
@@ -60,11 +64,22 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                var levelTime = _context.CV_DM_LevelTime.Find(defaultTask.LevelTimeId);
+                var levelTask = _context.CV_DM_LevelTask.Find(defaultTask.LevelTaskId);
+                if (levelTime == null)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Mức ưu tiên là thông tin bắt buộc!" });
+                }
+                if (levelTask == null)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Mức độ công việc là thông tin bắt buộc!" });
+                }
                 defaultTask.Id = Helper.GenKey();
                 defaultTask.Frequency = 1;
-                defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
-                defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
+                defaultTask.LevelTaskName = levelTask.Name;
+                defaultTask.LevelTimeName = levelTime.Name;
+                defaultTask.PointTask = levelTask.Point;
+                defaultTask.PointTime = levelTime.Point;
                 defaultTask.DepartmentId = token.DepartmentId;
                 _context.CV_DM_DefaultTask.Add(defaultTask);
                 await _context.SaveChangesAsync();
@@ -86,17 +101,17 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var defaultTask = await _context.CV_DM_DefaultTask.Where(x => x.DepartmentId == token.DepartmentId).Select(a => new
                 {
                     a.Code,
                     a.Id,
                     a.Name,
-                    a.LevelTask,
-                    a.LevelTime,
-                    LevelTaskText = getlevelTask(a.LevelTask, 1),
-                    LevelTimeText = getlevelTask(a.LevelTime, 2),
+                    a.LevelTaskId,
+                    a.LevelTimeId,
+                    a.LevelTimeName,
+                    a.LevelTaskName
                 }).ToListAsync();
                 return new ObjectResult(new { error = 0, data = defaultTask });
             }
@@ -122,7 +137,7 @@ namespace HumanResoureAPI.Controllers
                 }
                 return new ObjectResult(new { error = 0, data = defaultWork });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1, ms = "Thêm mới công việc thường xuyên không thành công!" });
             }
@@ -142,11 +157,23 @@ namespace HumanResoureAPI.Controllers
                 {
                     return new ObjectResult(new { error = 1, ms = "Cập nhật công việc thường xuyên không thành công!" });
                 }
+                var levelTime = _context.CV_DM_LevelTime.Find(defaultTask.LevelTimeId);
+                var levelTask = _context.CV_DM_LevelTask.Find(defaultTask.LevelTaskId);
+                if (levelTime == null)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Mức ưu tiên là thông tin bắt buộc!" });
+                }
+                if (levelTask == null)
+                {
+                    return new ObjectResult(new { error = 1, ms = "Mức độ công việc là thông tin bắt buộc!" });
+                }
                 _defaultTask.Name = defaultTask.Name;
-                _defaultTask.LevelTask = defaultTask.LevelTask;
-                _defaultTask.LevelTime = defaultTask.LevelTime;
-                _defaultTask.PointTask = getPointTask(defaultTask.LevelTask, 1);
-                _defaultTask.PointTime = getPointTask(defaultTask.LevelTime, 2);
+                _defaultTask.LevelTaskId = defaultTask.LevelTaskId;
+                _defaultTask.LevelTimeId = defaultTask.LevelTimeId;
+                _defaultTask.LevelTaskName = levelTask.Name;
+                _defaultTask.LevelTimeName = levelTime.Name;
+                _defaultTask.PointTask = levelTask.Point;
+                _defaultTask.PointTime = levelTime.Point;
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Cập nhật công việc thường xuyên thành công!" });
             }
@@ -180,8 +207,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListGroupWork")]
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListGroupWorks()
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
-            
+            RequestToken token = CommonData.GetDataFromToken(User);
+
             var tables = from a in _context.CV_DM_GroupTask
                          where a.DepartmentId == token.DepartmentId
                          select new
@@ -199,7 +226,7 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListHistory")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListHistory(OptionsCv option)
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
+            RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from a in _context.CV_QT_StartPauseHistory
                          join b in _context.CV_QT_MyWork on a.MyWorkId equals b.Id
                          where a.UserCreateId == token.UserID && a.MyWorkId == option.MyWorkId
@@ -221,8 +248,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListErrorCTG")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorCTG()
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
-            
+            RequestToken token = CommonData.GetDataFromToken(User);
+
             var room = await _context.Sys_Dm_Department.FindAsync(token.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
@@ -251,8 +278,8 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListErrorhqcv")]
         public async Task<ActionResult<IEnumerable<CV_QT_StartPauseHistory>>> r1GetListErrorhqcv()
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
-            
+            RequestToken token = CommonData.GetDataFromToken(User);
+
             var room = await _context.Sys_Dm_Department.FindAsync(token.DepartmentId);
             int DepId = 0;
             if (room.ParentId == null)
@@ -283,7 +310,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == options.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 var myWork = await _context.CV_QT_MyWork.FindAsync(options.MyWorkId);
                 List<string> list = new List<string>();
@@ -292,7 +319,8 @@ namespace HumanResoureAPI.Controllers
                     if (myWork.CycleWork == 0)
                     {
                         list.Add("CV_TRINHHOANTHANH");
-                    } else
+                    }
+                    else
                     {
                         list.Add("CV_ASSIGNWORK");
                     }
@@ -327,11 +355,11 @@ namespace HumanResoureAPI.Controllers
                     list.Add("CV_TRINHTHOIHAN");
                     list.Add("CV_TRINHCHINHSUA");
                 }
-                
-                if(workFlows.Contains(TypeFlowEnum.TrinhHoanThanhKhoiTaoSau) && workFlows.Contains(TypeFlowEnum.DuyetCongViecKhoiTaoSau))
+
+                if (workFlows.Contains(TypeFlowEnum.TrinhHoanThanhKhoiTaoSau) && workFlows.Contains(TypeFlowEnum.DuyetCongViecKhoiTaoSau))
                 {
                     list.Add("CV_KHOITAOSAU");
-                    list.Add("CV_DUYETKHOITAOSAU"); 
+                    list.Add("CV_DUYETKHOITAOSAU");
                 }
 
                 var tables = from a in _context.VB_QT_BuocLenhGroupRole

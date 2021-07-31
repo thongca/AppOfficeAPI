@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
+using HumanResource.Data.Request;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResoureAPI.Common;
@@ -30,7 +31,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_GroupRole.Select(a => new
                 {
                     a.Name,
@@ -73,7 +74,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 sys_Dm_Group.UserCreateId = token.UserID;
                 sys_Dm_Group.CreateDate = DateTime.Now;
                 _context.Sys_Dm_GroupRole.Add(sys_Dm_Group);
@@ -139,7 +140,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new JsonResult(new { error = 1 });
             }
-             RequestToken token = CommonData.GetDataFromToken(User);
+            RequestToken token = CommonData.GetDataFromToken(User);
             foreach (var item in listDataRms)
             {
                 if (_context.Sys_Cog_UsersGroup.Count(x => x.GroupRoleId == item.Id) > 0)

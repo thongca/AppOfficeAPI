@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Application.Paremeters.Dtos;
+using HumanResource.Data.Request;
+using HumanResource.Data.Request;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Data.Entities.VanBan;
@@ -14,6 +16,7 @@ using HumanResoureAPI.Common.Systems;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HumanResource.Data.Response;
 
 namespace HumanResoureAPI.Controllers
 {
@@ -34,7 +37,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 if (user.Role == RoleUserEnum.Administrator)
                 {
@@ -65,7 +68,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
@@ -91,7 +94,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == null && x.CompanyId == user.CompanyId).Select(a => new
                 {
@@ -118,7 +121,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Position.Where(x => x.CompanyId == token.CompanyId).Select(a => new
                 {
                     a.Name,
@@ -143,7 +146,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_Department.Where(x => x.ParentId == options.departmentId && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     Name = "(" + a.Code + ") " + a.Name,
@@ -169,7 +172,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_GroupRole
                     .Where(x =>
                     x.CompanyId == token.CompanyId
@@ -181,17 +184,13 @@ namespace HumanResoureAPI.Controllers
                     a.CompanyId,
                     a.DepartmentId
                 });
-                if (token.CompanyId == 0)
-                {
-                    tables = tables.Where(x => x.CompanyId == 0);
-                }
                 if (token.CompanyId > 0)
                 {
                     tables = tables.Where(x => x.CompanyId == token.CompanyId);
                 }
-                if (options.departmentId > 0)
+                if (token.DepartmentId > 0)
                 {
-                    tables = tables.Where(x => x.DepartmentId == options.departmentId);
+                    tables = tables.Where(x => x.DepartmentId == token.DepartmentId);
                 }
                 if (options.nestId > 0)
                 {
@@ -215,7 +214,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.VB_QT_Buoc.Where(x => x.QuyTrinhId == options.QuyTrinhId && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     a.Name,
@@ -239,7 +238,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var tables = from a in _context.VB_QT_BuocLenhGroupRole
                              where a != null
@@ -273,7 +272,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 int hienNguoiNhan = CheckNguoiNhan.DuocHienThiNguoiNhan(_context, options.GroupRoleId, options.BuocLenhGroupId);
                 switch (hienNguoiNhan)
@@ -483,7 +482,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 #region Phòng ban 
 
@@ -520,7 +519,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var buoc = _context.VB_QT_Buoc.FirstOrDefault(x => x.MenuId == options.MenuId);
                 var LenhTuongTac = _context.VB_QT_LenhTuongTac.FirstOrDefault(x => x.Code == options.MaLenh);
@@ -630,7 +629,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_Dm_User.Select(a => new
                 {
                     a.FullName,
@@ -710,7 +709,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == token.UserID).Select(a => new
                 {
                     a.TenNguoiGui,
@@ -739,7 +738,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await _context.Sys_QT_ThongBao.FindAsync(thongbao.Id);
                 tables.DaDoc = true;
                 tables.NgayDoc = DateTime.Now;
@@ -759,7 +758,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var tables = await _context.Sys_QT_ThongBao.Where(x => x.NguoiNhanId == token.UserID).ToListAsync();
                 foreach (var item in tables)
                 {
@@ -767,12 +766,53 @@ namespace HumanResoureAPI.Controllers
                     item.DaDoc = true;
                     item.NgayDoc = DateTime.Now;
                 }
-               
+
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });
 
             }
             catch (Exception)
+            {
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        #endregion
+        #region Danh sách độ khó công việc & độ ưu tiên
+        // Post: api/Common/r1GetDataLevelTask
+        [HttpGet]
+        [Route("r1GetDataLevelTask")]
+        public async Task<ActionResult> r1GetDataLevelTask()
+        {
+            try
+            {
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var tables = await _context.CV_DM_LevelTask
+                    .Where(x => x.Deleted != true && x.CompanyId == token.CompanyId)
+                    .Select(a => new CV_DM_LevelTaskResponse(a)).ToListAsync();
+                return new ObjectResult(new { error = 0, data = tables });
+
+            }
+            catch (Exception e)
+            {
+                bool success = SaveLog.SaveLogEx(_context, "api/Common/r1GetListDataDepartment", e.Message, "Danh sách phòng ban");
+                return new ObjectResult(new { error = 1 });
+            }
+        }
+        // Post: api/Common/r1GetDataLevelTime
+        [HttpGet]
+        [Route("r1GetDataLevelTime")]
+        public async Task<ActionResult> r1GetDataLevelTime()
+        {
+            try
+            {
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var tables = await _context.CV_DM_LevelTime
+                    .Where(x => x.Deleted != true && x.CompanyId == token.CompanyId)
+                    .Select(a => new CV_DM_LevelTimeResponse(a)).ToListAsync();
+                return new ObjectResult(new { error = 0, data = tables });
+
+            }
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1 });
             }

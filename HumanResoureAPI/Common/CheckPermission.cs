@@ -1,5 +1,5 @@
 ﻿using HumanResource.Data.DTO;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

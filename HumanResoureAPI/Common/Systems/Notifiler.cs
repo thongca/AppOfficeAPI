@@ -1,7 +1,7 @@
 ﻿using HumanResource.Application.Hub;
 using HumanResource.Application.Notifi;
 using HumanResource.Application.Paremeters.Dtos;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Data.Enum;
 using Microsoft.EntityFrameworkCore;
@@ -167,7 +167,7 @@ namespace HumanResoureAPI.Common.Systems
                     case 17:
                         return "Trình phối hợp công tác";
                     case 18:
-                        return "Chỉ đạo xử lý phối hợp công tác";
+                        return "Chuyển tiếp công việc";
                     default:
                         return "Công việc mới";
                 }

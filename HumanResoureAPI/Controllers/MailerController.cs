@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanResource.Application.Mail;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResoureAPI.Common.Systems;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

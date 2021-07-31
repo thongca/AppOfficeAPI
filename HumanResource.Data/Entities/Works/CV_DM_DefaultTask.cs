@@ -12,14 +12,16 @@ namespace HumanResource.Data.Entities.Works
         public int? GroupTaskId { get; set; }
         public int Frequency { get; set; }
         public DateTime CreateDate { get; set; }
+        public int LevelTaskId { get; set; }
+        public int LevelTimeId { get; set; }
         /// <summary>
         /// Mức độ công việc
         /// </summary>
-        public Byte LevelTask { get; set; }
+        public string LevelTaskName { get; set; }
         /// <summary>
         /// Mức độ ưu tiên
         /// </summary>
-        public Byte LevelTime { get; set; }
+        public string LevelTimeName { get; set; }
         public double PointTask { get; set; }
         public double PointTime { get; set; }
         public int? DepartmentId { get; set; }

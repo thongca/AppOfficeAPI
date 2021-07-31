@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Notifi;
 using HumanResource.Application.Paremeters.Works;
+using HumanResource.Data.Request;
 using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using HumanResource.Data.Enum;
@@ -38,7 +39,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var myWorks = from b in _context.CV_QT_WorkFlow
                               join a in _context.CV_QT_MyWork on b.MyWorkId equals a.Id
                               where b.UserDeliverId == token.UserID && b.TypeFlow == TypeFlowEnum.TrinhPheDuyetThoiHan && b.Handled != true
@@ -85,8 +86,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var users = _context.Sys_Dm_User.Where(x => x.ParentDepartId == token.DepartmentId).Select(c => c.Id);
                 var myWorks = from b in _context.CV_QT_WorkFlow
                               join a in _context.CV_QT_MyWork on b.MyWorkId equals a.Id
@@ -134,12 +135,12 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var users = _context.Sys_Dm_User.Where(x => x.DepartmentId == token.DepartmentId).Select(c => c.Id);
                 var myWorks = from b in _context.CV_QT_WorkFlow
                               join a in _context.CV_QT_MyWork on b.MyWorkId equals a.Id
-                              where b.UserDeliverId == token.UserID && b.Handled == false && (a.CycleWork != 4) 
+                              where b.UserDeliverId == token.UserID && b.Handled == false && (a.CycleWork != 4)
                               && (b.TypeFlow == TypeFlowEnum.TrinhPheDuyetKetQua || b.TypeFlow == TypeFlowEnum.ChuyenChoNguoiTiepTheo)
                               orderby b.CreateDate descending
                               select new
@@ -184,8 +185,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var users = _context.Sys_Dm_User.Where(x => x.DepartmentId == token.DepartmentId).Select(c => c.Id);
                 var myWorks = from b in _context.CV_QT_WorkFlow
                               join a in _context.CV_QT_MyWork on b.MyWorkId equals a.Id
@@ -246,55 +247,59 @@ namespace HumanResoureAPI.Controllers
                     cV_QT_WorkFlow.Handled = true;
                     cV_QT_WorkFlow.HandleDate = DateTime.Now;
                 }
-                // lưu quy trình luân chuyển công việc
-                foreach (var ktem in modelFlow.UserDelivers)
+                if (cV_QT_MyWork != null)
                 {
-                    if (cV_QT_MyWork != null)
+                    var userDeli = _context.Sys_Dm_User.Find(modelFlow.UserNextId);
+                    // kiểm tra null trước khi chuyển
+                    if (userDeli != null)
                     {
-                        var userDeli = _context.Sys_Dm_User.Find(ktem.UserId);
-                        cV_QT_MyWork.UserTaskId = ktem.UserId;
+                        cV_QT_MyWork.UserTaskId = modelFlow.UserNextId ?? 0;
                         cV_QT_MyWork.UserTaskName = userDeli.FullName;
                     }
-                    CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, token.UserID, ktem.UserId, TypeFlowEnum.New, "CV_ASSIGNWORK", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1);
-                    // lưu thông báo
-                    await _notifi.SaveNotifiAsync(2, "CV_ASSIGNWORK", token.FullName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow.Note, ktem.UserId, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
-                    // lưu quy trình luân chuyển công việc
-                    _context.CV_QT_WorkFlow.Add(wflow);
-                    if (Request.Form.Files.Count != 0)
+                    else
                     {
-                        foreach (var item in Request.Form.Files)
+                        return new ObjectResult(new { error = ErrorCodeEnum.SaveFail, ms = "Chuyển công việc không thành công!" });
+                    }
+                }
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, modelFlow.MyWorkId, token.UserID, modelFlow.UserNextId??0, TypeFlowEnum.New, "CV_ASSIGNWORK", cV_QT_WorkFlow.Id, modelFlow.Note, modelFlow.Require, 1);
+                // lưu thông báo
+                await _notifi.SaveNotifiAsync(2, "CV_ASSIGNWORK", token.FullName, "MCV: (" + cV_QT_MyWork.Code.ToString() + ")" + wflow.Note, modelFlow.UserNextId??0, wflow.TypeFlow, "/giaoviec/quytrinhgiaoviec/congvieccuatoi");
+                // lưu quy trình luân chuyển công việc
+                _context.CV_QT_WorkFlow.Add(wflow);
+                if (Request.Form.Files.Count != 0)
+                {
+                    foreach (var item in Request.Form.Files)
+                    {
+                        CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
+                        var file = item;
+                        var folderName = Path.Combine("Resources", "WorkFlows", "AssignWork");
+                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                        if (!Directory.Exists(pathToSave))
                         {
-                            CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
-                            var file = item;
-                            var folderName = Path.Combine("Resources", "WorkFlows", "AssignWork");
-                            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                            if (!Directory.Exists(pathToSave))
+                            Directory.CreateDirectory(pathToSave);
+                        }
+                        if (modelFlow != null)
+                        {
+                            if (file.Length > 0)
                             {
-                                Directory.CreateDirectory(pathToSave);
-                            }
-                            if (modelFlow != null)
-                            {
-                                if (file.Length > 0)
+                                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                var fullPath = Path.Combine(pathToSave, fileName);
+                                var dbPath = Path.Combine(folderName, fileName);
+                                obj.Extension = Path.GetExtension(fileName);
+                                obj.Path = dbPath;
+                                using (var stream = new FileStream(fullPath, FileMode.Create))
                                 {
-                                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                                    var fullPath = Path.Combine(pathToSave, fileName);
-                                    var dbPath = Path.Combine(folderName, fileName);
-                                    obj.Extension = Path.GetExtension(fileName);
-                                    obj.Path = dbPath;
-                                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                                    {
-                                        file.CopyTo(stream);
-                                    }
+                                    file.CopyTo(stream);
                                 }
                             }
-                            obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                            obj.WorkFlowId = wflow.Id;
-                            obj.Size = file.Length / 1048576;
-
-                            _context.CV_QT_WorkFlowFile.Add(obj);
                         }
+                        obj.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        obj.WorkFlowId = wflow.Id;
+                        obj.Size = file.Length / 1048576;
 
+                        _context.CV_QT_WorkFlowFile.Add(obj);
                     }
+
                 }
 
                 await _context.SaveChangesAsync();
@@ -317,7 +322,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0);
                 var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_WorkFlow.Readed != true)
@@ -392,8 +397,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).OrderByDescending(x => x.CreateDate).FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0);
                 var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_MyWork.Predecessor == null)
@@ -493,8 +498,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 CV_QT_WorkFlow cV_QT_WorkFlow = new CV_QT_WorkFlow();
                 if (!workFlows.Contains(TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua)) // nếu không tồn tại yêu cầu chỉnh sửa trong quy trình
@@ -684,8 +689,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var workFlows = _context.CV_QT_WorkFlow.Where(x => x.MyWorkId == modelFlow.MyWorkId).Select(x => x.TypeFlow).Distinct().ToList();
                 CV_QT_WorkFlow cV_QT_WorkFlow = new CV_QT_WorkFlow();
                 cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.CongViecKhoiTaoSau);
@@ -777,7 +782,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhPheDuyetThoiHan && x.UserDeliverId == token.UserID);
                 var cV_QT_MyWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Id == modelFlow.MyWorkId);
                 if (cV_QT_WorkFlow.Handled != true)
@@ -865,7 +870,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhPheDuyetKetQua && x.Handled == false); // lọc thông tin công việc đnag được trình duyệt hoàn thành
                 if (cV_QT_WorkFlow.Readed != true)
                 {
@@ -1015,8 +1020,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow ==  TypeFlowEnum.TrinhGiaiQuyetPhoiHopCongTac && x.Handled == false); // lọc thông tin công việc đnag được trình phối hợp công tác
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhGiaiQuyetPhoiHopCongTac && x.Handled == false); // lọc thông tin công việc đnag được trình phối hợp công tác
                 if (cV_QT_WorkFlow.Readed != true)
                 {
                     cV_QT_WorkFlow.ReadDate = DateTime.Now;
@@ -1093,7 +1098,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhHoanThanhKhoiTaoSau && x.Handled == false); // lọc thông tin công việc đnag được trình duyệt hoàn thành
                 if (cV_QT_WorkFlow.Readed != true)
                 {
@@ -1111,9 +1116,9 @@ namespace HumanResoureAPI.Controllers
                 {
                     cV_QT_MyWork.TypeComplete = 3;
                     cV_QT_MyWork.CycleWork = 4;
-                    if (!checkChangeDate(cV_QT_MyWork, modelFlow.DCom??0))
+                    if (!checkChangeDate(cV_QT_MyWork, modelFlow.DCom ?? 0))
                     {
-                        cV_QT_MyWork.CompleteDate = TransforDate.FromDoubleToDate(modelFlow.DCom??0);
+                        cV_QT_MyWork.CompleteDate = TransforDate.FromDoubleToDate(modelFlow.DCom ?? 0);
                     }
                     if (modelFlow.SoGio != null)
                     {
@@ -1190,7 +1195,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhHoanThanhKhoiTaoSau && x.Handled == false); // lọc thông tin công việc đnag được trình duyệt hoàn thành
                 if (cV_QT_WorkFlow.Readed != true)
                 {
@@ -1267,8 +1272,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == TypeFlowEnum.TrinhPheDuyetKetQua); // lọc thông tin công việc đnag được trình duyệt hoàn thành
                 if (cV_QT_WorkFlow.Handled != true)
                 {
@@ -1407,8 +1412,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 var cV_QT_WorkFlow = await _context.CV_QT_WorkFlow.FirstOrDefaultAsync(x => x.MyWorkId == modelFlow.MyWorkId && x.TypeFlow == 0); // lọc thông tin công việc đnag được trình duyệt hoàn thành
                 if (cV_QT_WorkFlow.Handled != true)
                 {
@@ -1544,8 +1549,8 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var modelFlow = JsonConvert.DeserializeObject<FlowModel>(Request.Form["model"]);
-                 RequestToken token = CommonData.GetDataFromToken(User);
-                
+                RequestToken token = CommonData.GetDataFromToken(User);
+
                 List<UserAndStatusDeliver> users = new List<UserAndStatusDeliver>();
                 var myWork = await _context.CV_QT_MyWork.FindAsync(modelFlow.MyWorkId); // công việc của tôi
                 var preDecWork = await _context.CV_QT_MyWork.FirstOrDefaultAsync(x => x.Code == myWork.Predecessor); // công việc tiên quyết (nếu có)

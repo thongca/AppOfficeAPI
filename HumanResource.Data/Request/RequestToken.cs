@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HumanResource.Application.Helper.Dtos
+namespace HumanResource.Data.Request
 {
    public class RequestToken
     {

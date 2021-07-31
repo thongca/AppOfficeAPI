@@ -6,7 +6,7 @@ using HumanResource.Application.Helper;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters;
 using HumanResource.Data.DTO;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResoureAPI.Common;
 using Microsoft.AspNetCore.Http;

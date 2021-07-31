@@ -24,3 +24,6 @@ E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Release\netcoreapp3.1\Hum
 E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Release\netcoreapp3.1\HumanResource.Application.csproj.CoreCompileInputs.cache
 E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Release\netcoreapp3.1\HumanResource.Application.dll
 E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Release\netcoreapp3.1\HumanResource.Application.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\bin\Release\netcoreapp3.1\HumanResource.Data.dll
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\bin\Release\netcoreapp3.1\HumanResource.Data.pdb
+E:\9.WeWork\AppOfficeAPI\HumanResource.Application\obj\Release\netcoreapp3.1\HumanResource.Application.csproj.CopyComplete

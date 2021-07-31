@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper;
 using HumanResource.Application.Helper.Dtos;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -94,7 +94,7 @@ namespace HumanResoureAPI
             
             app.UseCors(builder =>
             {
-                builder.WithOrigins("https://owflow.com", "http://owflow.com", "http://172.16.10.2:4567", "https://172.16.10.2:4567", "http://localhost:4200")
+                builder.WithOrigins("https://owflow.com", "http://owflow.com", "http://wework.ttsoft.vn", "https://wework.ttsoft.vn", "https://172.16.10.2:4567", "http://localhost:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .SetIsOriginAllowedToAllowWildcardSubdomains()

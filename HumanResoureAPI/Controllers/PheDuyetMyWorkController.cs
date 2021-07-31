@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Data.DTO;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;

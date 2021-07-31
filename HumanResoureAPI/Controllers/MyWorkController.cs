@@ -2,7 +2,7 @@
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Works;
 using HumanResource.Data.DTO;
-using HumanResource.Data.EF;
+using HumanResource.Data.Request;using HumanResource.Data.EF;
 using HumanResource.Data.Entities.Works;
 using HumanResource.Data.Enum;
 using HumanResoureAPI.Common;
@@ -46,18 +46,26 @@ namespace HumanResoureAPI.Controllers
                 {
                     myWork.CV_QT_MyWork.TaskId = defaultWork.Id;
                     myWork.CV_QT_MyWork.TaskCode = defaultWork.Code;
-                    if (myWork.CV_QT_MyWork.PointTask == 0) // nếu không chọn thay đổi mức độ công việc thì lấy giá trị mặc định trong danh mục công việc mặc định
-                    {
-                        myWork.CV_QT_MyWork.PointTask = defaultWork.PointTask;
-                    }
-                    if (myWork.CV_QT_MyWork.PointTime == 0)// nếu không chọn thay đổi độ vội công việc thì lấy giá trị mặc định trong danh mục công việc mặc định
-                    {
-                        myWork.CV_QT_MyWork.PointTime = defaultWork.PointTime;
-                    }
+                    myWork.CV_QT_MyWork.PointTask = defaultWork.PointTask;
+                    myWork.CV_QT_MyWork.PointTime = defaultWork.PointTime;
+                    myWork.CV_QT_MyWork.LevelTaskId = defaultWork.LevelTaskId;
+                    myWork.CV_QT_MyWork.LevelTimeId = defaultWork.LevelTimeId;
                 }
                 else
                 {
                     myWork.CV_QT_MyWork.TaskCode = "";
+                    var levelTime = _context.CV_DM_LevelTime.Find(myWork.CV_QT_MyWork.LevelTimeId);
+                    var levelTask = _context.CV_DM_LevelTask.Find(myWork.CV_QT_MyWork.LevelTaskId);
+                    if (levelTime == null)
+                    {
+                        return new ObjectResult(new { error = 1, ms = "Mức ưu tiên là thông tin bắt buộc!" });
+                    }
+                    myWork.CV_QT_MyWork.PointTime = levelTime.Point;
+                    if (levelTask == null)
+                    {
+                        return new ObjectResult(new { error = 1, ms = "Mức độ công việc là thông tin bắt buộc!" });
+                    }
+                    myWork.CV_QT_MyWork.PointTask = levelTask.Point;
                 }
                 // Nếu không chọn người thực hiện. mặc định gán cho người tạo
                 if (myWork.CV_QT_MyWork.UserTaskId == 0)

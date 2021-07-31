@@ -54,6 +54,9 @@ namespace HumanResource.Data.EF
             modelBuilder.ApplyConfiguration(new CV_QT_MyWorkConfiguration());
             modelBuilder.ApplyConfiguration(new CV_DM_DefaultTaskConfiguration());
             modelBuilder.ApplyConfiguration(new CV_DM_GroupTaskConfiguration());
+            modelBuilder.ApplyConfiguration(new CV_DM_LevelTaskConfiguration());
+            modelBuilder.ApplyConfiguration(new CV_DM_LevelTimeConfiguration());
+            modelBuilder.ApplyConfiguration(new CV_DM_GroupTaskConfiguration());
             modelBuilder.ApplyConfiguration(new CV_QT_MyScheduleWorkConfiguration());
             modelBuilder.ApplyConfiguration(new CV_QT_MySupportWorkConfiguration());
             modelBuilder.ApplyConfiguration(new CV_QT_MyWorkConfiguration());
@@ -104,6 +107,8 @@ namespace HumanResource.Data.EF
         public DbSet<CV_QT_MySupportWork> CV_QT_MySupportWork { get; set; }
         public DbSet<CV_QT_MyScheduleWork> CV_QT_MyScheduleWork { get; set; }
         public DbSet<CV_DM_GroupTask> CV_DM_GroupTask { get; set; }
+        public DbSet<CV_DM_LevelTask> CV_DM_LevelTask { get; set; }
+        public DbSet<CV_DM_LevelTime> CV_DM_LevelTime { get; set; }
         public DbSet<CV_DM_DefaultTask> CV_DM_DefaultTask { get; set; }
         public DbSet<CV_QT_StartPauseHistory> CV_QT_StartPauseHistory { get; set; }
         public DbSet<CV_DM_Error> CV_DM_Error { get; set; }

@@ -29,6 +29,8 @@ namespace HumanResource.Data.Entities.Works
         public Nullable<bool> PreWorkType { get; set; }
         public Nullable<DateTime> CompleteDate { get; set; }
         public Nullable<int> TypeComplete { get; set; }
+        public int LevelTaskId { get; set; }
+        public int LevelTimeId { get; set; }
         public Nullable<double> PointTask { get; set; }
         public Nullable<double> PointTime { get; set; }
         public DateTime? CreatedDate { get; set; }
