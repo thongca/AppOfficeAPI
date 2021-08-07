@@ -6,9 +6,10 @@ namespace HumanResource.Data.Entities.VanBan
 {
    public class VB_QT_BuocLenhTuongTac
     {
-        public int Id { get; set; }
-        public int BuocId { get; set; }
-        public int LenhTuongTacId { get; set; }
+        public string Id { get; set; }
+        public string BuocId { get; set; }
+        public string LenhTuongTacId { get; set; }
         public int IsOrder { get; set; }
+        public int CompanyId { get; set; }
     }
 }

@@ -535,7 +535,6 @@ namespace HumanResoureAPI.Controllers
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 request.UserID = token.UserID;
-                request.DepartmentId = token.DepartmentId;
                 request.GroupRoleId = token.GroupRoleId;
                 string tk = GenerateTokenData(request);
                 return new ObjectResult(new { error = 0, data = tk });

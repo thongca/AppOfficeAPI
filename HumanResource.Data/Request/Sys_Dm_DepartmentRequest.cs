@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HumanResource.Data.Entities.VanBan
+namespace HumanResource.Data.Request
 {
-   public class VB_QT_LenhTuongTac
+   public class Sys_Dm_DepartmentRequest: SearchBase
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public string Icon { get; set; }
+        public int? ParentId { get; set; }
+        public int CompanyId { get; set; }
         public int IsOrder { get; set; }
         public bool IsActive { get; set; }
-        public string QuyTrinhId { get; set; }
-        public int CompanyId { get; set; }
     }
 }

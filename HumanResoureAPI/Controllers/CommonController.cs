@@ -224,7 +224,7 @@ namespace HumanResoureAPI.Controllers
                 var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1 });
             }
@@ -521,9 +521,9 @@ namespace HumanResoureAPI.Controllers
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                var buoc = _context.VB_QT_Buoc.FirstOrDefault(x => x.MenuId == options.MenuId);
-                var LenhTuongTac = _context.VB_QT_LenhTuongTac.FirstOrDefault(x => x.Code == options.MaLenh);
-                var buocLenhTuongTac = _context.VB_QT_BuocLenhTuongTac.FirstOrDefault(x => x.BuocId == buoc.Id && x.LenhTuongTacId == LenhTuongTac.Id);
+                var buoc = _context.VB_QT_Buoc.FirstOrDefault(x => x.MenuId == options.MenuId && x.CompanyId == token.CompanyId);
+                var LenhTuongTac = _context.VB_QT_LenhTuongTac.FirstOrDefault(x => x.Code == options.MaLenh && x.CompanyId == token.CompanyId);
+                var buocLenhTuongTac = _context.VB_QT_BuocLenhTuongTac.FirstOrDefault(x => x.BuocId == buoc.Id && x.LenhTuongTacId == LenhTuongTac.Id && x.CompanyId == token.CompanyId);
                 int hienNguoiNhan = 0;
                 if (buocLenhTuongTac != null)
                 {
@@ -593,17 +593,14 @@ namespace HumanResoureAPI.Controllers
                     #endregion
                     #region Chỉ trưởng phòng
                     case 7:
-                        var listNsInPB = await _context.Sys_Dm_User.Where(x => x.ParentDepartId == user.ParentDepartId).Select(a => a.Id).ToListAsync();
-                        var tps = await (from b in _context.Sys_Cog_UsersGroup
-                                         join c in _context.Sys_Dm_GroupRole on b.GroupRoleId equals c.Id
-                                         join a in _context.Sys_Dm_User on b.UserId equals a.Id
-                                         where listNsInPB.Contains(b.UserId)
-                                         select new
-                                         {
-                                             b.UserId,
-                                             a.FullName
-                                         }).ToListAsync();
-
+                        var tps = await _context.Sys_Dm_User
+                            .Where(x => x.DepartmentId == user.DepartmentId && x.Role == RoleUserEnum.AdminDepartment)
+                            .Select(a => new
+                            {
+                                UserId = a.Id,
+                                a.FullName
+                            }
+                        ).ToListAsync();
                         return new ObjectResult(new { error = 0, data = tps });
                     #endregion
                     default:

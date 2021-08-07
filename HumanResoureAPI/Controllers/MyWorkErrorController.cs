@@ -30,8 +30,9 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                data.DepartmentId = user.DepartmentId ?? 0;
+                data.DepartmentId = token.DepartmentId;
+                data.CompanyId = token.CompanyId;
+                data.Deleted = false;
                 _context.CV_DM_Error.Add(data);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "Thêm mới lỗi đánh giá công việc thành công!" });
@@ -39,9 +40,7 @@ namespace HumanResoureAPI.Controllers
             catch (Exception)
             {
                 return new ObjectResult(new { error = 1, ms = "Thêm mới lỗi đánh giá công việc không thành công!" });
-            }
-
-
+            } 
         }
         #endregion
         #region Danh sách lỗi đánh giá chất lượng
@@ -53,12 +52,12 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                var datas = await _context.CV_DM_Error.Where(x => x.DepartmentId == user.DepartmentId && x.Active != true).Select(a => new
+                var datas = await _context.CV_DM_Error.Where(x => x.DepartmentId == token.DepartmentId && x.Deleted != true && x.CompanyId == token.CompanyId).Select(a => new
                 {
                     a.ErrorName,
                     a.Id,
                     a.Point,
+                    a.Active
                 }).ToListAsync();
                 return new ObjectResult(new { error = 0, data = datas });
             }
@@ -126,7 +125,10 @@ namespace HumanResoureAPI.Controllers
             {
                 return new JsonResult(new { error = 1, ms = "Xóa danh mục lỗi không thành công!" });
             }
-            _context.CV_DM_Error.RemoveRange(listDataRms);
+            foreach (var item in listDataRms)
+            {
+                item.Deleted = true;
+            }
             await _context.SaveChangesAsync();
             return new JsonResult(new { error = 0 });
 

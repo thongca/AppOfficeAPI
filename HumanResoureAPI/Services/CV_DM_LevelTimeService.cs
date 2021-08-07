@@ -53,7 +53,7 @@ namespace HumanResoureAPI.Services
             return ErrorCodeEnum.Success;
         }
 
-        public ErrorCodeEnum DeletedItems(List<int?> Ids, RequestToken token)
+        public ErrorCodeEnum DeletedItems(List<int> Ids, RequestToken token)
         {
 
             foreach (var item in Ids)

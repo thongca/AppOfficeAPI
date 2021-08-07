@@ -29,5 +29,6 @@ namespace HumanResource.Data.Entities.Works
         public bool Handled { get; set; }
         public DateTime? HandleDate { get; set; }
         public int Repossibility { get; set; }
+        public int CompanyId { get; set; }
     }
 }

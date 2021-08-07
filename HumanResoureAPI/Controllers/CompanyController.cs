@@ -115,7 +115,7 @@ namespace HumanResoureAPI.Controllers
                     foreach (var item in Request.Form.Files)
                     {
                         var file = item;
-                        var folderName = Path.Combine("Resources", "Category", "Company");
+                        var folderName = Path.Combine("Resources","FD" + token.CompanyId.ToString(), "Category", "Company");
                         var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                         if (!Directory.Exists(pathToSave))
                         {
@@ -140,8 +140,9 @@ namespace HumanResoureAPI.Controllers
                 obj.LevelCom = 1;
                 obj.IsActive = true;
                 _context.Sys_Dm_Company.Add(obj);
-                CloneNewCompany(obj.Id);
                 await _context.SaveChangesAsync();
+                var data = _context.Sys_Dm_Company.FirstOrDefault(x => x.Code == obj.Code);
+                CloneNewCompany(data.Id);
                 return CreatedAtAction("GetSys_Dm_Company", new { id = obj.Id }, obj);
             }
             catch (Exception)
@@ -156,19 +157,30 @@ namespace HumanResoureAPI.Controllers
         /// <returns></returns>
         private int CloneNewCompany(int CompanyId)
         {
-            var qt_buocs = _context.VB_QT_Buoc.Where(x => x.CompanyId == 3).ToList();
-            foreach (var item in qt_buocs)
-            {
-                item.Id = 0;
-                item.CompanyId = CompanyId;
-                _context.VB_QT_Buoc.Add(item);
-            }
+           
             var qt_quytrinhs = _context.VB_QT_QuyTrinh.Where(x => x.CompanyId == 3).ToList();
             foreach (var item in qt_quytrinhs)
             {
-                item.Id = 0;
                 item.CompanyId = CompanyId;
                 _context.VB_QT_QuyTrinh.Add(item);
+                // clone buoc theo quy trình
+                var qt_buocs = _context.VB_QT_Buoc.Where(x => x.CompanyId == 3 && x.QuyTrinhId == item.Id).ToList();
+                var qt_lenhs = _context.VB_QT_LenhTuongTac.Where(x => x.CompanyId == 3 && x.QuyTrinhId == item.Id).ToList();
+                item.Id = Guid.NewGuid().ToString().ToUpper();
+                foreach (var buoc in qt_buocs)
+                {
+                    buoc.Id = Guid.NewGuid().ToString().ToUpper();
+                    buoc.QuyTrinhId = item.Id;
+                    buoc.CompanyId = CompanyId;
+                    _context.VB_QT_Buoc.Add(buoc);
+                }
+                foreach (var lenh in qt_lenhs)
+                {
+                    lenh.Id = Guid.NewGuid().ToString().ToUpper();
+                    lenh.QuyTrinhId = item.Id;
+                    lenh.CompanyId = CompanyId;
+                    _context.VB_QT_LenhTuongTac.Add(lenh);
+                }
             }
             var dm_leveltasks = _context.CV_DM_LevelTask.Where(x => x.CompanyId == 3).ToList();
             foreach (var item in dm_leveltasks)
@@ -176,6 +188,20 @@ namespace HumanResoureAPI.Controllers
                 item.Id = 0;
                 item.CompanyId = CompanyId;
                 _context.CV_DM_LevelTask.Add(item);
+            }
+            var dm_grouproles = _context.Sys_Dm_GroupRole.Where(x => x.CompanyId == 16).ToList();
+            foreach (var item in dm_grouproles)
+            {
+                item.Id = 0;
+                item.CompanyId = CompanyId;
+                _context.Sys_Dm_GroupRole.Add(item);
+            }
+            var dm_positions = _context.Sys_Dm_Position.Where(x => x.CompanyId == 16).ToList();
+            foreach (var item in dm_positions)
+            {
+                item.Id = 0;
+                item.CompanyId = CompanyId;
+                _context.Sys_Dm_Position.Add(item);
             }
             var dm_leveltimes = _context.CV_DM_LevelTime.Where(x => x.CompanyId == 3).ToList();
             foreach (var item in dm_leveltimes)

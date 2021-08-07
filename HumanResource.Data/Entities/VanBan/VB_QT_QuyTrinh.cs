@@ -6,7 +6,7 @@ namespace HumanResource.Data.Entities.VanBan
 {
    public class VB_QT_QuyTrinh
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public int Type { get; set; }
         public bool IsActive { get; set; }

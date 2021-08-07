@@ -32,7 +32,7 @@ namespace HumanResoureAPI.Controllers
             try
             {
                  RequestToken token = CommonData.GetDataFromToken(User);
-                        var tables = _context.VB_QT_QuyTrinh.Select(a => new {
+                        var tables = _context.VB_QT_QuyTrinh.Where(x => x.CompanyId == token.CompanyId).Select(a => new {
                             a.Name,
                             a.Id,
                             a.IsOrder
@@ -101,7 +101,7 @@ namespace HumanResoureAPI.Controllers
                 var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1 });
             }
@@ -131,7 +131,7 @@ namespace HumanResoureAPI.Controllers
                 var qrs = await tables.OrderBy(x => x.IsOrder).ToListAsync();
                 return new ObjectResult(new { error = 0, data = qrs });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ObjectResult(new { error = 1 });
             }
@@ -145,19 +145,22 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 if (_context.VB_QT_BuocLenhTuongTac.Count(x=>x.LenhTuongTacId == options.LenhTuongTacId && x.BuocId == options.BuocId) > 0)
                 {
                     return new ObjectResult(new { error = 2 });
                 }
                 VB_QT_BuocLenhTuongTac obj = new VB_QT_BuocLenhTuongTac();
-                obj.BuocId = options.BuocId ?? 1;
-                obj.LenhTuongTacId = options.LenhTuongTacId ?? 1;
+                obj.Id = Guid.NewGuid().ToString().ToUpper();
+                obj.BuocId = options.BuocId;
+                obj.LenhTuongTacId = options.LenhTuongTacId;
                 obj.IsOrder = _context.VB_QT_BuocLenhTuongTac.Count() + 1;
+                obj.CompanyId = token.CompanyId;
                 _context.VB_QT_BuocLenhTuongTac.Add(obj);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0});
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ObjectResult(new { error = 1 });
             }

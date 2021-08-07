@@ -10,6 +10,8 @@ namespace HumanResource.Data.Entities.Works
         public string ErrorName { get; set; }
         public double Point { get; set; }
         public int DepartmentId { get; set; }
+        public int CompanyId { get; set; }
+        public Nullable<bool> Deleted { get; set; }
         public bool? Active { get; set; }
     }
 }

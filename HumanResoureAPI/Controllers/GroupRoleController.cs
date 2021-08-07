@@ -77,6 +77,7 @@ namespace HumanResoureAPI.Controllers
                 RequestToken token = CommonData.GetDataFromToken(User);
                 sys_Dm_Group.UserCreateId = token.UserID;
                 sys_Dm_Group.CreateDate = DateTime.Now;
+                sys_Dm_Group.CompanyId = token.CompanyId;
                 _context.Sys_Dm_GroupRole.Add(sys_Dm_Group);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0 });

@@ -16,18 +16,18 @@ namespace HumanResoureAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LevelTaskController : ControllerBase
+    public class DepartmentController : ControllerBase
     {
-        private readonly CV_DM_LevelTaskService _service;
+        private readonly Sys_Dm_DepartmentService _service;
 
-        public LevelTaskController(humanDbContext context)
+        public DepartmentController(humanDbContext context)
         {
-            _service = new CV_DM_LevelTaskService(context); ;
+            _service = new Sys_Dm_DepartmentService(context); ;
         }
-        // Post: api/Company/r1GetListData
+        // Post: api/Sys_Dm_Department/r1GetListData
         [HttpPost]
         [Route("r1GetListData")]
-        public ActionResult r1GetListData(CV_DM_LevelTaskRequest search)
+        public ActionResult r1GetListData(Sys_Dm_DepartmentRequest search)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace HumanResoureAPI.Controllers
                     error = response.Code,
                     data = response.Data,
                     total = response.Total,
-                    ms = PageHelper.GetEnumDescription(response.Code, "Lấy dữ liệu mức độ công việc thành công!")
+                    ms = PageHelper.GetEnumDescription(response.Code, "Lấy dữ liệu phòng ban thành công!")
                 });
             }
             catch (Exception)
@@ -47,7 +47,7 @@ namespace HumanResoureAPI.Controllers
             }
         }
 
-        // GET: api/Company/5
+        // GET: api/Sys_Dm_Department/5
         [HttpGet("r1GetItemById/{id}")]
         public ActionResult GetItemById(int id)
         {
@@ -55,7 +55,7 @@ namespace HumanResoureAPI.Controllers
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var result = _service.GetItem(id, token);
-                return new ObjectResult(new { error = ErrorCodeEnum.Success, data = result, ms = PageHelper.GetEnumDescription(ErrorCodeEnum.Success, "Lấy dữ liệu mức độ công việc thành công!") });
+                return new ObjectResult(new { error = ErrorCodeEnum.Success, data = result, ms = PageHelper.GetEnumDescription(ErrorCodeEnum.Success, "Lấy dữ liệu phòng ban thành công!") });
             }
             catch (Exception)
             {
@@ -63,17 +63,17 @@ namespace HumanResoureAPI.Controllers
             }
         }
 
-        // PUT: api/Company/5
+        // PUT: api/Sys_Dm_Department/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("r3_UpdateData")]
-        public IActionResult r3_EditData(CV_DM_LevelTaskRequest request)
+        public IActionResult r3_EditData(Sys_Dm_DepartmentRequest request)
         {
             try
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var result = _service.EditItem(request, token);
-                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Cập nhật dữ liệu mức độ công việc thành công!") });
+                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Cập nhật dữ liệu phòng ban thành công!") });
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,17 +81,17 @@ namespace HumanResoureAPI.Controllers
             }
         }
 
-        // POST: api/Company
+        // POST: api/Sys_Dm_Department
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("r2_CreateData")]
-        public ActionResult r2_AddData(CV_DM_LevelTaskRequest request)
+        public ActionResult r2_AddData(Sys_Dm_DepartmentRequest request)
         {
             try
             {
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var result = _service.CreateItem(request, token);
-                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Tạo dữ liệu mức độ công việc thành công!") });
+                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Tạo dữ liệu phòng ban thành công!") });
             }
             catch (Exception)
             {
@@ -101,14 +101,14 @@ namespace HumanResoureAPI.Controllers
 
         [HttpPost]
         [Route("r4_DeleteData")]
-        public IActionResult r4_DeleteData([FromBody] List<CV_DM_LevelTaskRequest> requests)
+        public IActionResult r4_DeleteData([FromBody] List<Sys_Dm_DepartmentRequest> requests)
         {
             try
             {
-                var Ids = requests.Select(a => a.Id??0).ToList();
+                List<int> Ids = requests.Select(a => a.Id).ToList();
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var result = _service.DeletedItems(Ids, token);
-                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Xóa dữ liệu mức độ công việc thành công!") });
+                return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Xóa dữ liệu phòng ban thành công!") });
             }
             catch (Exception)
             {

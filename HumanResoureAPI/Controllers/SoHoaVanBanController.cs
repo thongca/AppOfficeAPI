@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using HumanResource.Application.Helper;
 using HumanResource.Application.Helper.Dtos;
 using HumanResource.Application.Paremeters.Dtos;
-using HumanResource.Data.Request;using HumanResource.Data.EF;
+using HumanResource.Data.Request;
+using HumanResource.Data.EF;
 using HumanResource.Data.Entities.System;
 using HumanResource.Data.Entities.VanBan;
 using HumanResoureAPI.Common;
@@ -40,14 +41,14 @@ namespace HumanResoureAPI.Controllers
             {
                 var model = JsonConvert.DeserializeObject<VB_QT_VanBanMoiSoHoa>(Request.Form["model"]);
                 VB_QT_VanBanMoiSoHoa objvb = new VB_QT_VanBanMoiSoHoa();
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
-                var userNguoiKy = await _context.Sys_Dm_User.FirstOrDefaultAsync(x=>x.Id == model.NguoiKyId);
+                var userNguoiKy = await _context.Sys_Dm_User.FirstOrDefaultAsync(x => x.Id == model.NguoiKyId);
                 if (model != null)
                 {
                     objvb.Id = Helper.GenKey();
-                    objvb.CompanyId = user.CompanyId??0;
-                    objvb.DepartmentId = user.DepartmentId??0;
+                    objvb.CompanyId = user.CompanyId ?? 0;
+                    objvb.DepartmentId = user.DepartmentId ?? 0;
                     objvb.TenNguoiKy = userNguoiKy.FullName;
                     objvb.LinhVucId = model.LinhVucId;
                     objvb.LoaiVanBanId = model.LoaiVanBanId;
@@ -71,7 +72,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         VB_QT_FileVBMoiSoHoa obj = new VB_QT_FileVBMoiSoHoa();
                         var file = item;
-                        var folderName = Path.Combine("Resources", "VanBan");
+                        var folderName = Path.Combine("Resources", "FD" + token.CompanyId.ToString(), "VanBan");
                         var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                         if (!Directory.Exists(pathToSave))
                         {
@@ -97,7 +98,7 @@ namespace HumanResoureAPI.Controllers
                         obj.Type = 1;
                         _context.VB_QT_FileVBMoiSoHoa.Add(obj);
                     }
-                   
+
                 }
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, ms = "" }); ;
@@ -120,30 +121,30 @@ namespace HumanResoureAPI.Controllers
                 lcvb.DaDoc = true;
                 await _context.SaveChangesAsync();
             }
-             RequestToken token = CommonData.GetDataFromToken(User);
-                var tables = await _context.VB_QT_VanBanMoiSoHoa.FindAsync(id);
-            var vb =await (from a in _context.VB_QT_VanBanMoiSoHoa
-                     join b in _context.VB_Dm_LinhVuc on a.LinhVucId equals b.Id
-                     join c in _context.VB_Dm_LoaiVanBan on a.LoaiVanBanId equals c.Id
-                     where a.Id == lcvb.VbMoiSoHoaId
-                           select new
-                     {
-                         a.Id,
-                         a.NgayBanHanh,
-                         a.SoKyHieu,
-                         a.TrichYeu,
-                         a.TenNguoiKy,
-                         a.UserCreateId,
-                         a.TenNguoiTao,
-                         NameField = b.Name,
-                         NameLoaiVb = c.Name,
-                     }).ToListAsync();
-                var files = _context.VB_QT_FileVBMoiSoHoa.Where(x => x.VbMoiSoHoaId == lcvb.VbMoiSoHoaId).Select(c => new
-                {
-                    c.Name,
-                    c.Path,
-                    c.Size
-                }).ToList();
+            RequestToken token = CommonData.GetDataFromToken(User);
+            var tables = await _context.VB_QT_VanBanMoiSoHoa.FindAsync(id);
+            var vb = await (from a in _context.VB_QT_VanBanMoiSoHoa
+                            join b in _context.VB_Dm_LinhVuc on a.LinhVucId equals b.Id
+                            join c in _context.VB_Dm_LoaiVanBan on a.LoaiVanBanId equals c.Id
+                            where a.Id == lcvb.VbMoiSoHoaId
+                            select new
+                            {
+                                a.Id,
+                                a.NgayBanHanh,
+                                a.SoKyHieu,
+                                a.TrichYeu,
+                                a.TenNguoiKy,
+                                a.UserCreateId,
+                                a.TenNguoiTao,
+                                NameField = b.Name,
+                                NameLoaiVb = c.Name,
+                            }).ToListAsync();
+            var files = _context.VB_QT_FileVBMoiSoHoa.Where(x => x.VbMoiSoHoaId == lcvb.VbMoiSoHoaId).Select(c => new
+            {
+                c.Name,
+                c.Path,
+                c.Size
+            }).ToList();
             var lcvbs = _context.VB_QT_LuanChuyenVanBan.Where(x => x.VbMoiSoHoaId == lcvb.VbMoiSoHoaId).Select(c => new
             {
                 c.Id,
@@ -158,9 +159,9 @@ namespace HumanResoureAPI.Controllers
                 c.DepartmentNN,
                 c.PositionNN,
                 c.PositionNG
-            }).OrderByDescending(x=>x.ThoiGianGui).ToList();
+            }).OrderByDescending(x => x.ThoiGianGui).ToList();
 
-            return new ObjectResult(new { error = 0, data = vb[0] , files, lcvbs, lcvb });
+            return new ObjectResult(new { error = 0, data = vb[0], files, lcvbs, lcvb });
         }
         #endregion
         #region Danh sách văn bản mới số hóa
@@ -169,7 +170,7 @@ namespace HumanResoureAPI.Controllers
         [Route("r1GetListDanhSachVBSoHoa")]
         public async Task<ActionResult<IEnumerable<VB_QT_VanBanMoiSoHoa>>> r1GetListDanhSachVBSoHoa()
         {
-             RequestToken token = CommonData.GetDataFromToken(User);
+            RequestToken token = CommonData.GetDataFromToken(User);
             var tables = from b in _context.VB_QT_LuanChuyenVanBan
                          join a in _context.VB_QT_VanBanMoiSoHoa on b.VbMoiSoHoaId equals a.Id
                          where b.MaLenh == "VB_MOISOHOA" && a.UserCreateId == token.UserID
@@ -197,7 +198,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var userNN = await _context.Sys_Dm_User.FindAsync(vB_QT_LuanChuyenVanBan.NguoiNhanId);
                 var qtLuanChuyenVb = await _context.VB_QT_LuanChuyenVanBan.FindAsync(vB_QT_LuanChuyenVanBan.Id);
@@ -208,11 +209,11 @@ namespace HumanResoureAPI.Controllers
                     qtLuanChuyenVb.VbMoiSoHoaId, vB_QT_LuanChuyenVanBan.NguoiNhanId, vB_QT_LuanChuyenVanBan.TenNguoiNhan, token.UserID, user.FullName,
                     vB_QT_LuanChuyenVanBan.TieuDe,
                     vB_QT_LuanChuyenVanBan.NoiDung, false,
-                    vB_QT_LuanChuyenVanBan.HanXuLy, null, 
-                    vB_QT_LuanChuyenVanBan.TrangThaiXuLy, 
-                    vB_QT_LuanChuyenVanBan.MaLenh, null, 
-                    false, qtLuanChuyenVb.Id, 
-                    vB_QT_LuanChuyenVanBan.MenuGuiId, 
+                    vB_QT_LuanChuyenVanBan.HanXuLy, null,
+                    vB_QT_LuanChuyenVanBan.TrangThaiXuLy,
+                    vB_QT_LuanChuyenVanBan.MaLenh, null,
+                    false, qtLuanChuyenVb.Id,
+                    vB_QT_LuanChuyenVanBan.MenuGuiId,
                     vB_QT_LuanChuyenVanBan.MenuNhanId,
                     userNN.PositionName, user.PositionName, userNN.DepartmentName, user.DepartmentName);
                 _context.VB_QT_LuanChuyenVanBan.Add(lcvb);
@@ -230,7 +231,7 @@ namespace HumanResoureAPI.Controllers
                 _context.Sys_QT_ThongBao.Add(obj);
                 List<NguoiNhanThongBao> nhanThongBaos = new List<NguoiNhanThongBao>();
                 NguoiNhanThongBao nguoiNhan = new NguoiNhanThongBao();
-                nguoiNhan.NguoiNhanId = vB_QT_LuanChuyenVanBan.NguoiNhanId??0;
+                nguoiNhan.NguoiNhanId = vB_QT_LuanChuyenVanBan.NguoiNhanId ?? 0;
                 nhanThongBaos.Add(nguoiNhan);
                 await _context.SaveChangesAsync();
                 return new ObjectResult(new { error = 0, nguoiNhanTbs = nhanThongBaos });
@@ -239,7 +240,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new ObjectResult(new { error = 1 });
             }
-           
+
 
         }
         #endregion
@@ -251,13 +252,13 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                 RequestToken token = CommonData.GetDataFromToken(User);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var user = await _context.Sys_Dm_User.FindAsync(token.UserID);
                 var userNCD = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiChiDaoId);
                 var userNXL = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiXuLyId);
                 var userNDXL = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiDXuLyId);
                 var userNNDB = await _context.Sys_Dm_User.FindAsync(luanChuyenVbUser.UserNhan.NguoiNDBId);
-            
+
                 var qtLuanChuyenVb = _context.VB_QT_LuanChuyenVanBan.Where(x => x.VbMoiSoHoaId == luanChuyenVbUser.VB_QT_LuanChuyenVanBan.VbMoiSoHoaId
                 && x.NguoiNhanId == luanChuyenVbUser.VB_QT_LuanChuyenVanBan.NguoiGuiId
                 && x.MenuNhanId == luanChuyenVbUser.VB_QT_LuanChuyenVanBan.MenuGuiId).OrderByDescending(x => x.ThoiGianGui).Take(1);
@@ -328,7 +329,7 @@ namespace HumanResoureAPI.Controllers
             {
                 return new ObjectResult(new { error = 1 });
             }
-           
+
 
         }
         #endregion

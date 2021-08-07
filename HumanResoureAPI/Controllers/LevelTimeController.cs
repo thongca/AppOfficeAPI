@@ -105,7 +105,7 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var Ids = requests.Select(a => a.Id).ToList();
+                var Ids = requests.Select(a => a.Id??0).ToList();
                 RequestToken token = CommonData.GetDataFromToken(User);
                 var result = _service.DeletedItems(Ids, token);
                 return new ObjectResult(new { error = result, ms = PageHelper.GetEnumDescription(result, "Xóa dữ liệu mức độ ưu tiên thành công!") });

@@ -42,10 +42,11 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var userId = 0;
                 if (optionRePort.UserId == 0)
                 {
-                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                    userId = token.UserID;
                 }
                 else
                 {
@@ -53,9 +54,10 @@ namespace HumanResoureAPI.Controllers
                 }
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
-                var reports = await _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth {0}, {1}, {2}", userId,
+                var reports = await _context.RePort_KpiForUseraMonth.FromSqlRaw("EXEC RePort_KPIForEmployeeaMonth {0}, {1}, {2}, {3}", userId,
                     TransforDate.FromDoubleToDate(optionRePort.dates ?? datesDefault),
-                    TransforDate.FromDoubleToDate(optionRePort.datee ?? dateeDefault)
+                    TransforDate.FromDoubleToDate(optionRePort.datee ?? dateeDefault),
+                    token.CompanyId
                     ).ToListAsync();
 
                 return new ObjectResult(new { error = 0, data = reports });
@@ -76,12 +78,13 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
-                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}",
+                var reports = _context.Report_TotalTimeWork.FromSqlRaw("EXEC Report_TotalTimeWork {0}, {1}, {2}, {3}",
                     TransforDate.FromDoubleToDate(report.dates ?? datesDefault),
                     TransforDate.FromDoubleToDate(report.datee ?? dateeDefault),
-                    new DateTime(DateTime.Now.Year, 01, 01)).ToList();
+                    new DateTime(DateTime.Now.Year, 01, 01), token.CompanyId).ToList();
 
                 return new ObjectResult(new { error = 0, data = reports });
 
@@ -101,10 +104,11 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var userId = 0;
                 if (model.UserId == 0)
                 {
-                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                    userId = token.UserID;
                 }
                 else
                 {
@@ -118,6 +122,7 @@ namespace HumanResoureAPI.Controllers
                               where a.CreatedBy == userId
                               && a.DateStart.Value.Date >= TransforDate.FromDoubleToDate(model.dates ?? datesDefault).Date
                               && a.DateStart.Value.Date <= TransforDate.FromDoubleToDate(model.datee ?? dateeDefault).Date
+                              && b.CompanyId == token.CompanyId
                               select new
                               {
                                   a.Id,
@@ -158,6 +163,7 @@ namespace HumanResoureAPI.Controllers
                               where a.EndDate.Value.Date >= TransforDate.FromDoubleToDate(datesDefault).Date
                               && a.EndDate.Value.Date <= TransforDate.FromDoubleToDate(dateeDefault).Date
                               && listUser.Contains(a.UserTaskId)
+                              && a.CompanyId == token.CompanyId
                               group a by new {a.UserTaskId, b.FullName} into gr
                               select new
                               {
@@ -257,15 +263,17 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var model = JsonConvert.DeserializeObject<OptionRePort>(Request.Form["model"]);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var userId = 0;
                 if (model.UserId == 0)
                 {
-                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                    userId = token.UserID;
                 }
                 else
                 {
                     userId = model.UserId;
                 }
+
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
                 var startDate = TransforDate.FromDoubleToDate(model.ReportDate.dates ?? datesDefault);
@@ -363,15 +371,17 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var model = JsonConvert.DeserializeObject<OptionRePort>(Request.Form["model"]);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var userId = 0;
-                if (model.UserId == 0) // nếu user truyền vào = 0 thì gán cho user mặc định
+                if (model.UserId == 0)
                 {
-                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                    userId = token.UserID;
                 }
                 else
                 {
                     userId = model.UserId;
                 }
+
 
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
@@ -462,15 +472,17 @@ namespace HumanResoureAPI.Controllers
             try
             {
                 var model = JsonConvert.DeserializeObject<Report_TotalTimePara>(Request.Form["model"]);
+                RequestToken token = CommonData.GetDataFromToken(User);
                 var userId = 0;
-                if (model.UserId == 0) // nếu user truyền vào = 0 thì gán cho user mặc định
+                if (model.UserId == 0)
                 {
-                    userId = Convert.ToInt32(User.Claims.First(c => c.Type == "UserId").Value);
+                    userId = token.UserID;
                 }
                 else
                 {
                     userId = model.UserId;
                 }
+
 
                 var datesDefault = TransforDate.FromDateToDouble(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01));
                 var dateeDefault = TransforDate.FromDateToDouble(DateTime.Now);
@@ -622,7 +634,8 @@ namespace HumanResoureAPI.Controllers
         {
             try
             {
-                var or = _context.CV_QT_WorkNote.Where(x => x.DateEnd != null).ToList();
+                RequestToken token = CommonData.GetDataFromToken(User);
+                var or = _context.CV_QT_WorkNote.Where(x => x.DateEnd != null && x.CompanyId == token.CompanyId).ToList();
                 foreach (var item in or)
                 {
                     item.WorkTime = SpaceTimeOnDay.CalSpaceTimeOnDay(item.DateStart??DateTime.Now, item.DateEnd ?? DateTime.Now) / 60;

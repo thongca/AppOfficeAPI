@@ -8,7 +8,7 @@ namespace HumanResource.Data.Entities.VanBan
     {
         public int Id { get; set; }
         public int GroupRoleId { get; set; }
-        public int BuocLenhTuongTacId { get; set; }
+        public string BuocLenhTuongTacId { get; set; }
         public bool IsAll { get; set; }
         public bool IsDepartment { get; set; }
         public bool IsNest { get; set; }

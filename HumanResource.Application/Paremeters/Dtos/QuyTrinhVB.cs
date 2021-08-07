@@ -7,18 +7,18 @@ namespace HumanResource.Application.Paremeters.Dtos
    public class QuyTrinhVB
     {
         public int CompanyId { get; set; }
-        public int QuyTrinhId { get; set; }
-        public int? BuocId { get; set; }
-        public int? LenhTuongTacId { get; set; }
+        public string QuyTrinhId { get; set; }
+        public string BuocId { get; set; }
+        public string LenhTuongTacId { get; set; }
     }
 
     public class BuocLenhGroupRole
     {
         public int CompanyId { get; set; }
-        public int BuocLenhTuongTacId { get; set; }
-        public int QuyTrinhId { get; set; }
-        public int BuocId { get; set; }
-        public int LenhTuongTacId { get; set; }
+        public string BuocLenhTuongTacId { get; set; }
+        public string QuyTrinhId { get; set; }
+        public string BuocId { get; set; }
+        public string LenhTuongTacId { get; set; }
         public int GroupRoleId { get; set; }
         public bool? IsAll { get; set; }
         public bool? IsDepartment { get; set; }

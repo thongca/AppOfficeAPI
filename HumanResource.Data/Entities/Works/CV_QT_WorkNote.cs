@@ -17,5 +17,6 @@ namespace HumanResource.Data.Entities.Works
         public DateTime? HandleDate { get; set; }
         public int? HandleUserId { get; set; }
         public int? State { get; set; }
+        public int CompanyId { get; set; }
     }
 }

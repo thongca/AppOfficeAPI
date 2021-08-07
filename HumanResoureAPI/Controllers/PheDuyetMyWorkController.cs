@@ -37,7 +37,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWorkPheDuyetTH>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, model.CV_QT_WorkFlow.TypeFlow, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, model.CV_QT_WorkFlow.TypeFlow, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1, token.CompanyId);
                 if (model.CV_QT_WorkFlow.TypeFlow == TypeFlowEnum.DaPheDuyetThoiHanCoChinhSua)
                 {
                     var myWork =await _context.CV_QT_MyWork.FindAsync(model.CV_QT_WorkFlow.MyWorkId);
@@ -50,7 +50,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
                         var file = item;
-                        var folderName = Path.Combine("Resources", "WorkFlows", "Deadlines");
+                        var folderName = Path.Combine("Resources","FD" + token.CompanyId.ToString(), "WorkFlows", "Deadlines");
                         var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                         if (!Directory.Exists(pathToSave))
                         {
@@ -100,7 +100,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1, token.CompanyId);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
                 if (Request.Form.Files.Count != 0)
@@ -109,7 +109,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
                         var file = item;
-                        var folderName = Path.Combine("Resources", "WorkFlows", "successful");
+                        var folderName = Path.Combine("Resources","FD" + token.CompanyId.ToString(), "WorkFlows", "successful");
                         var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                         if (!Directory.Exists(pathToSave))
                         {
@@ -142,7 +142,7 @@ namespace HumanResoureAPI.Controllers
                 foreach (var item in model.CV_QT_CCUsers)
                 {
                     CV_QT_WorkFlow wflowcc = new CV_QT_WorkFlow();
-                     wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
+                     wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaDatChatLuong, "CV_HOANTHANH", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3, token.CompanyId);
                     _context.CV_QT_WorkFlow.Add(wflowcc);
                     foreach (var ftem in _WorkFlowFiles)
                     {
@@ -177,7 +177,7 @@ namespace HumanResoureAPI.Controllers
                 var model = JsonConvert.DeserializeObject<Dtos_FlowWork>(Request.Form["model"]);
                  RequestToken token = CommonData.GetDataFromToken(User);
                 // lưu quy trình luân chuyển công việc phê duyệt công việc
-                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1);
+                CV_QT_WorkFlow wflow = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, model.CV_QT_WorkFlow.UserDeliverId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 1, token.CompanyId);
                 _context.CV_QT_WorkFlow.Add(wflow);
                 List<CV_QT_WorkFlowFile> _WorkFlowFiles = new List<CV_QT_WorkFlowFile>();
                 if (Request.Form.Files.Count != 0)
@@ -186,7 +186,7 @@ namespace HumanResoureAPI.Controllers
                     {
                         CV_QT_WorkFlowFile obj = new CV_QT_WorkFlowFile();
                         var file = item;
-                        var folderName = Path.Combine("Resources", "WorkFlows", "successful");
+                        var folderName = Path.Combine("Resources","FD" + token.CompanyId.ToString(), "WorkFlows", "successful");
                         var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                         if (!Directory.Exists(pathToSave))
                         {
@@ -219,7 +219,7 @@ namespace HumanResoureAPI.Controllers
                 foreach (var item in model.CV_QT_CCUsers)
                 {
                     CV_QT_WorkFlow wflowcc = new CV_QT_WorkFlow();
-                    wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3);
+                    wflowcc = WorksCommon.objWorkFlow(_context, model.CV_QT_WorkFlow.MyWorkId, token.UserID, item.UserId, TypeFlowEnum.DaPheDuyetKetQuaYeuCauChinhSua, "CV_MYWORK", model.CV_QT_WorkFlow.ParentId, model.CV_QT_WorkFlow.Note, model.CV_QT_WorkFlow.Require, 3, token.CompanyId);
                     _context.CV_QT_WorkFlow.Add(wflowcc);
                     foreach (var ftem in _WorkFlowFiles)
                     {

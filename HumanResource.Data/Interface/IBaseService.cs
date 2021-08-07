@@ -12,7 +12,7 @@ namespace HumanResource.Data.Interface
         public ErrorCodeEnum CreateItem(TRequest request, RequestToken token);
         public ErrorCodeEnum EditItem(TRequest request, RequestToken token);
         public ErrorCodeEnum DeletedItem(int? Id, RequestToken token);
-        public ErrorCodeEnum DeletedItems(List<int?> Ids, RequestToken token);
+        public ErrorCodeEnum DeletedItems(List<int> Ids, RequestToken token);
         public TResponse GetItem(int Id, RequestToken token);
         public ResponseBase<TResponse> GetItems(TRequest request, RequestToken token);
         public T DataDefault(T data, RequestToken token);

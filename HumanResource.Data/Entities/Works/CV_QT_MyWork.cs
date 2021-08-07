@@ -38,5 +38,6 @@ namespace HumanResource.Data.Entities.Works
         public int? Repossibility { get; set; }
         public Nullable<int> ReporterId { get; set; }
         public string ReporterName { get; set; }
+        public int CompanyId { get; set; }
     }
 }

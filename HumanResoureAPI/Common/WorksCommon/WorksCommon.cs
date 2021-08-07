@@ -375,7 +375,7 @@ namespace HumanResoureAPI.Common.WorksCommon
         {
             return query.Skip(skip).Take(take);
         }
-        public static CV_QT_WorkFlow objWorkFlow(humanDbContext dbContext, string MyWorkId,int UserSendId, int UserDeliverId, TypeFlowEnum TypeFlow, string MaLenh, string ParentId, string Note, string Require, int Repossibility)
+        public static CV_QT_WorkFlow objWorkFlow(humanDbContext dbContext, string MyWorkId,int UserSendId, int UserDeliverId, TypeFlowEnum TypeFlow, string MaLenh, string ParentId, string Note, string Require, int Repossibility, int CompanyId)
         {
             var userSend = dbContext.Sys_Dm_User.Find(UserSendId);
             var userDeli = dbContext.Sys_Dm_User.Find(UserDeliverId);
@@ -402,6 +402,7 @@ namespace HumanResoureAPI.Common.WorksCommon
             obj.Handled = false;
             obj.HandleDate = null;
             obj.Repossibility = Repossibility;
+            obj.CompanyId = CompanyId;
             return obj;
         }
     }

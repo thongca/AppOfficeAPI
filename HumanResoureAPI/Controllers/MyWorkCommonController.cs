@@ -37,11 +37,8 @@ namespace HumanResoureAPI.Controllers
         public async Task<ActionResult<IEnumerable<CV_DM_DefaultTask>>> r1GetListWorks()
         {
             RequestToken token = CommonData.GetDataFromToken(User);
-
-            int DepartmentId = await WorksCommon.getDepartmentID(_context, token.DepartmentId);
             var tables = from a in _context.CV_DM_DefaultTask
-                         join b in _context.CV_DM_GroupTask on a.GroupTaskId equals b.Id
-                         where a.DepartmentId == DepartmentId
+                         where a.DepartmentId == token.DepartmentId
                          select new
                          {
                              a.Name,
